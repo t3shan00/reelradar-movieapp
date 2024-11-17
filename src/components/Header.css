@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&display=swap');
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    height: 80px;
+    background-color: #e91e63;
+    color: white;
+}
+
+.title {
+    font-size: 72px;
+    font-family: 'Corinthia', cursive;
+    margin: 0;
+}
+
+.icons {
+    font-size: 30px;
+}
+
+.icon {
+    margin-left: 10px;
+}
