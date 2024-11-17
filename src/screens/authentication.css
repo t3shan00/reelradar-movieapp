@@ -1,0 +1,89 @@
+* {
+    font-family: 'Inknut Antiqua', serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #CE3170;
+    margin: 0;
+}
+
+.login-container {
+    text-align: center;
+    color: #fff;
+}
+
+.login-container h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.login-box {
+    background-color: #E37FA8;
+    padding: 40px 20px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    position: relative;
+    width: 80%;
+    margin: 0 auto 30px;
+}
+
+.floating-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 14px;
+    color: #6b5c6c;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.focused {
+    top: 44px;
+    left: 10px;
+    font-size: 12px;
+    color: #333;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e8d7e3;
+    font-size: 14px;
+    color: #333;
+}
+
+.input-field:focus {
+    outline: none;
+}
+
+.signup-link {
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    display: inline-block;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1c1c1c;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background-color: #555;
+}
