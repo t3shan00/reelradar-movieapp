@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Movie App
+  description: API documentation for user registration and login functionality in the Movie App.
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      description: Create a new user account by providing email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: P@ssw0rd
+      responses:
+        '201':
+          description: User successfully registered.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: user@example.com
+        '400':
+          description: Bad Request - Invalid input or email already in use.
+        '500':
+          description: Server error during registration.
+
+  /login:
+    post:
+      summary: Log in a user
+      description: Authenticate a user and return a JWT token.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: P@ssw0rd
+      responses:
+        '200':
+          description: User successfully logged in.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  email:
+                    type: string
+                    example: user@example.com
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidXNlckBleGFtcGxlLmNvbSIsImlhdCI6MTYwMjY0MzA4MH0.O0fWfjKp-QO2Kw4ljWYrEACfqg4BZTjWbQc5Vwo5FOg
+        '401':
+          description: Unauthorized - Invalid credentials.
+        '500':
+          description: Server error during login.
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
