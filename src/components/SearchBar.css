@@ -1,61 +1,87 @@
+/* General container for the search bar */
 .search-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #f4f4f4;
-    border-radius: 30px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .search-input {
-    padding: 15px;
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 30px;
-    font-size: 16px;
-    background-color: white;
-    color: #333;
-    outline: none;
-    transition: all 0.3s ease;
-  }
-  
-  .search-input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
- 
-  .search-button {
-    background-color: #ffffff; 
-    color: rgb(0, 0, 0);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 80%;  
-    margin-left: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    transition: all 0.3s ease; 
-  }
-  
- 
-  .search-button:hover {
-    background-color: #8eb3e2; 
-    transform: scale(1.1); 
-  }
-  
- 
-  .search-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(252, 252, 252, 0.7); 
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 8px;
+  background-color: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: box-shadow 0.3s ease;
+}
 
-  .search-button .fa-search {
-    font-size: 20px;
-    transition: all 0.3s ease;
-  }
-  
+.search-bar:hover {
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Input styling */
+.search-input {
+  padding: 12px 20px;
+  width: 100%;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f0f2f5;
+  outline: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Search button styling */
+.search-button {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.search-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Styling for the results dropdown */
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  top: 100%;
+}
+
+.search-results li {
+  padding: 12px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-results li:hover {
+  background-color: #f0f2f5;
+}

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/MovieGrid';
+import MovieDetail from './components/MovieDetail'; // Import the MovieDetail component
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -29,11 +30,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Header />
-      <SearchBar />
-      <MovieGrid movies={movies} />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <SearchBar />
+        <Routes> {/* Use Routes here */}
+          <Route path="/movie/:id" element={<MovieDetail />} /> {/* Use element prop */}
+          <Route path="/" element={<MovieGrid movies={movies} />} /> {/* Use element prop */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

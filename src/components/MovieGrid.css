@@ -24,8 +24,13 @@
 }
 
 .movie-title {
-  font-size: 1em;
-  color: #333;
+  font-size: 0.6em;
+  font-weight: 600;
+  color: #1a1a1a;
   text-align: center;
-  margin: 0;
+  margin: 10px 0 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
 }
