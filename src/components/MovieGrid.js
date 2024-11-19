@@ -7,7 +7,7 @@ function MovieGrid({ movies }) {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 10, // Show more slides for a wider appearance
+    slidesToShow: 10,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
@@ -35,6 +35,8 @@ function MovieGrid({ movies }) {
 
   return (
     <div className="movie-slider">
+      <h2 className="popular-movies-title">Popular Movies</h2>
+      <div className="separator"></div>
       <Slider {...settings}>
         {movies.map((movie) => (
           <div key={movie.id} className="movie-card">
@@ -47,6 +49,7 @@ function MovieGrid({ movies }) {
           </div>
         ))}
       </Slider>
+      <div className="separator"></div>
     </div>
   );
 }

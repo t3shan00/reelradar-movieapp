@@ -1,7 +1,7 @@
 .movie-slider {
   margin: 0 auto;
   padding: 20px;
-  max-width: 1200px;
+  max-width: 1600px;
 }
 
 .movie-card {
@@ -24,7 +24,7 @@
 }
 
 .movie-title {
-  font-size: 0.6em;
+  font-size: 0.9em !important;
   font-weight: 600;
   color: #1a1a1a;
   text-align: center;
@@ -33,4 +33,17 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 100%;
+}
+
+.popular-movies-title {
+  text-align: left;
+  font-size: 1.5em;
+  margin: 20px 0;
+  color: #333; /* Adjust the color as needed */
+}
+
+.separator {
+  height: 2px; /* Adjust the thickness of the separator */
+  background-color: #e0e0e0; /* Adjust the color of the separator */
+  margin: 30px 0; /* Space above and below the separator */
 }
