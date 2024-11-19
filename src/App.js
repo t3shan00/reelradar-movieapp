@@ -3,8 +3,9 @@ import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
-import MovieGrid from './components/MovieGrid';
-import MovieDetail from './components/MovieDetail'; // Import the MovieDetail component
+import MovieGrid from './components/PopularMovies';
+import MovieDetail from './components/MovieDetail';
+import UpcomingMovies from './components/UpcomingMovies'; // Import UpcomingMovies
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -34,9 +35,14 @@ function App() {
       <div className="App">
         <Header />
         <SearchBar />
-        <Routes> {/* Use Routes here */}
-          <Route path="/movie/:id" element={<MovieDetail />} /> {/* Use element prop */}
-          <Route path="/" element={<MovieGrid movies={movies} />} /> {/* Use element prop */}
+        <Routes>
+          <Route path="/movie/:id" element={<MovieDetail />} />
+          <Route path="/" element={
+            <>
+              <MovieGrid movies={movies} />
+              <UpcomingMovies /> {/* Add UpcomingMovies component here */}
+            </>
+          } />
         </Routes>
       </div>
     </Router>

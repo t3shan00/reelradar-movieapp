@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import './MovieGrid.css';
+import './PopularMovies.css';
 
 function MovieGrid({ movies }) {
   const settings = {

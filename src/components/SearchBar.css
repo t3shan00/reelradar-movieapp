@@ -1,9 +1,8 @@
-/* General container for the search bar */
 .search-bar {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 600px;
+  max-width: 900px;
   margin: 20px auto;
   padding: 8px;
   background-color: #ffffff;
@@ -17,7 +16,6 @@
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Input styling */
 .search-input {
   padding: 12px 20px;
   width: 100%;
@@ -35,7 +33,6 @@
   box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
-/* Search button styling */
 .search-button {
   background-color: #007bff;
   color: #ffffff;
@@ -58,7 +55,6 @@
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Styling for the results dropdown */
 .search-results {
   list-style: none;
   padding: 0;
