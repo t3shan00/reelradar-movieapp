@@ -1,5 +1,6 @@
 * {
     font-family: 'Inknut Antiqua', serif;
+    box-sizing: border-box;
 }
 
 body {
@@ -14,6 +15,7 @@ body {
 .login-container {
     text-align: center;
     color: #fff;
+    padding: 10px;
 }
 
 .login-container h1 {
@@ -26,12 +28,14 @@ body {
     background-color: #E37FA8;
     padding: 40px 20px;
     width: 300px;
+    max-width: 400px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
 }
 
 .input-group {
     position: relative;
-    width: 80%;
+    width: 90%;
     margin: 0 auto 30px;
 }
 
@@ -70,6 +74,7 @@ body {
     color: #fff;
     font-size: 12px;
     margin-bottom: 20px;
+    display: block;
 }
 
 .login-button {
@@ -86,4 +91,61 @@ body {
 
 .login-button:hover {
     background-color: #555;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px; 
+    }
+
+    .login-container h1 {
+        font-size: 20px; 
+    }
+
+    .login-box {
+        padding: 30px 15px; 
+        width: 100%; 
+    }
+
+    .input-field {
+        padding: 10px; 
+        font-size: 13px; 
+    }
+
+    .signup-link {
+        font-size: 11px; 
+    }
+
+    .login-button {
+        padding: 12px; 
+        font-size: 13px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container h1 {
+        font-size: 18px; 
+    }
+
+    .login-box {
+        padding: 20px 10px; 
+    }
+
+    .input-group {
+        width: 100%; 
+    }
+
+    .input-field {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .signup-link {
+        font-size: 10px; 
+    }
+
+    .login-button {
+        padding: 10px;
+        font-size: 12px;
+    }
 }

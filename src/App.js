@@ -15,7 +15,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 function App() {
   const [movies, setMovies] = useState([]);
 
-  // Movie info fetch code
+  
   const fetchTrendingMovies = async () => {
     try {
       const response = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);

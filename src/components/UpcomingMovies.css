@@ -25,12 +25,19 @@
     padding: 10px;
     margin: 10px;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-8px);
 }
   
   .movie-poster {
     width: 100%;
-    height: 300 px;
+    height: auto; 
+    max-height: 300px; 
     border-radius: 8px;
+    object-fit: cover;
   }
   
   .movie-title {
@@ -38,4 +45,46 @@
     font-size: 1em;
     margin-top: 10px;
     color: #333;
+  }
+
+  @media (max-width: 768px) {
+    .upcoming-movies-title {
+      font-size: 1.2em; 
+      margin: 15px 0;
+    }
+  
+    .movie-card {
+      padding: 8px; 
+      margin: 8px; 
+    }
+  
+    .movie-poster {
+      max-height: 200px; 
+    }
+  
+    .movie-title {
+      font-size: 0.9em; 
+    }
+  
+    .separator {
+      margin: 20px 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .upcoming-movies-title {
+      font-size: 1em; 
+    }
+  
+    .movie-card {
+      margin: 5px; 
+    }
+  
+    .movie-poster {
+      max-height: 150px; 
+    }
+  
+    .movie-title {
+      font-size: 0.8em; 
+    }
   }

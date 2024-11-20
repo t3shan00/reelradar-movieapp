@@ -75,3 +75,29 @@
     background-color: rgba(0, 123, 255, 0.1);
     border-radius: 5px;
 }
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column; 
+        height: auto;
+        padding: 10px;
+    }
+    .title {
+        font-size: 36px; 
+    }
+    .menu-button {
+        display: block; 
+    }
+    .icons {
+        display: none; 
+    }
+    .menu {
+        width: 100%; 
+    }
+    .menu ul {
+        padding: 0;
+    }
+    .menu li {
+        text-align: center; 
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import './PopularMovies.css';
 
 function PopularMovies({ movies }) {

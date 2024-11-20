@@ -3,6 +3,7 @@
   background: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
   color: white;
   position: relative;
+  padding-bottom: 24px;
 }
 
 .backdrop-container {
@@ -70,7 +71,7 @@
 }
 
 .movie-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
   background: linear-gradient(to right, white, #cccccc);
@@ -123,7 +124,7 @@
   background-color: rgba(31, 41, 55, 0.5);
   backdrop-filter: blur(8px);
   border-radius: 8px;
-  padding: 24px;
+  padding: 16px;
   margin-bottom: 24px;
 }
 

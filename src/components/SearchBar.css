@@ -81,3 +81,29 @@
 .search-results li:hover {
   background-color: #f0f2f5;
 }
+
+@media (max-width: 480px) {
+  .search-bar {
+    padding: 4px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-input {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .search-button {
+    padding: 6px;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .search-results {
+    max-height: 150px; 
+  }
+
+  .search-results li {
+    font-size: 12px;
+  }
+}
