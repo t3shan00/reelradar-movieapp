@@ -5,7 +5,6 @@
   position: relative;
 }
 
-/* Backdrop */
 .backdrop-container {
   position: relative;
   width: 100%;
@@ -24,7 +23,6 @@
   opacity: 0.3;
 }
 
-/* Content Container */
 .content-container {
   max-width: 1280px;
   margin: 0 auto;
@@ -34,7 +32,6 @@
   z-index: 1;
 }
 
-/* Movie Grid */
 .movie-grid {
   display: flex;
   flex-direction: column;
@@ -55,7 +52,6 @@
   }
 }
 
-/* Poster */
 .poster-wrapper {
   border-radius: 8px;
   overflow: hidden;
@@ -73,7 +69,6 @@
   display: block;
 }
 
-/* Movie Title */
 .movie-title {
   font-size: 2.5rem;
   font-weight: 700;
@@ -90,7 +85,6 @@
   }
 }
 
-/* Metadata */
 .metadata-container {
   display: flex;
   flex-wrap: wrap;
@@ -108,7 +102,6 @@
 .icon-calendar { color: #60a5fa; }
 .icon-clock { color: #4ade80; }
 
-/* Genres */
 .genres-container {
   display: flex;
   flex-wrap: wrap;
@@ -126,7 +119,6 @@
   gap: 4px;
 }
 
-/* Overview Section */
 .overview-section {
   background-color: rgba(31, 41, 55, 0.5);
   backdrop-filter: blur(8px);
@@ -146,7 +138,6 @@
   line-height: 1.75;
 }
 
-/* Additional Info */
 .additional-info {
   display: grid;
   grid-template-columns: 1fr;
@@ -176,7 +167,6 @@
   color: #d1d5db;
 }
 
-/* Loading and Error States */
 .loading-container,
 .error-container {
   display: flex;

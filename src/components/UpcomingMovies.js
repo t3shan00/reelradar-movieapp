@@ -5,7 +5,7 @@ import './UpcomingMovies.css';
 
 const UpcomingMovies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
@@ -14,7 +14,7 @@ const UpcomingMovies = () => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer YOUR_API_KEY' // Replace with your API key
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTllNGRmMWY4ZDZhNmE1NDBjY2YyN2JiNmVmYzI1MyIsIm5iZiI6MTczMjAyNTU0Mi43Nzg4NDksInN1YiI6IjY3MzlmODRlNmEwMmEyNGQ3YjIxODE2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fXqSiWv07snaUkxoAsWteUTZNE1hdIuNNodLDtkC1nM'
         }
       };
 
@@ -61,7 +61,7 @@ const UpcomingMovies = () => {
   };
 
   const handleMovieClick = (movieId) => {
-    navigate(`/movie/${movieId}`); // Navigate to the movie detail page
+    navigate(`/movie/${movieId}`);
   };
 
   return (
@@ -70,7 +70,7 @@ const UpcomingMovies = () => {
       <div className="separator"></div>
       <Slider {...settings}>
         {upcomingMovies.map((movie) => (
-          <div key={movie.id} className="movie-card" onClick={() => handleMovieClick(movie.id)}> {/* Make card clickable */}
+          <div key={movie.id} className="movie-card" onClick={() => handleMovieClick(movie.id)}>
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}

@@ -5,7 +5,7 @@ import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/PopularMovies';
 import MovieDetail from './components/MovieDetail';
-import UpcomingMovies from './components/UpcomingMovies'; // Import UpcomingMovies
+import UpcomingMovies from './components/UpcomingMovies';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -40,7 +40,7 @@ function App() {
           <Route path="/" element={
             <>
               <MovieGrid movies={movies} />
-              <UpcomingMovies /> {/* Add UpcomingMovies component here */}
+              <UpcomingMovies />
             </>
           } />
         </Routes>

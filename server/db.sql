@@ -29,15 +29,6 @@ CREATE TABLE "movies" (
   "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
-CREATE TABLE "showtimes" (
-  "id" SERIAL PRIMARY KEY,
-  "movie_id" INT NOT NULL,
-  "theater_name" VARCHAR(255),
-  "start_time" TIMESTAMP,
-  "end_time" TIMESTAMP,
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
-);
-
 CREATE TABLE "reviews" (
   "id" SERIAL PRIMARY KEY,
   "movie_id" INT NOT NULL,

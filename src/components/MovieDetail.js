@@ -50,7 +50,6 @@ const MovieDetail = () => {
 
   return (
     <div className="movie-detail">
-      {/* Backdrop */}
       <div className="backdrop-container">
         <div className="backdrop-overlay"></div>
         <img
@@ -62,7 +61,6 @@ const MovieDetail = () => {
 
       <div className="content-container">
         <div className="movie-grid">
-          {/* Poster */}
           <div className="poster-section">
             <div className="poster-wrapper">
               <img
@@ -73,11 +71,9 @@ const MovieDetail = () => {
             </div>
           </div>
 
-          {/* Movie Details */}
           <div className="details-section">
             <h1 className="movie-title">{movie.title}</h1>
 
-            {/* Movie Meta */}
             <div className="metadata-container">
               <div className="metadata-item">
                 <span className="icon-star">⭐</span>
@@ -95,7 +91,6 @@ const MovieDetail = () => {
               )}
             </div>
 
-            {/* Genres */}
             <div className="genres-container">
               {movie.genres?.map((genre) => (
                 <span key={genre.id} className="genre-tag">
@@ -104,13 +99,11 @@ const MovieDetail = () => {
               ))}
             </div>
 
-            {/* Overview */}
             <div className="overview-section">
               <h2 className="section-title">Overview</h2>
               <p className="overview-text">{movie.overview}</p>
             </div>
 
-            {/* Additional Info */}
             <div className="additional-info">
               {movie.budget > 0 && (
                 <div className="info-card">

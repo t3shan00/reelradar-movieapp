@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './PopularMovies.css';
 
 function PopularMovies({ movies }) {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const settings = {
     dots: true,
@@ -37,7 +37,7 @@ function PopularMovies({ movies }) {
   };
 
   const handleMovieClick = (movieId) => {
-    navigate(`/movie/${movieId}`); // Navigate to the movie detail page
+    navigate(`/movie/${movieId}`);
   };
 
   return (

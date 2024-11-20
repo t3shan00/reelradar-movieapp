@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [isResultsVisible, setIsResultsVisible] = useState(false); // Track visibility of results
-  const searchBarRef = useRef(null); // Reference for the search bar container
+  const [isResultsVisible, setIsResultsVisible] = useState(false);
+  const searchBarRef = useRef(null);
   const navigate = useNavigate();
 
   const fetchMovies = async (term) => {
@@ -35,23 +35,23 @@ function SearchBar() {
     setSearchTerm(value);
     if (value) {
       fetchMovies(value);
-      setIsResultsVisible(true); // Show results when typing
+      setIsResultsVisible(true);
     } else {
       setSearchResults([]);
-      setIsResultsVisible(false); // Hide results if input is empty
+      setIsResultsVisible(false);
     }
   };
 
   const handleMovieClick = (movieId) => {
     navigate(`/movie/${movieId}`);
-    setIsResultsVisible(false); // Hide results when a movie is clicked
+    setIsResultsVisible(false);
   };
 
-  // Close results when clicking outside
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
-        setIsResultsVisible(false); // Hide results if clicked outside
+        setIsResultsVisible(false);
       }
     };
 
@@ -61,10 +61,9 @@ function SearchBar() {
     };
   }, []);
 
-  // Show results when clicking on the input
   const handleInputClick = () => {
     if (searchTerm) {
-      setIsResultsVisible(true); // Show results if there is a search term
+      setIsResultsVisible(true);
     }
   };
 
@@ -76,7 +75,7 @@ function SearchBar() {
         className="search-input"
         value={searchTerm}
         onChange={handleInputChange}
-        onClick={handleInputClick} // Show results on input click
+        onClick={handleInputClick}
       />
       <button className="search-button">
         <FontAwesomeIcon icon={faSearch} />
