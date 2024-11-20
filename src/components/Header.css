@@ -10,6 +10,11 @@
     color: white;
 }
 
+.header-content {
+    display: flex;
+    align-items: center; /* Center the items vertically */
+}
+
 .title {
     font-size: 72px;
     font-family: 'Corinthia', cursive;
@@ -23,4 +28,38 @@
 
 .icon {
     margin-left: 10px;
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.menu {
+    position: absolute; /* Position it absolutely */
+    left: 20px; /* Adjust as needed */
+    top: 80px; /* Adjust based on your header height */
+    background-color: #4a1ee9; /* Same as header background */
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.menu ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.menu li {
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.menu li:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
 }
