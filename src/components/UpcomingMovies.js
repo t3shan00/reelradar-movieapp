@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import './UpcomingMovies.css'; // Create this CSS file for styling
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import './UpcomingMovies.css';
 
 const UpcomingMovies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
@@ -12,7 +14,7 @@ const UpcomingMovies = () => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTllNGRmMWY4ZDZhNmE1NDBjY2YyN2JiNmVmYzI1MyIsIm5iZiI6MTczMjAyNTU0Mi43Nzg4NDksInN1YiI6IjY3MzlmODRlNmEwMmEyNGQ3YjIxODE2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fXqSiWv07snaUkxoAsWteUTZNE1hdIuNNodLDtkC1nM'
+          Authorization: 'Bearer YOUR_API_KEY' // Replace with your API key
         }
       };
 
@@ -58,19 +60,23 @@ const UpcomingMovies = () => {
     ],
   };
 
+  const handleMovieClick = (movieId) => {
+    navigate(`/movie/${movieId}`); // Navigate to the movie detail page
+  };
+
   return (
     <div className="upcoming-movie-slider">
       <h2 className="upcoming-movies-title">Upcoming Movies</h2>
       <div className="separator"></div>
       <Slider {...settings}>
         {upcomingMovies.map((movie) => (
-          <div key={movie.id} className="movie-card">
+          <div key={movie.id} className="movie-card" onClick={() => handleMovieClick(movie.id)}> {/* Make card clickable */}
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
               className="movie-poster"
             />
-            <h3 className="movie-title">{movie.title}</h3>
+            {/* <h3 className="movie-title">{movie.title }</h3> */}
           </div>
         ))}
       </Slider>

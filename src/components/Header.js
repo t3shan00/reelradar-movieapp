@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightToBracket, faUser , faBars } from '@fortawesome/free-solid-svg-icons'; // Import the bars icon
+import { faRightToBracket, faUser  , faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
-  const [menuVisible, setMenuVisible] = useState(false); // State to manage menu visibility
-  const menuRef = useRef(null); // Reference for the menu
+  const [menuVisible, setMenuVisible] = useState(false);
+  const menuRef = useRef(null);
   const navigate = useNavigate();
 
   const toggleMenu = () => {
-    setMenuVisible(!menuVisible); 
+    setMenuVisible(!menuVisible);
   };
 
   useEffect(() => {
@@ -36,10 +36,10 @@ function Header() {
       </div>
       <div className="icons">
         <span className="icon"><FontAwesomeIcon icon={faRightToBracket} /></span>
-        <span className="icon"><FontAwesomeIcon icon={faUser  } /></span>
+        <span className="icon"><FontAwesomeIcon icon={faUser } /></span>
       </div>
       {menuVisible && (
-        <div className="menu" ref={menuRef}>
+        <div className={`menu ${menuVisible ? 'menu-visible' : ''}`} ref={menuRef}>
           <ul>
             <li onClick={() => navigate('/path1')}>Genres</li>
             <li onClick={() => navigate('/path2')}>Filter by Year</li>

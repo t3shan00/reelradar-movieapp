@@ -6,7 +6,7 @@
     align-items: center;
     padding: 0px 20px;
     height: 80px;
-    background-color: #4a1ee9;
+    background-color: #000000;
     color: white;
 }
 
@@ -42,24 +42,36 @@
     position: absolute; /* Position it absolutely */
     left: 20px; /* Adjust as needed */
     top: 80px; /* Adjust based on your header height */
-    background-color: #4a1ee9; /* Same as header background */
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff; /* White background for contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Softer shadow */
     z-index: 1000; /* Ensure it appears above other elements */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    opacity: 0; /* Start hidden */
+    transform: translateY(-10px); /* Slightly move up */
+    pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.menu-visible {
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Move to original position */
+    pointer-events: auto; /* Allow interaction */
 }
 
 .menu ul {
     list-style: none;
-    padding: 10px;
+    padding: 10px 0; /* Add some vertical padding */
     margin: 0;
 }
 
 .menu li {
-    padding: 10px;
-    color: white;
+    padding: 12px 20px; /* More padding for a better touch target */
+    color: #333; /* Dark text for contrast */
     cursor: pointer;
+    transition: background-color 0.2s ease; /* Smooth background color change */
 }
 
 .menu li:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Hover effect */
+    background-color: rgba(0, 123, 255, 0.1); /* Highlight on hover */
+    border-radius: 5px; /* Rounded corners on hover */
 }

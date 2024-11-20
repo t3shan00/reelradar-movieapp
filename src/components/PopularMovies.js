@@ -1,8 +1,11 @@
 import React from 'react';
 import Slider from 'react-slick';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './PopularMovies.css';
 
-function MovieGrid({ movies }) {
+function PopularMovies({ movies }) {
+  const navigate = useNavigate(); // Initialize useNavigate
+
   const settings = {
     dots: true,
     infinite: true,
@@ -33,19 +36,23 @@ function MovieGrid({ movies }) {
     ],
   };
 
+  const handleMovieClick = (movieId) => {
+    navigate(`/movie/${movieId}`); // Navigate to the movie detail page
+  };
+
   return (
     <div className="movie-slider">
       <h2 className="popular-movies-title">Popular Movies</h2>
       <div className="separator"></div>
       <Slider {...settings}>
         {movies.map((movie) => (
-          <div key={movie.id} className="movie-card">
+          <div key={movie.id} className="movie-card" onClick={() => handleMovieClick(movie.id)}> {/* Make card clickable */}
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
               className="movie-poster"
             />
-            <h3 className="movie-title">{movie.title}</h3>
+            {/* <h3 className="movie-title">{movie.title}</h3> */}
           </div>
         ))}
       </Slider>
@@ -54,4 +61,4 @@ function MovieGrid({ movies }) {
   );
 }
 
-export default MovieGrid;
+export default PopularMovies;

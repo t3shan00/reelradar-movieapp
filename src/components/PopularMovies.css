@@ -7,7 +7,7 @@
   text-align: left;
   font-size: 1.5em;
   margin: 20px 0;
-  color: #333; /* Adjust the color as needed */
+  color: #ffffff; /* Adjust the color as needed */
 }
 
 .separator {
@@ -25,6 +25,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 10px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .movie-poster {
