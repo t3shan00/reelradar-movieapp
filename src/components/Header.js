@@ -43,7 +43,7 @@ function Header() {
         <div className={`menu ${menuVisible ? 'menu-visible' : ''}`} ref={menuRef}>
           <ul>
             <li onClick={() => navigate('/genres')}>Genres</li>
-            <li onClick={() => navigate('/path2')}>Filter by Year</li>
+            <li onClick={() => navigate('/filter-by-year')}>Filter by Year</li>
             <li onClick={() => navigate('/path2')}>Filter by Rating</li>
             <li onClick={() => navigate('/path2')}>Groups</li>
           </ul>

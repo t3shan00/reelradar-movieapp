@@ -44,10 +44,6 @@
     flex-direction: row;
   }
   
-  .poster-section {
-    width: 33.333%;
-  }
-  
   .details-section {
     width: 66.667%;
   }
