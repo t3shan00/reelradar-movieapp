@@ -8,15 +8,15 @@ CREATE TABLE Users (
 );
 
 -- -- Reviews Table
--- CREATE TABLE Reviews (
---     ReviewID SERIAL PRIMARY KEY,
---     UserID INT NOT NULL,
---     TMDB_MovieID INT NOT NULL, -- TMDB Movie ID
---     Rating SMALLINT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
---     ReviewText TEXT,
---     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     CONSTRAINT fk_user FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE
--- );
+CREATE TABLE Reviews (
+    ReviewID SERIAL PRIMARY KEY,
+    MovieID INT NOT NULL,
+    UserID INT NOT NULL REFERENCES Users(UserID) ON DELETE CASCADE,
+    ReviewText TEXT NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 -- -- Favorites Table
 -- CREATE TABLE Favorites (
