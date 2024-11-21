@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/PopularMovies';
@@ -34,10 +34,23 @@ function App() {
     fetchTrendingMovies();
   }, []);
 
+  const RouteListener = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+      if (location.pathname !== '/login') {
+        sessionStorage.setItem('lastPage', location.pathname + location.search);
+      }
+    }, [location]);
+
+    return null;
+  };
+
   return (
     <Router>
       <div className="App">
         <Header />
+        <RouteListener />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
