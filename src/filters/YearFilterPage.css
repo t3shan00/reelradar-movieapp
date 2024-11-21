@@ -1,4 +1,3 @@
-/* src/components/YearFilterPage.css */
 :root {
     --primary-color: #3b82f6;
     --primary-color-dark: #2563eb;
@@ -100,7 +99,6 @@
     text-overflow: ellipsis;
   }
   
-  /* Optional: Add a subtle overlay effect */
   .movie-card::after {
     content: '';
     position: absolute;
@@ -118,7 +116,6 @@
     opacity: 1;
   }
   
-  /* Responsive adjustments */
   @media (max-width: 768px) {
     .year-list {
       gap: 0.5rem;

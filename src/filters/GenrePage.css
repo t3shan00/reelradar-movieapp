@@ -22,7 +22,7 @@
   
   .genre-button {
     padding: 0.625rem 1.25rem;
-    background-color: #000000; /* Set background color to black */
+    background-color: #000000;
     color: white;
     border: none;
     border-radius: var(--border-radius);

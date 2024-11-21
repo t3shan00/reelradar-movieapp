@@ -11,7 +11,6 @@ const YearFilterPage = () => {
   const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 
   useEffect(() => {
-    // Generate a list of years from 2000 to the current year
     const currentYear = new Date().getFullYear();
     const yearsArray = Array.from({ length: currentYear - 1999 }, (_, i) => currentYear - i);
     setYears(yearsArray);
