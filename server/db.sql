@@ -1,64 +1,49 @@
-CREATE TABLE "users" (
-  "id" SERIAL PRIMARY KEY,
-  "email" VARCHAR(255) UNIQUE NOT NULL,
-  "password_hash" VARCHAR(255) NOT NULL,
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+-- Users Table
+CREATE TABLE Users (
+    UserID SERIAL PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE "groups" (
-  "id" SERIAL PRIMARY KEY,
-  "name" VARCHAR(255) NOT NULL,
-  "movie_name" VARCHAR(255),
-  "showtime" VARCHAR(255),
-  "owner_id" INT NOT NULL,
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+-- Reviews Table
+CREATE TABLE Reviews (
+    ReviewID SERIAL PRIMARY KEY,
+    UserID INT NOT NULL,
+    TMDB_MovieID INT NOT NULL, -- TMDB Movie ID
+    Rating SMALLINT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
+    ReviewText TEXT,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE
 );
 
-CREATE TABLE "group_members" (
-  "group_id" INT NOT NULL,
-  "user_id" INT NOT NULL,
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+-- Favorites Table
+CREATE TABLE Favorites (
+    FavoriteID SERIAL PRIMARY KEY,
+    UserID INT NOT NULL,
+    TMDB_MovieID INT NOT NULL, -- TMDB Movie ID
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_fav FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE,
+    CONSTRAINT unique_favorite UNIQUE (UserID, TMDB_MovieID)
 );
 
-CREATE TABLE "movies" (
-  "id" SERIAL PRIMARY KEY,
-  "title" VARCHAR(255) NOT NULL,
-  "genre" VARCHAR(50),
-  "release_date" DATE,
-  "director" VARCHAR(255),
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+-- Groups Table
+CREATE TABLE Groups (
+    GroupID SERIAL PRIMARY KEY,
+    GroupName VARCHAR(255) NOT NULL,
+    CreatedBy INT NOT NULL, -- Reference to the user who created the group
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_created_by FOREIGN KEY (CreatedBy) REFERENCES Users (UserID) ON DELETE CASCADE
 );
 
-CREATE TABLE "reviews" (
-  "id" SERIAL PRIMARY KEY,
-  "movie_id" INT NOT NULL,
-  "user_id" INT NOT NULL,
-  "description" TEXT NOT NULL,
-  "rating" INT DEFAULT (1),
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
+-- Group Members Table
+CREATE TABLE GroupMembers (
+    MemberID SERIAL PRIMARY KEY,
+    GroupID INT NOT NULL,
+    UserID INT NOT NULL,
+    AddedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_group FOREIGN KEY (GroupID) REFERENCES Groups (GroupID) ON DELETE CASCADE,
+    CONSTRAINT fk_user_member FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE,
+    CONSTRAINT unique_member UNIQUE (GroupID, UserID)
 );
-
-CREATE TABLE "favorites" (
-  "id" SERIAL PRIMARY KEY,
-  "user_id" INT NOT NULL,
-  "movie_id" INT NOT NULL,
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
-);
-
-CREATE UNIQUE INDEX ON "group_members" ("group_id", "user_id");
-
-COMMENT ON COLUMN "reviews"."rating" IS '1 to 5';
-
-ALTER TABLE "groups" ADD FOREIGN KEY ("owner_id") REFERENCES "users" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "group_members" ADD FOREIGN KEY ("group_id") REFERENCES "groups" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "group_members" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "reviews" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "reviews" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE SET NULL;
-
-ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "favorites" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id") ON DELETE CASCADE;
