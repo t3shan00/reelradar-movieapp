@@ -6,14 +6,13 @@ const Login = () => {
   const [identifier, setIdentifier] = useState(""); 
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [token, setToken] = useState("");
   const navigate = useNavigate(); 
 
-  // Redirect to the dashboard if the user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/dashboard");
+      const lastPage = sessionStorage.getItem("lastPage") || "/dashboard";
+      navigate(lastPage, { replace: true });
     }
   }, [navigate]);
 
@@ -26,9 +25,9 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(response.data));
 
       setMessage(`Welcome, ${response.data.username}`);
-      setToken(response.data.token);
 
-      navigate("/dashboard");
+      const lastPage = sessionStorage.getItem("lastPage") || "/dashboard";
+      navigate(lastPage, { replace: true });
     } catch (error) {
       setMessage(error.response?.data?.error || "Login failed!");
     }
