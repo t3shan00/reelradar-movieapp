@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './MovieDetail.css';
+import './styles/MovieDetail.css';
 
 const formatRuntime = (minutes) => {
   const hours = Math.floor(minutes / 60);

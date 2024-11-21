@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './UpcomingMovies.css';
+import './styles/UpcomingMovies.css';
 
 const UpcomingMovies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);

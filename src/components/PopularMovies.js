@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom'; 
-import './PopularMovies.css';
+import './styles/PopularMovies.css';
 
 function PopularMovies({ movies }) {
   const navigate = useNavigate();

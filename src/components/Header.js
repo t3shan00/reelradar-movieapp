@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './Header.css';
+import './styles/Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser , faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';

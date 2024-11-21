@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import './SearchBar.css';
+import './styles/SearchBar.css';
 import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
