@@ -8,8 +8,9 @@ import MovieDetail from './components/MovieDetail';
 import UpcomingMovies from './components/UpcomingMovies';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Authentication from './screens/authentication';
-import Signup from './screens/signup';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Dashboard from './components/Dashboard';
 import GenrePage from './filters/GenrePage';
 import YearFilterPage from './filters/YearFilterPage';
 
@@ -38,8 +39,9 @@ function App() {
       <div className="App">
         <Header />
         <Routes>
-          <Route path="/login" element={<Authentication />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/genres" element={<GenrePage />} />
           <Route path="/filter-by-year" element={<YearFilterPage />} />
