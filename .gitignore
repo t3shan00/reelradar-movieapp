@@ -22,6 +22,7 @@ dist/
 .env.development
 .env.production
 .env.test
+/server/.env
 
 # Cache directories
 .cache/
