@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './styles/MovieDetail.css';
+import ReviewSection from "./ReviewSection";
 
 const formatRuntime = (minutes) => {
   const hours = Math.floor(minutes / 60);
@@ -121,6 +122,7 @@ const MovieDetail = () => {
           </div>
         </div>
       </div>
+      <ReviewSection />
     </div>
   );
 };
