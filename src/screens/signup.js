@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './authentication.css';
 
-const Authentication = () => {
+const Signup = () => {
     const [isUsernameFocused, setUsernameFocused] = useState(false);
     const [isPasswordFocused, setPasswordFocused] = useState(false);
 
@@ -32,11 +32,11 @@ const Authentication = () => {
                     />
                 </div>
 
-                <p><a href="/signup" className="signup-link">Don't have an account? Sign up.</a></p>
-                <button className="login-button">Login</button>
+                <p><a href="/login" className="signup-link">Already have an account? Log in.</a></p>
+                <button className="login-button">Register</button>
             </div>
         </div>
     );
 };
 
-export default Authentication;
+export default Signup;

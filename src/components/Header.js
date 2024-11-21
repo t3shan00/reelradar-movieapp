@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightToBracket, faUser  , faBars } from '@fortawesome/free-solid-svg-icons';
+import { faUser , faBars } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
@@ -35,8 +35,9 @@ function Header() {
         <h1 className="title" onClick={() => navigate('/')}>ReelRadar</h1>
       </div>
       <div className="icons">
-        <span className="icon"><FontAwesomeIcon icon={faRightToBracket} /></span>
-        <span className="icon"><FontAwesomeIcon icon={faUser } /></span>
+        <span className="icon" onClick={() => navigate('/login')}> {/* Make the icon clickable */}
+          <FontAwesomeIcon icon={faUser } />
+        </span>
       </div>
       {menuVisible && (
         <div className={`menu ${menuVisible ? 'menu-visible' : ''}`} ref={menuRef}>

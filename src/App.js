@@ -8,6 +8,8 @@ import MovieDetail from './components/MovieDetail';
 import UpcomingMovies from './components/UpcomingMovies';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import Authentication from './screens/authentication';
+import Signup from './screens/signup';
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -15,7 +17,6 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 function App() {
   const [movies, setMovies] = useState([]);
 
-  
   const fetchTrendingMovies = async () => {
     try {
       const response = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
@@ -34,11 +35,14 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        <SearchBar />
+        {/* Conditionally render SearchBar only if not on the login page */}
         <Routes>
+          <Route path="/login" element={<Authentication />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/" element={
             <>
+              <SearchBar />
               <MovieGrid movies={movies} />
               <UpcomingMovies />
             </>

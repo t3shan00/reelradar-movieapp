@@ -45,14 +45,6 @@ CREATE TABLE "favorites" (
   "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
 );
 
-CREATE TABLE "notifications" (
-  "id" SERIAL PRIMARY KEY,
-  "user_id" INT NOT NULL,
-  "message" TEXT NOT NULL,
-  "is_read" BOOLEAN DEFAULT (false),
-  "created_at" TIMESTAMP DEFAULT (CURRENT_TIMESTAMP)
-);
-
 CREATE UNIQUE INDEX ON "group_members" ("group_id", "user_id");
 
 COMMENT ON COLUMN "reviews"."rating" IS '1 to 5';
@@ -63,8 +55,6 @@ ALTER TABLE "group_members" ADD FOREIGN KEY ("group_id") REFERENCES "groups" ("i
 
 ALTER TABLE "group_members" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
-ALTER TABLE "showtimes" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id") ON DELETE CASCADE;
-
 ALTER TABLE "reviews" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "reviews" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE SET NULL;
@@ -72,5 +62,3 @@ ALTER TABLE "reviews" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON D
 ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
 
 ALTER TABLE "favorites" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id") ON DELETE CASCADE;
-
-ALTER TABLE "notifications" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
