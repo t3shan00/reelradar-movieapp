@@ -10,6 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Authentication from './screens/authentication';
 import Signup from './screens/signup';
+import GenrePage from './components/GenrePage';
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -40,6 +41,7 @@ function App() {
           <Route path="/login" element={<Authentication />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
+          <Route path="/genres" element={<GenrePage />} />
           <Route path="/" element={
             <>
               <SearchBar />
