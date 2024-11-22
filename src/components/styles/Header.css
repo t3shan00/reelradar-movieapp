@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&family=Syne+Mono&display=swap');
 
 .header {
     display: flex;
@@ -130,6 +131,37 @@
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.showtimes-text {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    font-family: "Syne Mono", monospace;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.showtimes-text::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.showtimes-text:hover {
+    color: #6366f1;
 }
 
 @media (max-width: 768px) {

@@ -48,6 +48,8 @@ function Header() {
         <h1 className="title" onClick={() => navigate('/')}>ReelRadar</h1>
       </div>
       <div className="icons">
+        <span className="showtimes-text" onClick={() => navigate('/showtimes')}>Showtimes</span>
+        
         {user && (
           <>
             <span className="username" onClick={() => navigate(user ? '/dashboard' : '/login')}>{user.username || user.email}</span>
