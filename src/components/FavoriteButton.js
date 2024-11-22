@@ -3,12 +3,18 @@ import { useNavigate } from "react-router-dom";
 import "./styles/FavoriteButton.css";
 
 const FavoriteButton = ({ movieId }) => {
-  const [isFavorite, setIsFavorite] = useState(null); // null indicates loading state
+  const [isFavorite, setIsFavorite] = useState(null); 
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch user and favorite status on component mount
   useEffect(() => {
+    console.log("FavoriteButton initialized with movieId:", movieId); 
+
+    if (!movieId) {
+      console.error("Error: movieId is undefined.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
     if (token) {
       const userData = JSON.parse(localStorage.getItem("user"));
@@ -29,19 +35,25 @@ const FavoriteButton = ({ movieId }) => {
           return response.json();
         })
         .then((data) => {
-          setIsFavorite(data.isFavorite); // Set favorite status from API response
+          setIsFavorite(data.isFavorite); 
         })
         .catch((err) => {
           console.error("Error fetching favorite status:", err.message);
-          setIsFavorite(false); // Assume not favorite if error occurs
+          setIsFavorite(false); 
         });
     } else {
-      setIsFavorite(false); // Assume not favorite if user is not logged in
+      setIsFavorite(false); 
     }
   }, [movieId]);
 
-  // Handle favorite toggle
   const handleFavoriteToggle = () => {
+    console.log("Toggling favorite status for movieId:", movieId); 
+
+    if (!movieId) {
+      console.error("Error: Cannot toggle favorite status because movieId is undefined.");
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -66,7 +78,7 @@ const FavoriteButton = ({ movieId }) => {
         return response.json();
       })
       .then(() => {
-        setIsFavorite(!isFavorite); // Toggle the state on success
+        setIsFavorite(!isFavorite); 
       })
       .catch((err) => {
         console.error("Error toggling favorite status:", err.message);
@@ -74,7 +86,6 @@ const FavoriteButton = ({ movieId }) => {
   };
 
   if (isFavorite === null) {
-    // Show loading state
     return (
       <div className="favorite-section">
         <button className="favorite-button loading" disabled>
