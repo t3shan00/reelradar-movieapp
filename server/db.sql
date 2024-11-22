@@ -18,15 +18,15 @@ CREATE TABLE Reviews (
 
 
 
--- -- Favorites Table
--- CREATE TABLE Favorites (
---     FavoriteID SERIAL PRIMARY KEY,
---     UserID INT NOT NULL,
---     TMDB_MovieID INT NOT NULL, -- TMDB Movie ID
---     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     CONSTRAINT fk_user_fav FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE,
---     CONSTRAINT unique_favorite UNIQUE (UserID, TMDB_MovieID)
--- );
+-- Favorites Table
+CREATE TABLE Favorites (
+    FavoriteID SERIAL PRIMARY KEY,
+    UserID INT NOT NULL,
+    TMDB_MovieID INT NOT NULL, -- TMDB Movie ID
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_user_fav FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE,
+    CONSTRAINT unique_favorite UNIQUE (UserID, TMDB_MovieID)
+);
 
 -- -- Groups Table
 -- CREATE TABLE Groups (
