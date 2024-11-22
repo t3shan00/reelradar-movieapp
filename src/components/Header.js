@@ -35,7 +35,7 @@ function Header() {
         <h1 className="title" onClick={() => navigate('/')}>ReelRadar</h1>
       </div>
       <div className="icons">
-        <span className="icon" onClick={() => navigate('/login')}> {/* Make the icon clickable */}
+        <span className="icon" onClick={() => navigate('/dashboard')}> {/* Make the icon clickable */}
           <FontAwesomeIcon icon={faUser } />
         </span>
       </div>
