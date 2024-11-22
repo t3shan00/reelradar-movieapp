@@ -4,7 +4,10 @@ import { auth } from "../utils/auth.js";
 
 const reviewRouter = Router();
 
-reviewRouter.post("/", auth, createReviewHandler); 
-reviewRouter.get("/:movieId", getReviewsHandler); 
+// POST a new review
+reviewRouter.post("/", auth, createReviewHandler);
+
+// GET reviews for a specific movie
+reviewRouter.get("/:movieId", getReviewsHandler);
 
 export default reviewRouter;

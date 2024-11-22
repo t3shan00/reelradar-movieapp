@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 import {userRouter} from './routers/userRouter.js'
 import reviewRouter from "./routers/reviewRouter.js";
+import favoriteRouter from "./routers/favoriteRouter.js";
 
 dotenv.config()
 const PORT = process.env.PORT;
@@ -14,9 +15,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/user', userRouter)
-app.use("/reviews", reviewRouter);
+app.use('/reviews', reviewRouter)
 app.use("/api/reviews", reviewRouter);
-
+app.use("/api/favorites", favoriteRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500

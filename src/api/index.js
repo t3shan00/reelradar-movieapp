@@ -23,9 +23,21 @@ export const loginUser = (identifier, password) =>
   API.post("/user/login", { identifier, password });
 
 export const getReviews = (movieId) =>
-  API.get(`/reviews/${movieId}`); 
+  API.get(`/reviews/${movieId}`);
 
 export const addReview = (movieId, reviewText) =>
-  API.post("/reviews", { movieId, reviewText }); 
+  API.post("/reviews", { movieId, reviewText });
 
+// Favorite APIs
+export const addToFavorites = (movieId) =>
+  API.post(`/favorites/${movieId}`); 
+
+export const removeFromFavorites = (movieId) =>
+  API.delete(`/favorites/${movieId}`); 
+
+export const checkIfFavorite = (movieId) =>
+  API.get(`/favorites/check/${movieId}`); 
+
+export const getUserFavorites = () =>
+  API.get(`/favorites`); 
 export default API;
