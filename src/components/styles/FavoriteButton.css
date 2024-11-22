@@ -1,30 +1,65 @@
 .favorite-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-  }
-  
-  .favorite-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  .favorite-button.favorited {
-    background-color: #ff0000;
-    color: #fff;
-  }
-  
-  .favorite-button.loading {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .favorite-button.disabled {
-    background-color: #e0e0e0;
-    color: #999;
-    cursor: not-allowed;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between icon and text */
+  padding: 12px 24px; /* Keep padding the same */
+  height: 48px; /* Set a fixed height */
+  border: none;
+  border-radius: 8px;
+  font-size: 16px; /* Keep font size the same */
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.favorite-button:hover {
+  background: linear-gradient(135deg, #5a7bd3, #945ed3);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-button.favorited {
+  background: linear-gradient(135deg, #ff5a5f, #ff7b7b);
+  color: #fff;
+}
+
+.favorite-button.favorited:hover {
+  background: linear-gradient(135deg, #e84a4f, #ff6565);
+}
+
+.favorite-button.loading {
+  background: #d3d3d3;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.favorite-button.disabled {
+  background: #f0f0f0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.favorite-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.favorite-disabled p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 8px;
+}
+
+.favorite-disabled a {
+  color: #6e8efb;
+  text-decoration: none;
+}
+
+.favorite-disabled a:hover {
+  text-decoration: underline;
+}
