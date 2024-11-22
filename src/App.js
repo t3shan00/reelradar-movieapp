@@ -14,6 +14,7 @@ import Dashboard from './components/Dashboard';
 import GenrePage from './filters/GenrePage';
 import YearFilterPage from './filters/YearFilterPage';
 import ShowTimes from './components/ShowTimes';
+import RatingFilterPage from './filters/RatingFilterPage';
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -59,6 +60,7 @@ function App() {
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/genres" element={<GenrePage />} />
           <Route path="/filter-by-year" element={<YearFilterPage />} />
+          <Route path="/filter-by-rating" element={<RatingFilterPage />} />
           <Route path="/showtimes" element={<ShowTimes />} />
           <Route path="/" element={
             <>
