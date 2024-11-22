@@ -19,15 +19,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginUser(identifier, password);
-
+      const response = await loginUser (identifier, password);
+  
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data));
-
+  
       setMessage(`Welcome, ${response.data.username}`);
-
+  
       const lastPage = sessionStorage.getItem("lastPage") || "/dashboard";
       navigate(lastPage, { replace: true });
+      window.location.reload();
     } catch (error) {
       setMessage(error.response?.data?.error || "Login failed!");
     }

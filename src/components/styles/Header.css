@@ -77,6 +77,61 @@
     border-radius: 5px;
 }
 
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    position: relative;
+    cursor: pointer;
+    color: white;
+    font-size: 30px;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    color: #667eea;
+}
+
+.icon::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    transition: all 0.3s ease;
+}
+
+.icon:hover::before {
+    left: 0;
+    width: 100%;
+}
+
+.username {
+    margin-right: 15px;
+    color: #f4f4f4;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.username:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 @media (max-width: 768px) {
     .header {
         flex-direction: column; 

@@ -1,16 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './styles/Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser , faBars } from '@fortawesome/free-solid-svg-icons';
+import { faUser , faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'; // Import the logout icon
 import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [user, setUser ] = useState(null); // State to hold user data
   const menuRef = useRef(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUser (userData);
+  }, []);
+
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -35,7 +48,15 @@ function Header() {
         <h1 className="title" onClick={() => navigate('/')}>ReelRadar</h1>
       </div>
       <div className="icons">
-        <span className="icon" onClick={() => navigate('/dashboard')}> {/* Make the icon clickable */}
+        {user && (
+          <>
+            <span className="username" onClick={() => navigate(user ? '/dashboard' : '/login')}>{user.username || user.email}</span>
+            <span className="icon" onClick={handleLogout}>
+              <FontAwesomeIcon icon={faSignOutAlt} />
+            </span>
+          </>
+        )}
+        <span className="icon" onClick={() => navigate(user ? '/dashboard' : '/login')}>
           <FontAwesomeIcon icon={faUser } />
         </span>
       </div>
