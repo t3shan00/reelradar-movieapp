@@ -11,11 +11,13 @@
   .genre-page {
     padding: 2rem;
     min-height: 100vh;
+    text-align: center;
   }
   
   .genre-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.75rem;
     margin-bottom: 1.5rem;
   }

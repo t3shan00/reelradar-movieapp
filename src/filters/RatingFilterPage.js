@@ -30,7 +30,7 @@ const RatingFilterPage = () => {
 
   return (
     <div className="rating-filter-page">
-      <h1>Select a Rating (1 to 10)</h1>
+      <h1>Select a Rating</h1>
       <div className="rating-list">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(rating => (
           <button key={rating} onClick={() => handleRatingClick(rating)} className="rating-button">

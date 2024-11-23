@@ -4,7 +4,6 @@ import './styles/MovieDetail.css';
 import FavoriteButton from "./FavoriteButton";
 import ReviewSection from "./ReviewSection";
 
-
 const formatRuntime = (minutes) => {
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
@@ -15,6 +14,9 @@ const MovieDetail = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
+  const [cinemaAreas, setCinemaAreas] = useState([]);
+  const [selectedCinema, setSelectedCinema] = useState('');
+  const [showtimes, setShowtimes] = useState([]);
 
   useEffect(() => {
     const fetchMovieDetail = async () => {
@@ -40,8 +42,55 @@ const MovieDetail = () => {
       }
     };
 
+    const fetchCinemaAreas = async () => {
+      try {
+        const response = await fetch('https://www.finnkino.fi/xml/TheatreAreas/');
+        const xml = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xml, 'application/xml');
+        const theatres = xmlDoc.getElementsByTagName('TheatreArea');
+        const areas = Array.from(theatres).map((theatre) => ({
+          id: theatre.getElementsByTagName('ID')[0].textContent,
+          name: theatre.getElementsByTagName('Name')[0].textContent,
+        }));
+        setCinemaAreas(areas);
+      } catch (error) {
+        console.error("Error fetching cinema locations:", error);
+      }
+    };
+
     fetchMovieDetail();
+    fetchCinemaAreas();
   }, [id]);
+
+  const fetchShowtimes = async (cinemaId) => {
+    try {
+      const response = await fetch(`https://www.finnkino.fi/xml/Schedule/?area=${cinemaId}`);
+      const xml = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xml, 'application/xml');
+      const shows = xmlDoc.getElementsByTagName('Show');
+      const showtimesData = Array.from(shows)
+        .filter(show => show.getElementsByTagName('Title')[0].textContent === movie.title)
+        .map(show => ({
+          id: show.getElementsByTagName('ID')[0].textContent,
+          startTime: show.getElementsByTagName('dttmShowStart')[0].textContent,
+          theatre: show.getElementsByTagName('Theatre')[0].textContent,
+          auditorium: show.getElementsByTagName('TheatreAuditorium')[0].textContent,
+        }));
+      setShowtimes(showtimesData);
+    } catch (error) {
+      console.error("Error fetching showtimes:", error);
+    }
+  };
+
+  const handleCinemaSelection = (e) => {
+    const cinemaId = e.target.value;
+    setSelectedCinema(cinemaId);
+    if (cinemaId) {
+      fetchShowtimes(cinemaId);
+    }
+  };
 
   if (error) {
     return <div className="error-container">Error: {error}</div>;
@@ -76,7 +125,6 @@ const MovieDetail = () => {
 
           <div className="details-section">
             <h1 className="movie-title">{movie.title}</h1>
-
             <div className="metadata-container">
               <div className="metadata-item">
                 <span className="icon-star">⭐</span>
@@ -107,23 +155,35 @@ const MovieDetail = () => {
               <p className="overview-text">{movie.overview}</p>
             </div>
 
-            <div className="additional-info">
-              {movie.budget > 0 && (
-                <div className="info-card">
-                  <h3 className="info-title">Budget</h3>
-                  <p className="info-text">${movie.budget.toLocaleString()}</p>
-                </div>
-              )}
-              {movie.revenue > 0 && (
-                <div className="info-card">
-                  <h3 className="info-title">Revenue</h3>
-                  <p className="info-text">${movie.revenue.toLocaleString()}</p>
-                </div>
-              )}
+            <div className="showtimes-section">
+              <h2>Select Cinema Location:</h2>
+              <select onChange={handleCinemaSelection} value={selectedCinema}>
+                <option value="">-- Choose a Cinema --</option>
+                {cinemaAreas.map(area => (
+                  <option key={area.id} value={area.id}>
+                    {area.name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="showtimes-display">
+                {showtimes.length > 0 ? (
+                  showtimes.map(showtime => (
+                    <div key={showtime.id} className="showtime-item">
+                      <p><span>Cinema:</span> {showtime.theatre}</p>
+                      <p><span>Auditorium:</span> {showtime.auditorium}</p>
+                      <p><span>Start Time:</span> {new Date(showtime.startTime).toLocaleString()}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No showtimes available for the selected cinema.</p>
+                )}
+              </div>
             </div>
           </div>
+
           <FavoriteButton movieId={movie.id} />
-          </div>
+        </div>
       </div>
       <ReviewSection />
     </div>
