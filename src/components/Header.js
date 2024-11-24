@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Header() {
   const [menuVisible, setMenuVisible] = useState(false);
-  const [user, setUser ] = useState(null); // State to hold user data
+  const [user, setUser ] = useState(null);
   const menuRef = useRef(null);
   const navigate = useNavigate();
 

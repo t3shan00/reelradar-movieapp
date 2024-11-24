@@ -17,6 +17,7 @@
   margin-bottom: 24px;
   color: #ffffff;
   background: linear-gradient(to right, #ffffff, #93c5fd);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -75,7 +76,6 @@
 .add-review textarea {
   width: 100%;
   min-height: 120px;
-  padding: 16px;
   background-color: rgba(45, 55, 72, 0.8);
   color: #e5e7eb;
   border: 1px solid rgba(75, 85, 99, 0.4);
