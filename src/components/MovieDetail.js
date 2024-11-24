@@ -176,7 +176,7 @@ const MovieDetail = () => {
                     </div>
                   ))
                 ) : (
-                  <p>No showtimes available for the selected cinema.</p>
+                  <p>No showtimes available for the selected Movie or Location.</p>
                 )}
               </div>
             </div>
