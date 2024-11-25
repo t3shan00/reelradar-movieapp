@@ -1,6 +1,7 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { createUser, findUserByIdentifier } from '../Models/userModels.js';
+import { deleteUserById } from "../Models/userModels.js";
 
 const { sign } = jwt;
 
@@ -59,3 +60,16 @@ export const login = async (req, res, next) => {
         next(err);
     }
 };
+
+export const deleteUserHandler = async (req, res) => {
+    const userId = req.userId;
+  
+    try {
+      await deleteUserById(userId);
+  
+      res.status(200).json({ message: "Account deleted successfully." });
+    } catch (err) {
+      console.error("Error deleting user:", err.message);
+      res.status(500).json({ error: "Failed to delete account. Please try again later." });
+    }
+  };
