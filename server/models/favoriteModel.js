@@ -31,7 +31,7 @@ export const fetchUserFavorites = async (userId) => {
   try {
     const result = await pool.query(
       `SELECT 
-         TMDB_MovieID AS movieId 
+         TMDB_MovieID AS tmdb_movieid 
        FROM Favorites 
        WHERE UserID = $1
        ORDER BY CreatedAt DESC`,
