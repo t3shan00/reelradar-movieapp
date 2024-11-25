@@ -22,3 +22,8 @@ export const findUserByIdentifier = async (identifier) => {
     const result = await pool.query(query, values);
     return result.rows[0]; 
 };
+
+// Delete a user by ID
+export const deleteUserById = async (userId) => {
+    return pool.query("DELETE FROM Users WHERE UserID = $1", [userId]);
+  };
