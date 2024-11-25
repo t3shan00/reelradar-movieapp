@@ -77,6 +77,36 @@ const Dashboard = () => {
     navigate("/login");
   };
 
+  const handleDeleteAccount = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      try {
+        const response = await fetch("http://localhost:3001/user/delete", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          alert("Account deleted successfully.");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/signup"); // Redirect to signup page
+        } else {
+          const errorData = await response.json();
+          alert(`Failed to delete account: ${errorData.error}`);
+        }
+      } catch (err) {
+        console.error("Error deleting account:", err.message);
+        alert("An error occurred while trying to delete your account. Please try again later.");
+      }
+    }
+  };
+
   return (
     <div className="dashboard-container">
       {user ? (
@@ -105,6 +135,9 @@ const Dashboard = () => {
           )}
           <button onClick={handleLogout} className="logout-button">
             Logout
+          </button>
+          <button onClick={handleDeleteAccount} className="delete-account-button">
+            Delete Account
           </button>
         </>
       ) : (
