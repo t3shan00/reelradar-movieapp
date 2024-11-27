@@ -16,8 +16,6 @@ CREATE TABLE Reviews (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-
-
 -- Favorites Table
 CREATE TABLE Favorites (
     FavoriteID SERIAL PRIMARY KEY,
@@ -28,22 +26,33 @@ CREATE TABLE Favorites (
     CONSTRAINT unique_favorite UNIQUE (UserID, TMDB_MovieID)
 );
 
--- -- Groups Table
--- CREATE TABLE Groups (
---     GroupID SERIAL PRIMARY KEY,
---     GroupName VARCHAR(255) NOT NULL,
---     CreatedBy INT NOT NULL, -- Reference to the user who created the group
---     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     CONSTRAINT fk_created_by FOREIGN KEY (CreatedBy) REFERENCES Users (UserID) ON DELETE CASCADE
--- );
+-- Create groups table
+CREATE TABLE groups (
+    group_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    created_by INTEGER REFERENCES users(UserID),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
 
--- -- Group Members Table
--- CREATE TABLE GroupMembers (
---     MemberID SERIAL PRIMARY KEY,
---     GroupID INT NOT NULL,
---     UserID INT NOT NULL,
---     AddedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     CONSTRAINT fk_group FOREIGN KEY (GroupID) REFERENCES Groups (GroupID) ON DELETE CASCADE,
---     CONSTRAINT fk_user_member FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE,
---     CONSTRAINT unique_member UNIQUE (GroupID, UserID)
--- );
+-- Create group_members table
+CREATE TABLE group_members (
+    member_id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(UserID) ON DELETE CASCADE,
+    joined_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(group_id, user_id)
+);
+
+-- Create join_requests table
+CREATE TABLE join_requests (
+    request_id SERIAL PRIMARY KEY,
+    group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(UserID) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'pending',
+    UNIQUE(group_id, user_id)
+);
+
+-- Create indexes
+CREATE INDEX idx_group_members_user_id ON group_members(user_id);
+CREATE INDEX idx_group_members_group_id ON group_members(group_id);

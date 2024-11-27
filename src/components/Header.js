@@ -68,6 +68,7 @@ function Header() {
             <li onClick={() => navigate('/genres')}>Filter Movies by Genre</li>
             <li onClick={() => navigate('/filter-by-year')}>Filter Movies by Year</li>
             <li onClick={() => navigate('/filter-by-rating')}>Filter Movies by Rating</li>
+            <li onClick={() => navigate('/groups')}>Groups</li>
           </ul>
         </div>
       )}

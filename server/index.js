@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import {userRouter} from './routers/userRouter.js'
 import reviewRouter from "./routers/reviewRouter.js";
 import favoriteRouter from "./routers/favoriteRouter.js";
+import groupRouter from "./routers/groupRouter.js";
 
 dotenv.config()
 const PORT = process.env.PORT;
@@ -18,6 +19,7 @@ app.use('/user', userRouter)
 app.use('/reviews', reviewRouter)
 app.use("/api/reviews", reviewRouter);
 app.use("/api/favorites", favoriteRouter);
+app.use("/api/groups", groupRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500
