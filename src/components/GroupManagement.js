@@ -89,6 +89,10 @@ const GroupManagement = () => {
     navigate(`/groups/${group.group_id}`);
   };
 
+  const manageGroup = (group) => {
+    navigate(`/groups/${group.group_id}/manage`);
+  };
+
   const leaveGroup = async (groupId) => {
     try {
       const token = localStorage.getItem("token");
@@ -197,6 +201,11 @@ const GroupManagement = () => {
             <span>{group.name}</span>
             <div className="group-actions">
               <button onClick={() => viewGroup(group)}>View</button>
+              {group.created_by === Number(localStorage.getItem("userId")) && (
+                <>
+                  <button className="manage-button" onClick={() => manageGroup(group)}>Manage</button>
+                </>
+              )}
               {group.created_by !== Number(localStorage.getItem("userId")) && (
               <button className="leave-button" onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
               )}

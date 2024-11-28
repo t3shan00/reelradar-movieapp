@@ -1,0 +1,64 @@
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 32px;
+    background: linear-gradient(to right, white, #cccccc);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .error {
+    color: #ef4444;
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  
+  .request-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .request-list li {
+    background-color: rgba(31, 41, 55, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(75, 85, 99, 0.3);
+  }
+  
+  .request-list li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-color: rgba(96, 165, 250, 0.4);
+  }
+  
+  .request-actions button {
+    background: linear-gradient(135deg, rgba(55, 65, 81, 0.6), rgba(75, 85, 99, 0.4));
+    border: 1px solid rgba(75, 85, 99, 0.2);
+    color: #e5e7eb;
+    padding: 10px 16px;
+    margin-left: 12px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+  }
+  
+  .request-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border-color: rgba(96, 165, 250, 0.4);
+  }

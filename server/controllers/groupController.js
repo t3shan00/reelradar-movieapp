@@ -9,7 +9,9 @@ import {
   countTotalGroups,
   leaveGroupModel,
   addJoinRequest,
-  checkUserMembership
+  checkUserMembership,
+  fetchJoinRequestsFromDB, 
+  updateJoinRequestStatus
 } from "../models/groupModel.js";
 
 // Create a new group
@@ -128,23 +130,34 @@ export const requestToJoinGroup = async (req, res) => {
   }
 };
 
-// Approve or reject join request
-export const handleJoinRequest = async (req, res) => {
-  const { groupId, userId, action } = req.body;
-  const ownerId = req.userId;
+// Fetch join requests for a group
+export const fetchJoinRequests = async (req, res) => {
+  const { groupId } = req.params;
 
-  if (!["accept", "reject"].includes(action)) {
-    return res.status(400).json({ error: "Invalid action. Must be 'accept' or 'reject'." });
+  try {
+    const result = await fetchJoinRequestsFromDB(groupId);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error fetching join requests:', error);
+    res.status(500).json({ message: 'Error fetching join requests', error: error.message });
+  }
+};
+
+// Handle join request (accept/reject)
+export const handleJoinRequest = async (req, res) => {
+  const { requestId } = req.params;
+  const { status } = req.body;
+
+  if (!["accepted", "rejected"].includes(status)) {
+    return res.status(400).json({ error: "Invalid status. Must be 'accepted' or 'rejected'." });
   }
 
   try {
-    await updateMembershipStatus(groupId, userId, action);
-    res.status(200).json({ 
-      message: `User ${action === "accept" ? "added" : "rejected"} successfully.` 
-    });
-  } catch (err) {
-    console.error("Error handling join request:", err.message);
-    res.status(500).json({ error: "Failed to handle join request.", details: err.message });
+    const result = await updateJoinRequestStatus(requestId, status);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error handling join request:', error);
+    res.status(500).json({ message: 'Error handling join request', error: error.message });
   }
 };
 

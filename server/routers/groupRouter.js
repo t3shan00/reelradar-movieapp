@@ -8,7 +8,8 @@ import {
   handleJoinRequest,
   removeMember,
   getMyGroups,
-  leaveGroup
+  leaveGroup,
+  fetchJoinRequests
 } from '../controllers/groupController.js';
 import { auth } from '../utils/auth.js';
 
@@ -37,10 +38,13 @@ groupRouter.post('/:groupId/join', requestToJoinGroup);
 // Leave a group
 groupRouter.delete('/:groupId/leave', leaveGroup);
 
-// Handle join request
-groupRouter.post('/join-request', handleJoinRequest);
-
 // Remove a member from a group
 groupRouter.delete('/:groupId/members/:memberId', removeMember);
+
+// Route to fetch join requests for a group
+groupRouter.get('/:groupId/join-requests', auth, fetchJoinRequests);
+
+// Handle join request
+groupRouter.put('/join-requests/:requestId', handleJoinRequest);
 
 export default groupRouter;

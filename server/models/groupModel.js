@@ -115,3 +115,30 @@ export const leaveGroupModel = async (userId, groupId) => {
   return await pool.query(query, [userId, groupId]);
 };
 
+// Fetch join requests for a group from the database
+export const fetchJoinRequestsFromDB = async (groupId) => {
+  const query = `
+    SELECT jr.request_id, jr.user_id, u.username, jr.created_at, jr.status
+    FROM join_requests jr
+    JOIN users u ON jr.user_id = u.userid
+    WHERE jr.group_id = $1 AND jr.status = 'pending'
+  `;
+  try {
+    const result = await pool.query(query, [groupId]);
+    return result.rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Update the status of a join request in the database
+export const updateJoinRequestStatus = async (requestId, status) => {
+  const query = `
+    UPDATE join_requests
+    SET status = $1
+    WHERE request_id = $2
+    RETURNING *
+  `;
+  const result = await pool.query(query, [status, requestId]);
+  return result.rows[0];
+};
