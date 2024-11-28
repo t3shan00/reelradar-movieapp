@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import './styles/Dashboard.css';
 
 const Dashboard = () => {
@@ -75,7 +76,23 @@ const Dashboard = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
+    window.location.reload();
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decodedToken.exp < currentTime) {
+        handleLogout();
+      } else {
+        const timeout = (decodedToken.exp - currentTime) * 1000;
+        setTimeout(handleLogout, timeout);
+      }
+    }
+  }, [navigate]);
 
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem("token");
