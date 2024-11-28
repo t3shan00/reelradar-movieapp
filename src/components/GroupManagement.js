@@ -175,66 +175,62 @@ const GroupManagement = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Group Management</h1>
-      {error && <p className="error-message">{error}</p>}
-
-      <h2>Your Groups</h2>
-      <ul>
-        {userGroups.map((group) => (
-          <li key={group.group_id}>
-            {group.name}
-            <button onClick={() => viewGroup(group)}>View</button>
-            {group.created_by !== Number(localStorage.getItem("userId")) && (
-              <button onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
-            )}
-            {group.created_by === Number(localStorage.getItem("userId")) && (
-              <button onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      <h2>Available Groups</h2>
-      <ul>
-        {groups.map((group) => (
-          <li key={group.group_id}>
-            {group.name}
-            {/* <button onClick={() => viewGroup(group)}>View</button> */}
-            {group.created_by !== Number(localStorage.getItem("userId")) && (
-              <button onClick={() => joinGroup(group.group_id)}>Join</button>
-            )}
-            {group.created_by === Number(localStorage.getItem("userId")) && (
-              <button onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {selectedGroup && (
-        <div>
-          <h3>Group: {selectedGroup.name}</h3>
-          <button onClick={() => leaveGroup(selectedGroup.group_id)}>
-            Leave Group
-          </button>
-          {selectedGroup.created_by === localStorage.getItem("userId") && (
-            <button onClick={() => deleteGroup(selectedGroup.group_id)}>
-              Delete Group
-            </button>
-          )}
-        </div>
-      )}
-
-      <div>
-        <h2>Create a New Group</h2>
+      {error && <p className="error">{error}</p>}
+      <div className="new-group-form">
+        <h2>Create New Group</h2>
         <input
           type="text"
+          placeholder="Enter group name"
           value={newGroupName}
           onChange={(e) => setNewGroupName(e.target.value)}
-          placeholder="Enter group name"
         />
         <button onClick={createGroup} disabled={loading}>
           {loading ? "Creating..." : "Create Group"}
+        </button>
+      </div>
+      <h2>My Groups</h2>
+      <ul className="group-list">
+        {userGroups.map((group) => (
+          <li key={group.group_id}>
+            <span>{group.name}</span>
+            <div className="group-actions">
+              <button onClick={() => viewGroup(group)}>View</button>
+              {group.created_by !== Number(localStorage.getItem("userId")) && (
+              <button className="leave-button" onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
+              )}
+              {group.created_by === Number(localStorage.getItem("userId")) && (
+                <button className="leave-button" onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <h2>All Groups</h2>
+      <ul className="group-list">
+        {groups.map((group) => (
+          <li key={group.group_id}>
+            <span>{group.name}</span>
+            <div className="group-actions">
+              <button className="join-button" onClick={() => joinGroup(group.group_id)}>Join</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="pagination">
+        <button
+          onClick={() => setPagination({ ...pagination, currentPage: pagination.currentPage - 1 })}
+          disabled={pagination.currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>Page {pagination.currentPage} of {pagination.totalPages}</span>
+        <button
+          onClick={() => setPagination({ ...pagination, currentPage: pagination.currentPage + 1 })}
+          disabled={pagination.currentPage === pagination.totalPages}
+        >
+          Next
         </button>
       </div>
     </div>
