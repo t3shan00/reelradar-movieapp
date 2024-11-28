@@ -1,55 +1,134 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import './RatingFilterPage.css';
 
 const RatingFilterPage = () => {
   const [movies, setMovies] = useState([]);
-  const [selectedRating, setSelectedRating] = useState(null);
+  const [selectedRating, setSelectedRating] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 
-  const fetchMoviesByRating = async (rating) => {
+  const fetchMoviesByRating = async (page = 1) => {
+    setIsLoading(true);
     try {
-      const minRating = rating;
-      const maxRating = rating + 0.9;
       const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?vote_average.gte=${minRating}&vote_average.lte=${maxRating}&sort_by=popularity.desc&api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/discover/movie?vote_average.gte=${selectedRating}&sort_by=popularity.desc&page=${page}&api_key=${API_KEY}`
       );
       const data = await response.json();
-      setMovies(data.results);
+      setMovies(prevMovies => page === 1 ? data.results : [...prevMovies, ...data.results]);
+      setTotalPages(data.total_pages);
     } catch (error) {
       console.error("Error fetching movies by rating:", error);
+      setMovies([]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleRatingClick = (rating) => {
-    setSelectedRating(rating);
-    fetchMoviesByRating(rating);
+  const handleApplyFilter = () => {
+    setCurrentPage(1);
+    fetchMoviesByRating(1);
   };
+
+  useEffect(() => {
+    if (selectedRating) {
+      fetchMoviesByRating(currentPage);
+    }
+  }, [selectedRating, currentPage]);
+
+  const paginationRange = useMemo(() => {
+    const delta = 2;
+    const range = [];
+    
+    for (
+      let i = Math.max(2, currentPage - delta);
+      i <= Math.min(totalPages - 1, currentPage + delta);
+      i++
+    ) {
+      range.push(i);
+    }
+
+    return {
+      first: 1,
+      last: totalPages,
+      range,
+      hasPrevious: currentPage > 1,
+      hasNext: currentPage < totalPages
+    };
+  }, [currentPage, totalPages]);
 
   return (
     <div className="rating-filter-page">
-      <h1>Select a Rating</h1>
-      <div className="rating-list">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(rating => (
-          <button key={rating} onClick={() => handleRatingClick(rating)} className="rating-button">
-            {rating}
-          </button>
-        ))}
+      <h1>Filter by Rating</h1>
+      <div className="filter-options">
+        <select 
+          value={selectedRating} 
+          onChange={(e) => setSelectedRating(e.target.value)}
+          className="rating-select"
+        >
+          <option value="">Select Rating</option>
+          <option value="1">&gt; 1</option>
+          <option value="2">&gt; 2</option>
+          <option value="3">&gt; 3</option>
+          <option value="4">&gt; 4</option>
+          <option value="5">&gt; 5</option>
+          <option value="6">&gt; 6</option>
+          <option value="7">&gt; 7</option>
+          <option value="8">&gt; 8</option>
+          <option value="9">&gt; 9</option>
+        </select>
+        <button onClick={handleApplyFilter} className="apply-button">
+          Apply Filter
+        </button>
       </div>
-      {selectedRating && (
+      {isLoading && (
+        <div style={{textAlign: 'center', color: 'black', padding: '2rem'}}>Loading movies...</div>
+      )}
+      {!isLoading && movies.length > 0 && (
         <div className="movies-section">
-          <h2>Movies with Rating {selectedRating}:</h2>
           <div className="movies-list">
-            {movies.map(movie => (
-              <div key={movie.id} className="movie-card" onClick={() => navigate(`/movie/${movie.id}`)}>
-                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+            {movies.slice((currentPage - 1) * 16, currentPage * 16).map(movie => (
+              <div 
+                key={movie.id} 
+                className="movie-card"
+                onClick={() => navigate(`/movie/${movie.id}`)}
+              >
+                <img 
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
+                  alt={movie.title} 
+                />
                 <h3>{movie.title}</h3>
                 <p>Rating: {movie.vote_average.toFixed(1)}</p>
               </div>
             ))}
           </div>
+
+          {/* Pagination */}
+          <div className="pagination">
+            <button 
+              onClick={() => setCurrentPage(prev => prev - 1)}
+              disabled={!paginationRange.hasPrevious}
+            >
+              <ChevronLeft />
+            </button>
+
+            <button 
+              onClick={() => setCurrentPage(prev => prev + 1)}
+              disabled={!paginationRange.hasNext}
+            >
+              <ChevronRight />
+            </button>
+          </div>
+        </div>
+      )}
+      {!isLoading && movies.length === 0 && (
+        <div style={{textAlign: 'center', color: 'black', padding: '2rem'}}>
+          No movies found for the selected rating range.
         </div>
       )}
     </div>

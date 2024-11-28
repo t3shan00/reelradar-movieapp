@@ -1,61 +1,184 @@
+:root {
+  --primary-color: #3b82f6;
+  --primary-color-dark: #2563eb;
+  --text-color: #ffffff;
+  --background-color: #f9fafb;
+  --card-background: #000000;
+  --border-radius: 0.75rem;
+  --transition-speed: 0.3s;
+}
+
 .rating-filter-page {
-    padding: 2rem;
-    text-align: center;
-    min-height: 100vh;
-    color: white;
+  padding: 2rem;
+  min-height: 100vh;
+  color: white;
+}
+
+.rating-filter-page h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.filter-options {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.rating-select {
+  padding: 0.625rem 1.25rem;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: 
+    background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.apply-button {
+  padding: 0.625rem 1.25rem;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: capitalize;
+  transition: 
+    background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.apply-button:hover {
+  background-color: #2b2b2c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.movies-section {
+  margin-top: 1.5rem;
+}
+
+.movies-section h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.movies-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.movie-card {
+  position: relative;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: 
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+  background-color: var(--card-background);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.movie-card img {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+}
+
+.movie-card h3 {
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card p {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-color);
+}
+
+.movie-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  opacity: 0;
+  transition: opacity var(--transition-speed) ease;
+  pointer-events: none;
+}
+
+.movie-card:hover::after {
+  opacity: 1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: 
+    background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #2b2b2c;
+  transform: translateY(-2px);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .filter-options {
+    gap: 0.5rem;
   }
-  
-  .rating-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    margin-bottom: 2rem;
+
+  .rating-select {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
-  
-  .rating-button {
-    padding: 0.625rem 1.25rem;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-  }
-  
-  .rating-button:hover {
-    background-color: #444444;
-  }
-  
-  .movies-section {
-    margin-top: 2rem;
-  }
-  
+
   .movies-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
   }
-  
-  .movie-card {
-    background-color: #222222;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .movie-card:hover {
-    transform: scale(1.05);
-  }
-  
+
   .movie-card img {
-    width: 100%;
-    height: auto;
+    height: 210px;
   }
-  
-  .movie-card h3 {
-    padding: 0.5rem;
-    text-align: center;
-  }
+}
