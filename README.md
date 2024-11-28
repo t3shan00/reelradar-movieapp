@@ -17,57 +17,107 @@ You may also see any lint errors in the console.
 
 NOTE: update the readme file once you install the node packages.
 
-<!-- ### `npm test`
+# Reel Radar: Movie Exploration Platform
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🎬 Project Overview
+Reel Radar is an advanced web application designed for movie enthusiasts, offering comprehensive movie discovery, community interaction, and personalized cinema experiences.
 
-### `npm run build`
+## 🛠 Technology Stack
+- **Frontend**: React.js
+- **Backend**: Node.js + Express
+- **Database**: PostgreSQL
+- **APIs**: TMDB, Finnkino
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 👥 Team Composition
+- **Jayathra** (Scrum Master): Project coordination, task management
+- **Anil**: Frontend Development 
+- **Motiar**: Backend Development
+- **Chenqi**: Learning & Support Role
+- **Rubayat Kabir**: Tester
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🌟 Key Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Movie Discovery
+- Advanced movie search with multiple filters
+- Display popular and upcoming movies
+- Detailed movie information view
+- Categorization by genre, time, rating
 
-### `npm run eject`
+### User Interactions
+- Secure user authentication
+- Group creation and management
+- Movie review system
+- Personal favorites list
+- Sharable movie collections
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🎨 Design Philosophy
+- **Color Scheme**: Black, white, and gray
+- **Inspiration**: Classic movie theater atmosphere
+- **Goal**: Immersive cinematic experience
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🔧 Technical Highlights
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend
+- Responsive, mobile-friendly design
+- State management with Redux
+- Intuitive user interface
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Backend
+- RESTful API architecture
+- Secure authentication (JWT)
+- External API integration
 
-## Learn More
+### Database
+- Normalized PostgreSQL schema
+- Data integrity mechanisms
+- Efficient data storage and retrieval
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 📦 Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Prerequisites
+- Node.js (v16+)
+- PostgreSQL
+- TMDB API Key
+- Finnkino API Access
 
-### Code Splitting
+### Setup Steps
+1. Clone repository
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+3. Configure environment variables
+4. Initialize database
+5. Run application
+   ```bash
+   npm start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🔐 Security Features
+- Secure password hashing
+- Input validation
+- JWT authentication
+- HTTPS encryption
 
-### Analyzing the Bundle Size
+## 📡 API Endpoints
+- `/auth`: User authentication
+- `/movies`: Movie search and details
+- `/reviews`: Movie reviews management
+- `/groups`: Group interaction endpoints
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🚀 Deployment
+- Cloud-ready configuration
+- Supports Heroku, Render
+- Continuous Integration setup
 
-### Making a Progressive Web App
+## 📊 Future Enhancements
+- Dark mode
+- Push notifications
+- Advanced recommendation system
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🔗 Project Links
+- **GitHub**: https://github.com/group11-awdp-oamk/reelradar
+- **Live Demo**: http://localhost:3000
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
+## 📝 Licensing
+...
