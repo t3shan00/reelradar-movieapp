@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import "./styles/GroupManagement.css";
 
 const GroupManagement = () => {
+  const navigate = useNavigate();
   const [groups, setGroups] = useState([]);
   const [userGroups, setUserGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -84,15 +86,7 @@ const GroupManagement = () => {
   };
 
   const viewGroup = (group) => {
-    const userId = localStorage.getItem("userId");
-    console.log("Group created by:", group.created_by);
-    console.log("Current userId from local storage:", userId);
-    if (group.created_by === userId) { 
-      console.log("ok")
-    } else {
-      console.log("not ok")
-    }
-    setSelectedGroup(group);
+    navigate(`/groups/${group.id}`);
   };
 
   const leaveGroup = async (groupId) => {
@@ -190,7 +184,7 @@ const GroupManagement = () => {
         {userGroups.map((group) => (
           <li key={group.group_id}>
             {group.name}
-            {/* <button onClick={() => viewGroup(group)}>View</button> */}
+            <button onClick={() => viewGroup(group)}>View</button>
             {group.created_by !== Number(localStorage.getItem("userId")) && (
               <button onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
             )}
