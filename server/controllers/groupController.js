@@ -11,7 +11,8 @@ import {
   checkUserMembership,
   fetchJoinRequestsFromDB, 
   updateJoinRequestStatus,
-  handleJoinRequestInDB
+  handleJoinRequestInDB,
+  fetchGroupMembers
 } from "../models/groupModel.js";
 
 // Create a new group
@@ -207,5 +208,18 @@ export const leaveGroup = async (req, res) => {
   } catch (err) {
     console.error("Error leaving group:", err.message);
     res.status(500).json({ error: "Failed to leave group.", details: err.message });
+  }
+};
+
+// Fetch members of a group
+export const getGroupMembers = async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const members = await fetchGroupMembers(groupId);
+    res.status(200).json(members);
+  } catch (err) {
+    console.error("Error fetching group members:", err.message);
+    res.status(500).json({ error: "Failed to fetch group members.", details: err.message });
   }
 };

@@ -153,3 +153,15 @@ export const handleJoinRequestInDB = async (requestId, status) => {
 
   return result;
 };
+
+// Fetch members of a group
+export const fetchGroupMembers = async (groupId) => {
+  const query = `
+    SELECT gm.user_id, u.username
+    FROM group_members gm
+    JOIN users u ON gm.user_id = u.userid
+    WHERE gm.group_id = $1
+  `;
+  const result = await pool.query(query, [groupId]);
+  return result.rows;
+};

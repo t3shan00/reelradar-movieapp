@@ -9,7 +9,8 @@ import {
   removeMember,
   getMyGroups,
   leaveGroup,
-  fetchJoinRequests
+  fetchJoinRequests,
+  getGroupMembers
 } from '../controllers/groupController.js';
 import { auth } from '../utils/auth.js';
 
@@ -46,5 +47,8 @@ groupRouter.get('/:groupId/join-requests', auth, fetchJoinRequests);
 
 // Handle join request
 groupRouter.put('/join-requests/:requestId', handleJoinRequest);
+
+// Fetch members of a group
+groupRouter.get('/:groupId/members', getGroupMembers);
 
 export default groupRouter;

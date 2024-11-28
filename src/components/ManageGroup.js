@@ -6,10 +6,13 @@ import './styles/ManageGroup.css';
 const ManageGroup = () => {
   const { groupId } = useParams();
   const [joinRequests, setJoinRequests] = useState([]);
+  const [members, setMembers] = useState([]);
   const [error, setError] = useState('');
+  const [popupMessage, setPopupMessage] = useState('');
 
   useEffect(() => {
     fetchJoinRequests();
+    fetchGroupMembers();
   }, [groupId]);
 
   const fetchJoinRequests = async () => {
@@ -26,18 +29,27 @@ const ManageGroup = () => {
     }
   };
 
+  const fetchGroupMembers = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `http://localhost:3001/api/groups/${groupId}/members`;
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setMembers(response.data);
+    } catch (err) {
+      console.error("Failed to fetch group members:", err);
+      setError("Failed to fetch group members. Please try again.");
+    }
+  };
+
   const handleRequest = async (requestId, status) => {
     try {
       const token = localStorage.getItem("token");
-      console.log("Token:", token); // Debugging line
-      console.log(`Handling request ID: ${requestId} with status: ${status}`); // Debugging line
       const url = `http://localhost:3001/api/groups/join-requests/${requestId}`;
-      console.log("Request URL:", url); // Debugging line
-      const response = await axios.put(url, { status }, {
+      await axios.put(url, { status }, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("Handle request response status:", response.status); // Debugging line
-      console.log("Handle request response data:", response.data); // Debugging line
       fetchJoinRequests();
     } catch (err) {
       console.error("Failed to manage join request:", err);
@@ -45,10 +57,28 @@ const ManageGroup = () => {
     }
   };
 
+  const handleRemoveMember = async (memberId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const url = `http://localhost:3001/api/groups/${groupId}/members/${memberId}`;
+      await axios.delete(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchGroupMembers();
+      setPopupMessage("Member removed successfully.");
+      setTimeout(() => setPopupMessage(''), 3000); // Hide the popup after 3 seconds
+    } catch (err) {
+      console.error("Failed to remove member:", err);
+      setError("Failed to remove member. Please try again.");
+    }
+  };
+
   return (
     <div className="container">
-      <h1>Manage Join Requests</h1>
+      <h1>Manage Group</h1>
       {error && <p className="error">{error}</p>}
+      {popupMessage && <div className="popup">{popupMessage}</div>}
+      <h2>Join Requests</h2>
       <ul className="request-list">
         {joinRequests.map((request) => (
           <li key={request.request_id}>
@@ -57,6 +87,15 @@ const ManageGroup = () => {
               <button onClick={() => handleRequest(request.request_id, 'accepted')}>Accept</button>
               <button onClick={() => handleRequest(request.request_id, 'rejected')}>Reject</button>
             </div>
+          </li>
+        ))}
+      </ul>
+      <h2>Group Members</h2>
+      <ul className="member-list">
+        {members.map((member) => (
+          <li key={member.user_id}>
+            <span>{member.username}</span>
+            <button onClick={() => handleRemoveMember(member.user_id)}>Remove</button>
           </li>
         ))}
       </ul>
