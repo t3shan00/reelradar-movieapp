@@ -13,7 +13,6 @@
 .movie-showtimes-container {
     padding: 2rem;
     min-height: 100vh;
-    background-color: var(--background-color);
     color: var(--text-color);
     font-family: 'Inter', Arial, sans-serif;
 }
@@ -24,7 +23,7 @@
     font-family: "Syne Mono", monospace;
     margin-bottom: 2rem;
     color: var(--text-color);
-    background: linear-gradient(45deg, var(--primary-color), #6366f1);
+    background: linear-gradient(45deg, var(--primary-color), #000000);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.05em;
