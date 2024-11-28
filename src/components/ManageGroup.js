@@ -51,6 +51,7 @@ const ManageGroup = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchJoinRequests();
+      fetchGroupMembers();
     } catch (err) {
       console.error("Failed to manage join request:", err);
       setError("Failed to manage join request. Please try again.");
@@ -66,7 +67,7 @@ const ManageGroup = () => {
       });
       fetchGroupMembers();
       setPopupMessage("Member removed successfully.");
-      setTimeout(() => setPopupMessage(''), 3000); // Hide the popup after 3 seconds
+      setTimeout(() => setPopupMessage(''), 3000); 
     } catch (err) {
       console.error("Failed to remove member:", err);
       setError("Failed to remove member. Please try again.");

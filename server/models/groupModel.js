@@ -133,25 +133,46 @@ export const updateJoinRequestStatus = async (requestId, status) => {
 
 // Update join request status and add user to group members if accepted
 export const handleJoinRequestInDB = async (requestId, status) => {
-  const joinRequestQuery = 'SELECT * FROM join_requests WHERE request_id = $1';
-  const joinRequestResult = await pool.query(joinRequestQuery, [requestId]);
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
 
-  if (joinRequestResult.rowCount === 0) {
-    throw new Error("Join request not found.");
+    const joinRequestQuery = 'SELECT * FROM join_requests WHERE request_id = $1';
+    const joinRequestResult = await client.query(joinRequestQuery, [requestId]);
+
+    if (joinRequestResult.rowCount === 0) {
+      throw new Error("Join request not found.");
+    }
+
+    const joinRequest = joinRequestResult.rows[0];
+
+    // Update the join request status
+    const updateQuery = `
+      UPDATE join_requests
+      SET status = $1
+      WHERE request_id = $2
+      RETURNING *
+    `;
+    const result = await client.query(updateQuery, [status, requestId]);
+
+    // If the request is accepted, add the user to the group members
+    if (status === 'accepted') {
+      const addMemberQuery = 'INSERT INTO group_members (group_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING';
+      await client.query(addMemberQuery, [joinRequest.group_id, joinRequest.user_id]);
+    }
+
+    // Delete the join request
+    const deleteQuery = 'DELETE FROM join_requests WHERE request_id = $1';
+    await client.query(deleteQuery, [requestId]);
+
+    await client.query('COMMIT');
+    return result.rows[0];
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
   }
-
-  const joinRequest = joinRequestResult.rows[0];
-
-  // Update the join request status
-  const result = await updateJoinRequestStatus(requestId, status);
-
-  // If the request is accepted, add the user to the group members
-  if (status === 'accepted') {
-    const addMemberQuery = 'INSERT INTO group_members (group_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING';
-    await pool.query(addMemberQuery, [joinRequest.group_id, joinRequest.user_id]);
-  }
-
-  return result;
 };
 
 // Fetch members of a group
