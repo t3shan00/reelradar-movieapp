@@ -86,7 +86,7 @@ const GroupManagement = () => {
   };
 
   const viewGroup = (group) => {
-    navigate(`/groups/${group.id}`);
+    navigate(`/groups/${group.group_id}`);
   };
 
   const leaveGroup = async (groupId) => {

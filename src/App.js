@@ -16,7 +16,7 @@ import YearFilterPage from './filters/YearFilterPage';
 import ShowTimes from './components/ShowTimes';
 import RatingFilterPage from './filters/RatingFilterPage';
 import GroupManagement from './components/GroupManagement';
-import GroupDetail from './components/GroupDetail';
+import GroupDetail from './components/GroupDetails';
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';

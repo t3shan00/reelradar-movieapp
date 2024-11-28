@@ -12,35 +12,35 @@ import {
 } from '../controllers/groupController.js';
 import { auth } from '../utils/auth.js';
 
-const router = express.Router();
+const groupRouter = express.Router();
 
-router.use(auth);
+groupRouter.use(auth);
 
 // Create a new group
-router.post('/', createGroup);
+groupRouter.post('/', createGroup);
 
 // Get all groups
-router.get('/', getGroups);
+groupRouter.get('/', getGroups);
 
 // Get my groups
-router.get('/my-groups', getMyGroups);
+groupRouter.get('/my-groups', getMyGroups);
 
 // Get group details by ID
-router.get('/:id', getGroupDetails);
+groupRouter.get('/:id', getGroupDetails);
 
 // Delete a group by ID
-router.delete('/:id', auth, deleteGroup);
+groupRouter.delete('/:id', auth, deleteGroup);
 
 // Request to join a group
-router.post('/:groupId/join', requestToJoinGroup);
+groupRouter.post('/:groupId/join', requestToJoinGroup);
 
 // Leave a group
-router.delete('/:groupId/leave', leaveGroup);
+groupRouter.delete('/:groupId/leave', leaveGroup);
 
 // Handle join request
-router.post('/join-request', handleJoinRequest);
+groupRouter.post('/join-request', handleJoinRequest);
 
 // Remove a member from a group
-router.delete('/:groupId/members/:memberId', removeMember);
+groupRouter.delete('/:groupId/members/:memberId', removeMember);
 
-export default router;
+export default groupRouter;
