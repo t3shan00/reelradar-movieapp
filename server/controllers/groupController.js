@@ -122,6 +122,9 @@ export const requestToJoinGroup = async (req, res) => {
     await addJoinRequest(userId, groupId);
     res.status(200).json({ message: "Join request sent." });
   } catch (err) {
+    if (err.code === 'JOIN_REQUEST_EXISTS') {
+      return res.status(409).json({ error: "Join request already sent." });
+    }
     console.error("Error requesting to join group:", err.message);
     res.status(500).json({ 
       error: "Failed to send join request.", 

@@ -64,7 +64,7 @@ const GroupManagement = () => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
-
+  
       await axios.post(
         `http://localhost:3001/api/groups/${groupId}/join`,
         { userId },
@@ -79,8 +79,12 @@ const GroupManagement = () => {
       fetchGroups();
       fetchUserGroups();
     } catch (err) {
-      console.error("Failed to join group:", err);
-      setError("Failed to join group. Please try again.");
+      if (err.response && err.response.status === 409) {
+        setError("Join request already sent.");
+      } else {
+        console.error("Failed to join group:", err);
+        setError("Failed to join group. Please try again.");
+      }
     }
   };
 

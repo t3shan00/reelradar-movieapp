@@ -64,7 +64,9 @@ export const addJoinRequest = async (userId, groupId) => {
   const existingRequest = await pool.query(existingRequestQuery, [userId, groupId]);
   
   if (existingRequest.rowCount > 0) {
-    throw new Error('Join request already exists');
+    const error = new Error('Join request already exists');
+    error.code = 'JOIN_REQUEST_EXISTS';
+    throw error;
   }
 
   const query = 'INSERT INTO join_requests (user_id, group_id) VALUES ($1, $2)';
