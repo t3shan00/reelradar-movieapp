@@ -1,3 +1,4 @@
+import { pool } from '../utils/db.js';
 import {
     shareMovie,
     findMovieByTmdbId,
@@ -6,7 +7,6 @@ import {
     getSharedMovies,
     getSharedShowtimes
 } from '../models/groupDetailsModel.js';
-import { pool } from '../utils/db.js';
 
 export const shareMovieWithGroup = async (req, res) => {
     const { groupId } = req.params;
@@ -20,7 +20,7 @@ export const shareMovieWithGroup = async (req, res) => {
         backdropPath, 
         voteAverage 
     } = req.body;
-    const sharedByUserId = req.user.id; // Corrected variable name
+    const sharedByUserId = req.userId; // Use req.userId instead of req.user.id
 
     const client = await pool.connect();
 
@@ -41,9 +41,9 @@ export const shareMovieWithGroup = async (req, res) => {
                 backdropPath,
                 voteAverage
             ]);
-            movieId = insertMovieResult.rows[0].MovieID; // Ensure this is correct
+            movieId = insertMovieResult.rows[0].movieid; // Ensure this is correct
         } else {
-            movieId = movieResult.rows[0].MovieID;
+            movieId = movieResult.rows[0].movieid;
         }
 
         const existingShare = await client.query(
@@ -78,7 +78,7 @@ export const shareShowtimeWithGroup = async (req, res) => {
         auditorium, 
         startTime 
     } = req.body;
-    const sharedByUserId = req.user.id;
+    const sharedByUserId = req.userId; // Use req.userId instead of req.user.id
 
     const client = await pool.connect();
 

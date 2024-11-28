@@ -72,4 +72,4 @@ export const deleteUserHandler = async (req, res) => {
       console.error("Error deleting user:", err.message);
       res.status(500).json({ error: "Failed to delete account. Please try again later." });
     }
-  };
+};

@@ -10,8 +10,6 @@ const FavoriteButton = ({ movieId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("FavoriteButton initialized with movieId:", movieId); 
-
     if (!movieId) {
       console.error("Error: movieId is undefined.");
       return;
