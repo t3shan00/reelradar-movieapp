@@ -1,42 +1,89 @@
-.popular-movie-slider {
-  margin: 20px 0;
+.popular-movies-slider {
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slick-slide {
+  padding: 0 10px; 
+  box-sizing: border-box;
+}
+.slick-list {
+  overflow: hidden !important; 
+}
+.slick-prev {
+  position: absolute;
+  left: 10px;
+  z-index: 2;
+  display: block;
+  width: 50px;
+  height: 50px;
+  background: rgba(32, 14, 230, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.slick-next {
+  position: absolute;
+  right: 10px;
+  z-index: 2;
+  display: block;
+  width: 50px;
+  height: 50px;
+  background: rgba(233, 6, 6, 0.7);
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translateY(-50%);
 }
 
 .popular-movies-title {
   text-align: left;
-  font-size: 1.5em;
+  font-size: clamp(24px, 3vw, 32px);
   margin: 20px 0;
   color: #ffffff;
+  font-weight: 600;
 }
 
 .separator {
   height: 2px;
-  background-color: #e0e0e0;
-  margin: 30px 0; 
+  background-color: rgba(224, 224, 224, 0.3);
+  margin: 20px 0;
 }
 
-.movie-card {
+.popular-movie-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  background: linear-gradient(to bottom, var(--card-background) 0%, #ffffff 100%);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 10px;
   margin: 10px;
+  overflow: hidden;
   cursor: pointer;
-}
-
-.movie-card:hover {
-  transform: translateY(-8px);
-}
-
-.movie-poster {
+  transition: all 0.3s ease;
+  transform-origin: center bottom;
+  will-change: transform;
+  aspect-ratio: 2/3;
   width: 100%;
-  height: auto; 
-  max-height: 300px; 
+  max-height: none;
+}
+
+.popular-movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.popular-movie-poster {
+  aspect-ratio: 2/3;
+  width: 100%;
+  height: 100%; 
   border-radius: 8px;
   object-fit: cover; 
+  display: block;
 }
 
 .movie-title {
@@ -46,44 +93,3 @@
   color: #333;
 }
 
-@media (max-width: 768px) {
-  .popular-movies-title {
-    font-size: 1.2em; 
-    margin: 15px 0;
-  }
-
-  .movie-card {
-    padding: 8px;
-    margin: 8px; 
-  }
-
-  .movie-poster {
-    max-height: 200px; 
-  }
-
-  .movie-title {
-    font-size: 0.9em; 
-  }
-
-  .separator {
-    margin: 20px 0; 
-  }
-}
-
-@media (max-width: 480px) {
-  .popular-movies-title {
-    font-size: 1em; 
-  }
-
-  .movie-card {
-    margin: 5px; 
-  }
-
-  .movie-poster {
-    max-height: 150px; 
-  }
-
-  .movie-title {
-    font-size: 0.8em; 
-  }
-}

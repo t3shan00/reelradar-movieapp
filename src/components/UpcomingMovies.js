@@ -34,7 +34,7 @@ const UpcomingMovies = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 10,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,

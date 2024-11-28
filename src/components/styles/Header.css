@@ -14,44 +14,71 @@
 .header-content {
     display: flex;
     align-items: center;
+    gap: 15px;
+    flex: 0 0 auto;
 }
 
 .title {
-    font-size: 72px;
+    font-size: clamp(32px, 5vw, 72px);
     font-family: 'Corinthia', cursive;
     margin: 0;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .icons {
-    font-size: 30px;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 2vw, 20px);
+    flex: 0 0 auto;
 }
 
 .icon {
-    margin-left: 10px;
+    position: relative;
+    cursor: pointer;
+    color: white;
+    font-size: clamp(20px, 2vw, 30px);
+    transition: all 0.3s ease;
+    opacity: 0.8;
+    padding: 5px;
+}
+
+.icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    color: #667eea;
 }
 
 .menu-button {
     background: none;
     border: none;
     color: white;
-    font-size: 30px;
+    font-size: 24px;
     cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
 }
 
 .menu {
     position: absolute;
     left: 20px;
-    top: 80px;
-    background-color: #ffffff; 
-    border-radius: 8px; 
+    top: 70px;
+    background-color: #ffffff;
+    border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    transition: opacity 0.3s ease, transform 0.3s ease; 
+    transition: all 0.3s ease;
     opacity: 0;
-    transform: translateY(-10px); 
-    pointer-events: none; 
+    transform: translateY(-10px);
+    pointer-events: none;
+    min-width: 200px; 
+}
+
+.menu-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    color: #667eea;
 }
 
 .menu-visible {
@@ -71,81 +98,36 @@
     color: #333;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    font-size: 14px;
 }
 
 .menu li:hover {
     background-color: rgba(0, 123, 255, 0.1);
-    border-radius: 5px;
-}
-
-.icons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.icon {
-    position: relative;
-    cursor: pointer;
-    color: white;
-    font-size: 30px;
-    transition: all 0.3s ease;
-    opacity: 0.8;
-}
-
-.icon:hover {
-    opacity: 1;
-    transform: scale(1.1);
-    color: #667eea;
-}
-
-.icon::before {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    transition: all 0.3s ease;
-}
-
-.icon:hover::before {
-    left: 0;
-    width: 100%;
 }
 
 .username {
-    margin-right: 15px;
-    color: #f4f4f4;
-    font-size: 20px;
+    margin-right: 10px;
+    color: #f10404;
+    font-size: clamp(14px, 1.5vw, 20px);
     font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: color 0.3s ease;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.username:hover {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .showtimes-text {
-    display: flex;
-    align-items: center;
-    font-size: 25px;
+    font-size: clamp(16px, 1.8vw, 25px);
     font-family: "Syne Mono", monospace;
     font-weight: 600;
     color: #ffffff;
     cursor: pointer;
-    position: relative;
     text-decoration: none;
-    transition: color 0.3s ease;
     padding: 8px 12px;
-    border-radius: 4px;
+    white-space: nowrap;
 }
 
 .showtimes-text::after {
@@ -161,31 +143,60 @@
 }
 
 .showtimes-text:hover {
+    opacity: 1;
+    transform: scale(1.1);
     color: #6366f1;
 }
 
 @media (max-width: 768px) {
     .header {
-        flex-direction: column; 
-        height: auto;
-        padding: 10px;
+        padding: 0 10px;
+        height: 60px;
     }
+
+    .header-content {
+        gap: 10px;
+    }
+
     .title {
-        font-size: 36px; 
+        font-size: clamp(28px, 4vw, 36px);
     }
-    .menu-button {
-        display: block; 
-    }
+
     .icons {
-        display: none; 
+        gap: 8px;
     }
+
+    .username {
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 0 8px;
+    }
+
+    .showtimes-text {
+        padding: 4px 8px;
+    }
+
+    .icon {
+        padding: 3px;
+    }
+
     .menu {
-        width: 100%; 
+        left: 8px;
+        right: 8px;
+        width: auto;
     }
-    .menu ul {
-        padding: 0;
+}
+
+@media (max-width: 360px) {
+    .username {
+        max-width: 80px;
     }
-    .menu li {
-        text-align: center; 
+
+    .title {
+        font-size: 24px;
     }
 }
