@@ -91,7 +91,7 @@ const YearFilterPage = () => {
 
   return (
     <div className="year-filter-page">
-      <h1>Movie Year Filter</h1>
+      <h1>Filter Movies by Year</h1>
       
       {/* Filter Type Selector */}
       <div className="filter-options">
@@ -164,7 +164,7 @@ const YearFilterPage = () => {
       {!isLoading && movies.length > 0 && (
         <div className="movies-section">
           <div className="movies-list">
-            {movies.map(movie => (
+            {movies.slice(0, 16).map(movie => (
               <div 
                 key={movie.id} 
                 className="movie-card"
