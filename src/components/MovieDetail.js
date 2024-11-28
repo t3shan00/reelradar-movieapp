@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './styles/MovieDetail.css';
 import FavoriteButton from "./FavoriteButton";
+import ShareButton from "./ShareMovieButton";
 import ReviewSection from "./ReviewSection";
 
 const formatRuntime = (minutes) => {
@@ -18,8 +19,6 @@ const MovieDetail = () => {
   const [cinemaAreas, setCinemaAreas] = useState([]);
   const [selectedCinema, setSelectedCinema] = useState('');
   const [showtimes, setShowtimes] = useState([]);
-  const [userGroups, setUserGroups] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState('');
 
   useEffect(() => {
     const fetchMovieDetail = async () => {
@@ -62,26 +61,8 @@ const MovieDetail = () => {
       }
     };
 
-    const fetchUserGroups = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          "http://localhost:3001/api/groups/my-groups",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        console.log("Fetched user groups:", response.data);
-        setUserGroups(response.data);
-      } catch (err) {
-        console.error("Failed to load user groups:", err);
-        setError("Failed to load user groups. Please try again.");
-      }
-    };
-
     fetchMovieDetail();
     fetchCinemaAreas();
-    fetchUserGroups();
   }, [id]);
 
   const fetchShowtimes = async (cinemaId) => {
@@ -110,51 +91,6 @@ const MovieDetail = () => {
     setSelectedCinema(cinemaId);
     if (cinemaId) {
       fetchShowtimes(cinemaId);
-    }
-  };
-
-  const handleGroupSelection = (e) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    const groupId = selectedOption.getAttribute('data-group-id');
-    console.log('Selected option:', selectedOption);
-    console.log('Group ID from data attribute:', groupId);
-    setSelectedGroup(groupId);
-    console.log(`Selected group ID: ${groupId}`);
-  };
-
-  const shareMovieToGroup = async () => {
-    if (!selectedGroup) {
-      alert("Please select a group to share the movie.");
-      return;
-    }
-  
-    const token = localStorage.getItem("token");
-    const movieData = {
-      tmdbMovieId: movie.id,
-      title: movie.title,
-      releaseDate: movie.release_date,
-      runtime: movie.runtime,
-      overview: movie.overview,
-      posterPath: movie.poster_path,
-      backdropPath: movie.backdrop_path,
-      voteAverage: movie.vote_average
-    };
-  
-    try {
-      console.log(`Sharing movie to group ID: ${selectedGroup}`);
-      console.log("Movie data being shared:", movieData);
-      const response = await axios.post(
-        `http://localhost:3001/api/groups/${selectedGroup}/movies`,
-        movieData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      console.log("Share movie response:", response);
-      alert("Movie shared successfully!");
-    } catch (err) {
-      console.error("Failed to share movie:", err);
-      alert("Failed to share movie. Please try again.");
     }
   };
 
@@ -249,18 +185,7 @@ const MovieDetail = () => {
           </div>
 
           <FavoriteButton movieId={movie.id} />
-          <div className="share-section">
-            <h2>Share Movie to Group:</h2>
-            <select onChange={handleGroupSelection} value={selectedGroup}>
-              <option value="">-- Choose a Group --</option>
-              {userGroups.map(group => (
-                <option key={group.group_id} value={group.group_id} data-group-id={group.group_id}>
-                  {group.name}
-                </option>
-              ))}
-            </select>
-            <button onClick={shareMovieToGroup}>Share</button>
-          </div>
+          <ShareButton movieId={movie.id} movie={movie} />
         </div>
       </div>
       <ReviewSection />
