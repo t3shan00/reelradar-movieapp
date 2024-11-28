@@ -53,11 +53,45 @@ CREATE TABLE join_requests (
     UNIQUE(group_id, user_id)
 );
 
+--Tables to store movie and showtime information in groups
+CREATE TABLE Movies (
+    MovieID SERIAL PRIMARY KEY,
+    TMDB_MovieID INT UNIQUE NOT NULL,
+    Title VARCHAR(255) NOT NULL,
+    ReleaseDate DATE,
+    Runtime INT,
+    Overview TEXT,
+    PosterPath VARCHAR(255),
+    BackdropPath VARCHAR(255),
+    VoteAverage DECIMAL(3, 1),
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Showtimes (
+    ShowtimeID SERIAL PRIMARY KEY,
+    MovieID INT REFERENCES Movies(MovieID) ON DELETE CASCADE,
+    Theatre VARCHAR(255) NOT NULL,
+    Auditorium VARCHAR(100),
+    StartTime TIMESTAMP WITH TIME ZONE NOT NULL,
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (MovieID, StartTime, Theatre, Auditorium)
+);
+
+CREATE TABLE GroupMovies (
+    GroupMovieID SERIAL PRIMARY KEY,
+    GroupID INT REFERENCES groups(group_id) ON DELETE CASCADE,
+    MovieID INT REFERENCES Movies(MovieID) ON DELETE CASCADE,
+    SharedByUserID INT REFERENCES Users(UserID),
+    SharedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (GroupID, MovieID)
+);
+
 -- Create indexes
 CREATE INDEX idx_group_members_user_id ON group_members(user_id);
 CREATE INDEX idx_group_members_group_id ON group_members(group_id);
 CREATE INDEX idx_groups_created_by ON groups(created_by);
+CREATE INDEX idx_showtimes_movie_id ON Showtimes(MovieID);
+CREATE INDEX idx_movies_tmdb_id ON Movies(TMDB_MovieID); -- Index for faster search in Movies by TMDB ID
 
 --Alterations
 ALTER TABLE groups ADD CONSTRAINT unique_group_creator UNIQUE (group_id, created_by);
-
