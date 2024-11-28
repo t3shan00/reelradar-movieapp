@@ -22,6 +22,7 @@ const Login = () => {
       const response = await loginUser (identifier, password);
   
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.id);
       localStorage.setItem("user", JSON.stringify(response.data));
   
       setMessage(`Welcome, ${response.data.username}`);

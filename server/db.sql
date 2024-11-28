@@ -56,3 +56,8 @@ CREATE TABLE join_requests (
 -- Create indexes
 CREATE INDEX idx_group_members_user_id ON group_members(user_id);
 CREATE INDEX idx_group_members_group_id ON group_members(group_id);
+CREATE INDEX idx_groups_created_by ON groups(created_by);
+
+--Alterations
+ALTER TABLE groups ADD CONSTRAINT unique_group_creator UNIQUE (group_id, created_by);
+

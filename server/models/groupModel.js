@@ -39,16 +39,16 @@ export const countTotalGroups = async () => {
   return parseInt(result.rows[0].count);
 };
 
-// Fetch a specific group by ID
-export const fetchGroupById = async (id) => {
-  const query = 'SELECT * FROM groups WHERE group_id = $1';
-  return await pool.query(query, [id]);
+//fetch group by ID
+export const fetchGroupById = async (groupId) => {
+  const query = `SELECT * FROM groups WHERE group_id = $1`;
+  return pool.query(query, [groupId]);
 };
 
 // Delete a group by ID
-export const deleteGroupById = async (id) => {
-  const query = 'DELETE FROM groups WHERE group_id = $1 RETURNING *';
-  return await pool.query(query, [id]);
+export const deleteGroupById = async (groupId) => {
+  const query = `DELETE FROM groups WHERE group_id = $1`;
+  return pool.query(query, [groupId]);
 };
 
 // Check if user is already a member of a group
@@ -114,3 +114,4 @@ export const leaveGroupModel = async (userId, groupId) => {
   const query = 'DELETE FROM group_members WHERE user_id = $1 AND group_id = $2';
   return await pool.query(query, [userId, groupId]);
 };
+

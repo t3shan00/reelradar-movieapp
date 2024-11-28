@@ -28,11 +28,8 @@ router.get('/my-groups', getMyGroups);
 // Get group details by ID
 router.get('/:id', getGroupDetails);
 
-// Join Group
-router.post('/:groupId/join', requestToJoinGroup);
-
 // Delete a group by ID
-router.delete('/:id', deleteGroup);
+router.delete('/:id', auth, deleteGroup);
 
 // Request to join a group
 router.post('/:groupId/join', requestToJoinGroup);

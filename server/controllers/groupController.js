@@ -71,28 +71,33 @@ export const getGroupDetails = async (req, res) => {
 
 // Delete a group by ID
 export const deleteGroup = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.userId;
+  const { id } = req.params; // Group ID from URL params
+  const userId = req.userId;  // User ID from auth middleware
 
   try {
-    // First, check if the group exists and if the user is the owner
+    // Fetch group by ID
     const groupResult = await fetchGroupById(id);
+
     if (groupResult.rowCount === 0) {
       return res.status(404).json({ error: "Group not found." });
     }
 
     const group = groupResult.rows[0];
+
+    // Check if the requesting user is the creator of the group
     if (group.created_by !== userId) {
       return res.status(403).json({ error: "You do not have permission to delete this group." });
     }
 
+    // Delete the group
     await deleteGroupById(id);
-    res.status(204).end(); // No Content
+    res.status(204).end(); // No Content response on successful deletion
   } catch (err) {
     console.error("Error deleting group:", err.message);
     res.status(500).json({ error: "Failed to delete group.", details: err.message });
   }
 };
+
 
 // Send a join request
 export const requestToJoinGroup = async (req, res) => {

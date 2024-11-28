@@ -11,7 +11,7 @@ const GroupManagement = () => {
   const [error, setError] = useState("");
   const [pagination, setPagination] = useState({
     currentPage: 1,
-    totalPages: 1
+    totalPages: 1,
   });
 
   useEffect(() => {
@@ -19,13 +19,15 @@ const GroupManagement = () => {
     fetchUserGroups();
   }, []);
 
-  //fetch groups joined by user
   const fetchUserGroups = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3001/api/groups/my-groups", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get(
+        "http://localhost:3001/api/groups/my-groups",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUserGroups(response.data);
     } catch (err) {
       console.error("Failed to load user groups:", err);
@@ -33,17 +35,19 @@ const GroupManagement = () => {
     }
   };
 
-  //fetch all groups
   const fetchGroups = async (page = 1) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`http://localhost:3001/api/groups?page=${page}&limit=10`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get(
+        `http://localhost:3001/api/groups?page=${page}&limit=10`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setGroups(response.data.groups);
       setPagination({
         currentPage: response.data.currentPage,
-        totalPages: response.data.totalPages
+        totalPages: response.data.totalPages,
       });
     } catch (err) {
       console.error("Failed to load groups:", err);
@@ -51,9 +55,7 @@ const GroupManagement = () => {
     }
   };
 
-  //join group function
   const joinGroup = async (groupId) => {
-    console.log("Joining group with ID:", groupId);  // Debugging
     if (!groupId) {
       setError("Group ID is missing.");
       return;
@@ -61,71 +63,64 @@ const GroupManagement = () => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
-      
-      console.log("Request details:", {
-        url: `http://localhost:3001/api/groups/${groupId}/join`,
-        userId: userId,
-        token: token
-      });
-  
-      const response = await axios.post(
-        `http://localhost:3001/api/groups/${groupId}/join`, 
-        { userId }, // Include userId in the request body if required
-        { 
-          headers: { 
+
+      await axios.post(
+        `http://localhost:3001/api/groups/${groupId}/join`,
+        { userId },
+        {
+          headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          } 
+            "Content-Type": "application/json",
+          },
         }
       );
       alert("Join request sent successfully");
       fetchGroups();
       fetchUserGroups();
     } catch (err) {
-      console.error("Full error:", err);
-      console.error("Error response:", err.response);
-      
-      const errorMessage = err.response?.data?.error || 
-                           err.response?.data?.message || 
-                           err.message || 
-                           "Failed to join group. Please try again.";
-      
-      console.error("Detailed error message:", errorMessage);
-      setError(errorMessage);
-      alert(errorMessage);
+      console.error("Failed to join group:", err);
+      setError("Failed to join group. Please try again.");
     }
   };
-  
-  //view group details
+
   const viewGroup = (group) => {
+    const userId = localStorage.getItem("userId");
+    console.log("Group created by:", group.created_by);
+    console.log("Current userId from local storage:", userId);
+    if (group.created_by === userId) { 
+      console.log("ok")
+    } else {
+      console.log("not ok")
+    }
     setSelectedGroup(group);
   };
 
-  //leave group function
   const leaveGroup = async (groupId) => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
-      
-      // Fetch the group details to check if the user is the creator
-      const groupResponse = await axios.get(`http://localhost:3001/api/groups/${groupId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
+
+      const groupResponse = await axios.get(
+        `http://localhost:3001/api/groups/${groupId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
       const group = groupResponse.data;
-  
-      // Check if the user is the creator of the group
+
       if (group.created_by === userId) {
-        // User is the creator, so delete the group
         await deleteGroup(groupId);
       } else {
-        // User is not the creator, just leave the group
-        await axios.delete(`http://localhost:3001/api/groups/${groupId}/leave`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await axios.delete(
+          `http://localhost:3001/api/groups/${groupId}/leave`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         alert("Left group");
       }
-  
+
       fetchGroups();
       fetchUserGroups();
       setSelectedGroup(null);
@@ -135,28 +130,24 @@ const GroupManagement = () => {
     }
   };
 
-  //creating a group
   const createGroup = async () => {
     if (!newGroupName) {
       setError("Please enter a group name.");
       return;
     }
-  
+
     setLoading(true);
     setError("");
-  
+
     const token = localStorage.getItem("token");
-  
+
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/groups", 
-        { groupName: newGroupName }, 
+        "http://localhost:3001/api/groups",
+        { groupName: newGroupName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      // Assuming the response returns the created group's details
-      const createdGroup = response.data; // This will contain the entire group object
-  
+
       fetchGroups();
       fetchUserGroups();
       setNewGroupName("");
@@ -169,12 +160,11 @@ const GroupManagement = () => {
     }
   };
 
-  //delete group function
   const deleteGroup = async (groupId) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`http://localhost:3001/api/groups/${groupId}`, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       alert("Group deleted");
       setSelectedGroup(null);
@@ -194,14 +184,19 @@ const GroupManagement = () => {
     <div>
       <h1>Group Management</h1>
       {error && <p className="error-message">{error}</p>}
-      
+
       <h2>Your Groups</h2>
       <ul>
         {userGroups.map((group) => (
           <li key={group.group_id}>
             {group.name}
-            <button onClick={() => viewGroup(group)}>View</button>
-            <button onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
+            {/* <button onClick={() => viewGroup(group)}>View</button> */}
+            {group.created_by !== Number(localStorage.getItem("userId")) && (
+              <button onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
+            )}
+            {group.created_by === Number(localStorage.getItem("userId")) && (
+              <button onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
+            )}
           </li>
         ))}
       </ul>
@@ -209,37 +204,29 @@ const GroupManagement = () => {
       <h2>Available Groups</h2>
       <ul>
         {groups.map((group) => (
-          <li key={group.id}>
+          <li key={group.group_id}>
             {group.name}
-            <button onClick={() => viewGroup(group)}>View</button>
-            <button onClick={() => joinGroup(group.group_id)}>Join</button>
+            {/* <button onClick={() => viewGroup(group)}>View</button> */}
+            {group.created_by !== Number(localStorage.getItem("userId")) && (
+              <button onClick={() => joinGroup(group.group_id)}>Join</button>
+            )}
+            {group.created_by === Number(localStorage.getItem("userId")) && (
+              <button onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
+            )}
           </li>
         ))}
       </ul>
 
-      {/* Pagination Controls
-      <div>
-        <button 
-          onClick={() => handlePageChange(pagination.currentPage - 1)}
-          disabled={pagination.currentPage === 1}
-        >
-          Previous
-        </button>
-        <span>Page {pagination.currentPage} of {pagination.totalPages}</span>
-        <button 
-          onClick={() => handlePageChange(pagination.currentPage + 1)}
-          disabled={pagination.currentPage === pagination.totalPages}
-        >
-          Next
-        </button>
-      </div> */}
-
       {selectedGroup && (
         <div>
           <h3>Group: {selectedGroup.name}</h3>
-          <button onClick={() => leaveGroup(selectedGroup.id)}>Leave Group</button>
-          {selectedGroup.created_by === localStorage.getItem('userId') && (
-            <button onClick={() => deleteGroup(selectedGroup.id)}>Delete Group</button>
+          <button onClick={() => leaveGroup(selectedGroup.group_id)}>
+            Leave Group
+          </button>
+          {selectedGroup.created_by === localStorage.getItem("userId") && (
+            <button onClick={() => deleteGroup(selectedGroup.group_id)}>
+              Delete Group
+            </button>
           )}
         </div>
       )}
