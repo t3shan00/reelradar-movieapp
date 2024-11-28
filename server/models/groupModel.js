@@ -71,20 +71,6 @@ export const addJoinRequest = async (userId, groupId) => {
   return await pool.query(query, [userId, groupId]);
 };
 
-// Update membership status
-export const updateMembershipStatus = async (groupId, userId, action) => {
-  if (action === "accept") {
-    const insertQuery = 'INSERT INTO group_members (group_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING';
-    await pool.query(insertQuery, [groupId, userId]);
-    
-    const deleteRequestQuery = 'DELETE FROM join_requests WHERE group_id = $1 AND user_id = $2';
-    await pool.query(deleteRequestQuery, [groupId, userId]);
-  } else {
-    const deleteRequestQuery = 'DELETE FROM join_requests WHERE group_id = $1 AND user_id = $2';
-    await pool.query(deleteRequestQuery, [groupId, userId]);
-  }
-};
-
 // Remove a member from a group
 export const removeMemberFromGroup = async (groupId, memberId, ownerId) => {
   const ownerCheckQuery = 'SELECT * FROM groups WHERE group_id = $1 AND created_by = $2';
@@ -141,4 +127,27 @@ export const updateJoinRequestStatus = async (requestId, status) => {
   `;
   const result = await pool.query(query, [status, requestId]);
   return result.rows[0];
+};
+
+// Update join request status and add user to group members if accepted
+export const handleJoinRequestInDB = async (requestId, status) => {
+  const joinRequestQuery = 'SELECT * FROM join_requests WHERE request_id = $1';
+  const joinRequestResult = await pool.query(joinRequestQuery, [requestId]);
+
+  if (joinRequestResult.rowCount === 0) {
+    throw new Error("Join request not found.");
+  }
+
+  const joinRequest = joinRequestResult.rows[0];
+
+  // Update the join request status
+  const result = await updateJoinRequestStatus(requestId, status);
+
+  // If the request is accepted, add the user to the group members
+  if (status === 'accepted') {
+    const addMemberQuery = 'INSERT INTO group_members (group_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING';
+    await pool.query(addMemberQuery, [joinRequest.group_id, joinRequest.user_id]);
+  }
+
+  return result;
 };

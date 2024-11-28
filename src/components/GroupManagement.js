@@ -7,7 +7,6 @@ const GroupManagement = () => {
   const navigate = useNavigate();
   const [groups, setGroups] = useState([]);
   const [userGroups, setUserGroups] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState(null);
   const [newGroupName, setNewGroupName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -121,7 +120,6 @@ const GroupManagement = () => {
 
       fetchGroups();
       fetchUserGroups();
-      setSelectedGroup(null);
     } catch (err) {
       console.error("Failed to leave group:", err);
       setError("Failed to leave group. Please try again.");
@@ -140,7 +138,7 @@ const GroupManagement = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3001/api/groups",
         { groupName: newGroupName },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -165,7 +163,6 @@ const GroupManagement = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Group deleted");
-      setSelectedGroup(null);
       fetchGroups();
       fetchUserGroups();
     } catch (err) {
@@ -177,6 +174,9 @@ const GroupManagement = () => {
   const handlePageChange = (newPage) => {
     fetchGroups(newPage);
   };
+
+  const userGroupIds = userGroups.map(group => group.group_id);
+  const filteredGroups = groups.filter(group => !userGroupIds.includes(group.group_id));
 
   return (
     <div className="container">
@@ -218,7 +218,7 @@ const GroupManagement = () => {
       </ul>
       <h2>All Groups</h2>
       <ul className="group-list">
-        {groups.map((group) => (
+        {filteredGroups.map((group) => (
           <li key={group.group_id}>
             <span>{group.name}</span>
             <div className="group-actions">

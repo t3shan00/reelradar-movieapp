@@ -3,7 +3,6 @@ import {
   fetchAllGroups,
   fetchGroupById,
   deleteGroupById,
-  updateMembershipStatus,
   removeMemberFromGroup,
   getUserGroups,
   countTotalGroups,
@@ -11,7 +10,8 @@ import {
   addJoinRequest,
   checkUserMembership,
   fetchJoinRequestsFromDB, 
-  updateJoinRequestStatus
+  updateJoinRequestStatus,
+  handleJoinRequestInDB
 } from "../models/groupModel.js";
 
 // Create a new group
@@ -153,7 +153,7 @@ export const handleJoinRequest = async (req, res) => {
   }
 
   try {
-    const result = await updateJoinRequestStatus(requestId, status);
+    const result = await handleJoinRequestInDB(requestId, status);
     res.status(200).json(result);
   } catch (error) {
     console.error('Error handling join request:', error);

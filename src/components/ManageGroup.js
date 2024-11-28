@@ -31,7 +31,7 @@ const ManageGroup = () => {
       const token = localStorage.getItem("token");
       console.log("Token:", token); // Debugging line
       console.log(`Handling request ID: ${requestId} with status: ${status}`); // Debugging line
-      const url = `http://localhost:3001/api/join-requests/${requestId}`;
+      const url = `http://localhost:3001/api/groups/join-requests/${requestId}`;
       console.log("Request URL:", url); // Debugging line
       const response = await axios.put(url, { status }, {
         headers: { Authorization: `Bearer ${token}` },
