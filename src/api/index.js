@@ -35,8 +35,8 @@ export const getFavoritesByUsername = (username) =>
 export const getReviews = (movieId) =>
   API.get(`/reviews/${movieId}`);
 
-export const addReview = (movieId, reviewText) =>
-  API.post("/reviews", { movieId, reviewText });
+export const addReview = (movieId, reviewText, rating) =>
+  API.post("/reviews", { movieId, reviewText, rating });
 
 // Favorite APIs
 export const addToFavorites = (movieId) =>
