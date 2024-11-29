@@ -21,7 +21,7 @@ const ReviewSection = () => {
         const response = await fetch(`http://localhost:3001/api/reviews/${id}`);
         if (!response.ok) throw new Error("Failed to fetch reviews");
         const data = await response.json();
-        console.log("Fetched reviews:", data);
+        // console.log("Fetched reviews:", data);
         setReviews(data);
       } catch (err) {
         console.error("Error fetching reviews:", err.message);
@@ -35,7 +35,7 @@ const ReviewSection = () => {
     if (!newReview.trim()) return;
 
     try {
-      console.log("Submitting review:", { movieId: id, reviewText: newReview });
+      // console.log("Submitting review:", { movieId: id, reviewText: newReview });
       const response = await addReview(id, newReview);
 
       // Enrich the review with local user data
@@ -46,7 +46,7 @@ const ReviewSection = () => {
         ...response.data,
       };
 
-      console.log("Review added:", addedReview);
+      // console.log("Review added:", addedReview);
 
       // Add the enriched review to the state
       setReviews((prev) => [addedReview, ...prev]);
