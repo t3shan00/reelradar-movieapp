@@ -16,6 +16,10 @@ CREATE TABLE IF NOT EXISTS Reviews (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Add Rating Column to the Review Table
+ALTER TABLE Reviews
+ADD COLUMN Rating INT CHECK (Rating BETWEEN 1 AND 5);
+
 -- Favorites Table
 CREATE TABLE IF NOT EXISTS Favorites (
     FavoriteID SERIAL PRIMARY KEY,
