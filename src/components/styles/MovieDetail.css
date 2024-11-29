@@ -56,8 +56,13 @@
   transition: transform 0.3s ease;
 }
 
-.poster-wrapper:hover {
-  transform: translateY(-8px);
+.poster-wrapper {
+  max-width: 250px; /* Reduced from full width */
+  width: 100%; /* Maintains responsiveness */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
 }
 
 .movie-poster {

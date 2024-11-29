@@ -12,25 +12,28 @@
   padding: 2rem;
   min-height: 100vh;
   color: white;
+  background-color: var(--background-color);
 }
 
 .rating-filter-page h1 {
   text-align: center;
   margin-bottom: 1.5rem;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   color: var(--text-color);
 }
 
 .filter-options {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .rating-select {
   padding: 0.625rem 1.25rem;
-  background-color: #000000;
+  background-color: var(--card-background);
   color: white;
   border: none;
   border-radius: var(--border-radius);
@@ -39,11 +42,17 @@
     background-color var(--transition-speed) ease,
     transform var(--transition-speed) ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.rating-select:hover {
+  background-color: var(--primary-color-dark);
+  transform: translateY(-2px);
 }
 
 .apply-button {
   padding: 0.625rem 1.25rem;
-  background-color: #000000;
+  background-color: var(--card-background);
   color: white;
   border: none;
   border-radius: var(--border-radius);
@@ -57,7 +66,7 @@
 }
 
 .apply-button:hover {
-  background-color: #2b2b2c;
+  background-color: var(--primary-color-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
@@ -70,6 +79,7 @@
   text-align: center;
   margin-bottom: 1.5rem;
   color: var(--text-color);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
 }
 
 .movies-list {
@@ -81,34 +91,47 @@
 
 .movie-card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, var(--card-background) 0%, #ffffff 100%);
   border-radius: var(--border-radius);
+  padding: 0.625rem;
+  margin: 0.625rem;
   overflow: hidden;
   cursor: pointer;
-  transition: 
-    transform var(--transition-speed) ease,
-    box-shadow var(--transition-speed) ease;
-    background: linear-gradient(to bottom, var(--card-background) 0%, #ffffff 100%);
-  text-align: center;
+  transition: all var(--transition-speed) ease;
+  transform-origin: center bottom;
+  will-change: transform;
+  aspect-ratio: 2/3;
+  width: 100%;
+  max-height: none;
+  max-width: 18.75rem;
 }
 
 .movie-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-0.5rem);
+  box-shadow: 0 0.75rem 1.25rem rgba(0, 0, 0, 0.4);
+  z-index: 1;
 }
 
 .movie-card img {
+  aspect-ratio: 2/3;
   width: 100%;
-  height: 270px;
-  object-fit: contain;
-  background-color: rgba(0, 0, 0, 0.05);
+  height: 100%; 
+  border-radius: var(--border-radius);
+  object-fit: cover; 
+  display: block;
 }
 
 .movie-card h3 {
-  padding: 0.75rem;
+  padding: 0.75rem 0.5rem;
   font-size: 0.95rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
 }
 
 .movie-card p {
@@ -137,13 +160,15 @@
 .pagination {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.5rem;
   margin-top: 2rem;
+  flex-wrap: wrap;
 }
 
 .pagination button {
   padding: 0.5rem 1rem;
-  background-color: #000000;
+  background-color: var(--card-background);
   color: white;
   border: none;
   border-radius: var(--border-radius);
@@ -154,13 +179,30 @@
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #2b2b2c;
+  background-color: var(--primary-color-dark);
   transform: translateY(-2px);
 }
 
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .movies-list {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .rating-filter-page {
+    padding: 1.5rem;
+  }
+
+  .filter-options {
+    gap: 0.75rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -178,7 +220,28 @@
     gap: 1rem;
   }
 
-  .movie-card img {
-    height: 210px;
+  .movie-card h3 {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .rating-filter-page {
+    padding: 1rem;
+  }
+
+  .filter-options {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rating-select, .apply-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .movies-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
   }
 }
