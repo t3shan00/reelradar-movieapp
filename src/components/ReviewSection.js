@@ -78,11 +78,19 @@ const ReviewSection = () => {
             <p>{review.review_text}</p>
             <p className="rating">Rating: {review.rating} ⭐</p>
             <small>
-              — by {review.username || "Unknown User"},{" "}
-              on {review.created_at
-                ? new Date(review.created_at).toLocaleString()
-                : "Unknown Date"}
-            </small>
+           — by{" "}
+              <a
+                href={`/profile/${review.username}`}
+                target="_blank"
+                rel="noopener noreferrer" // Security for external links
+                >
+                {review.username || "Unknown User"}
+              </a>
+        , on{" "}
+        {review.created_at
+          ? new Date(review.created_at).toLocaleString()
+          : "Unknown Date"}
+      </small>
           </div>
         ))
       ) : (
