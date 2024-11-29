@@ -1,5 +1,5 @@
 -- Users Table
-CREATE TABLE Users (
+CREATE TABLE IF NOT EXISTS Users (
     UserID SERIAL PRIMARY KEY,
     Username VARCHAR(50) NOT NULL UNIQUE,
     Email VARCHAR(100) NOT NULL UNIQUE,
@@ -7,8 +7,8 @@ CREATE TABLE Users (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- -- Reviews Table
-CREATE TABLE Reviews (
+-- Reviews Table
+CREATE TABLE IF NOT EXISTS Reviews (
     ReviewID SERIAL PRIMARY KEY,
     MovieID INT NOT NULL,
     UserID INT NOT NULL REFERENCES Users(UserID) ON DELETE CASCADE,
@@ -17,25 +17,25 @@ CREATE TABLE Reviews (
 );
 
 -- Favorites Table
-CREATE TABLE Favorites (
+CREATE TABLE IF NOT EXISTS Favorites (
     FavoriteID SERIAL PRIMARY KEY,
     UserID INT NOT NULL,
-    TMDB_MovieID INT NOT NULL, -- TMDB Movie ID
+    TMDB_MovieID INT NOT NULL,
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user_fav FOREIGN KEY (UserID) REFERENCES Users (UserID) ON DELETE CASCADE,
     CONSTRAINT unique_favorite UNIQUE (UserID, TMDB_MovieID)
 );
 
--- Create groups table
-CREATE TABLE groups (
+-- Groups Table
+CREATE TABLE IF NOT EXISTS groups (
     group_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     created_by INTEGER REFERENCES users(UserID),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create group_members table
-CREATE TABLE group_members (
+-- Group Members Table
+CREATE TABLE IF NOT EXISTS group_members (
     member_id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES users(UserID) ON DELETE CASCADE,
@@ -43,8 +43,8 @@ CREATE TABLE group_members (
     UNIQUE(group_id, user_id)
 );
 
--- Create join_requests table
-CREATE TABLE join_requests (
+-- Join Requests Table
+CREATE TABLE IF NOT EXISTS join_requests (
     request_id SERIAL PRIMARY KEY,
     group_id INTEGER REFERENCES groups(group_id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES users(UserID) ON DELETE CASCADE,
@@ -53,8 +53,8 @@ CREATE TABLE join_requests (
     UNIQUE(group_id, user_id)
 );
 
---Tables to store movie and showtime information in groups
-CREATE TABLE Movies (
+-- Movies Table
+CREATE TABLE IF NOT EXISTS Movies (
     MovieID SERIAL PRIMARY KEY,
     TMDB_MovieID INT UNIQUE NOT NULL,
     Title VARCHAR(255) NOT NULL,
@@ -67,7 +67,8 @@ CREATE TABLE Movies (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Showtimes (
+-- Showtimes Table
+CREATE TABLE IF NOT EXISTS Showtimes (
     ShowtimeID SERIAL PRIMARY KEY,
     MovieID INT REFERENCES Movies(MovieID) ON DELETE CASCADE,
     Theatre VARCHAR(255) NOT NULL,
@@ -77,7 +78,8 @@ CREATE TABLE Showtimes (
     UNIQUE (MovieID, StartTime, Theatre, Auditorium)
 );
 
-CREATE TABLE GroupMovies (
+-- GroupMovies Table
+CREATE TABLE IF NOT EXISTS GroupMovies (
     GroupMovieID SERIAL PRIMARY KEY,
     GroupID INT REFERENCES groups(group_id) ON DELETE CASCADE,
     MovieID INT REFERENCES Movies(MovieID) ON DELETE CASCADE,
@@ -86,12 +88,36 @@ CREATE TABLE GroupMovies (
     UNIQUE (GroupID, MovieID)
 );
 
--- Create indexes
-CREATE INDEX idx_group_members_user_id ON group_members(user_id);
-CREATE INDEX idx_group_members_group_id ON group_members(group_id);
-CREATE INDEX idx_groups_created_by ON groups(created_by);
-CREATE INDEX idx_showtimes_movie_id ON Showtimes(MovieID);
-CREATE INDEX idx_movies_tmdb_id ON Movies(TMDB_MovieID); -- Index for faster search in Movies by TMDB ID
+-- Create indexes if not exists
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_group_members_user_id') THEN
+        CREATE INDEX idx_group_members_user_id ON group_members(user_id);
+    END IF;
+    
+    IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_group_members_group_id') THEN
+        CREATE INDEX idx_group_members_group_id ON group_members(group_id);
+    END IF;
 
---Alterations
-ALTER TABLE groups ADD CONSTRAINT unique_group_creator UNIQUE (group_id, created_by);
+    IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_groups_created_by') THEN
+        CREATE INDEX idx_groups_created_by ON groups(created_by);
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_showtimes_movie_id') THEN
+        CREATE INDEX idx_showtimes_movie_id ON Showtimes(MovieID);
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_movies_tmdb_id') THEN
+        CREATE INDEX idx_movies_tmdb_id ON Movies(TMDB_MovieID);
+    END IF;
+END $$;
+
+-- Alterations if not exists
+DO $$ BEGIN
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM information_schema.table_constraints 
+        WHERE table_name = 'groups' AND constraint_name = 'unique_group_creator'
+    ) THEN
+        ALTER TABLE groups ADD CONSTRAINT unique_group_creator UNIQUE (group_id, created_by);
+    END IF;
+END $$;
