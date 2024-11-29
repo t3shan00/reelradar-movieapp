@@ -23,6 +23,6 @@ export const getReviewsByMovie = async (movieId) => {
       ORDER BY r.CreatedAt DESC;
     `;
     const result = await pool.query(query, [movieId]);
-    console.log("Fetched reviews from DB:", result.rows); // Log database result
+    // console.log("Fetched reviews from DB:", result.rows);
     return result.rows;
   };
