@@ -1,7 +1,7 @@
 import { createReview, getReviewsByMovie } from "../models/reviewModel.js";
 
 export const createReviewHandler = async (req, res, next) => {
-  const { movieId, reviewText } = req.body;
+  const { movieId, reviewText, rating } = req.body;
   const userId = req.userId;
 
   if (!movieId || !reviewText) {
@@ -9,7 +9,7 @@ export const createReviewHandler = async (req, res, next) => {
   }
 
   try {
-    const review = await createReview(movieId, userId, reviewText);
+    const review = await createReview(movieId, userId, reviewText, rating);
     res.status(201).json(review);
   } catch (err) {
     next(err);
