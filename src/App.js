@@ -18,6 +18,7 @@ import RatingFilterPage from './filters/RatingFilterPage';
 import GroupManagement from './components/GroupManagement';
 import GroupDetail from './components/GroupDetails';
 import ManageGroup from './components/ManageGroup';
+import ProfilePage from './components/ProfilePage';
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -60,6 +61,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile/:username" element={<ProfilePage />} />
           <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="/genres" element={<GenrePage />} />
           <Route path="/filter-by-year" element={<YearFilterPage />} />
