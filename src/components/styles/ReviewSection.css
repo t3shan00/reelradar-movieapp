@@ -40,6 +40,7 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   color: #e5e7eb;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 15px;
 }
 
 .review:hover {
@@ -71,10 +72,11 @@
   border: 1px solid rgba(75, 85, 99, 0.2);
   border-radius: 12px;
   backdrop-filter: blur(8px);
+  margin: 15px;
 }
 
 .add-review textarea {
-  width: 100%;
+  width: 98%;
   min-height: 120px;
   background-color: rgba(45, 55, 72, 0.8);
   color: #e5e7eb;
@@ -83,6 +85,7 @@
   font-size: 1rem;
   resize: vertical;
   transition: all 0.3s ease;
+  padding: 10px;
 }
 
 .add-review textarea:hover {
@@ -99,7 +102,8 @@
 .add-review button {
   margin-top: 16px;
   padding: 12px 24px;
-  background: linear-gradient(to right, #60a5fa, #3b82f6);
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
   color: white;
   border: none;
   border-radius: 8px;
@@ -131,6 +135,28 @@
 .login-prompt a:hover {
   color: #93c5fd;
   text-decoration: none;
+}
+
+.rating-input {
+  margin: 10px 0;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rating-input span{
+  font-size: 22px;
+}
+
+.rating-input .star {
+  cursor: pointer;
+  color: lightgray;
+  transition: color 0.3s;
+}
+
+.rating-input .star.filled {
+  color: gold; 
 }
 
 /* Responsive Adjustments */
