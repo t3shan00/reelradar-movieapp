@@ -117,6 +117,7 @@
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .showtimes-text {
