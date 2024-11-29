@@ -22,6 +22,16 @@ export const registerUser = (email, username, password) =>
 export const loginUser = (identifier, password) =>
   API.post("/user/login", { identifier, password });
 
+// UserProfile APIs
+
+export const getUserProfile = (username) =>
+  API.get(`/user/${username}`);
+
+export const getFavoritesByUsername = (username) =>
+  API.get(`/user/${username}/favorites`);
+
+// Reviews APIs
+
 export const getReviews = (movieId) =>
   API.get(`/reviews/${movieId}`);
 
