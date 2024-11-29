@@ -130,7 +130,9 @@ const Dashboard = () => {
         <>
           <h1>Welcome to the Dashboard, {user.username || user.email}</h1>
           <p>Your email: {user.email}</p>
-
+          <p>Your UserName: {user.username}</p>
+          <p>Your Public Profile Link: <a href={`/profile/${user.username}`} target="_blank">{user.username}</a></p>
+          <p>Joined On: {user.createdat ? new Date(user.createdat).toLocaleDateString() : "N/A"}</p>
           <h2>Your Favorite Movies</h2>
           {favoriteMovies.length > 0 ? (
             <div className="favorite-movies-grid">
