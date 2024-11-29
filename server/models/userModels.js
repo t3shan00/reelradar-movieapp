@@ -23,6 +23,15 @@ export const findUserByIdentifier = async (identifier) => {
     return result.rows[0]; 
 };
 
+export const findUserByUsername = async (username) => {
+    const query = `
+      SELECT * FROM users WHERE username = $1;
+    `;
+    const result = await pool.query(query, [username]);
+    return result.rows[0];
+  };
+  
+
 // Delete a user by ID
 export const deleteUserById = async (userId) => {
     return pool.query("DELETE FROM Users WHERE UserID = $1", [userId]);
