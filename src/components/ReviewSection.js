@@ -4,9 +4,11 @@ import { addReview } from "../api";
 import "./styles/ReviewSection.css";
 
 const ReviewSection = () => {
-  const { id } = useParams();
+  const { id } = useParams(); 
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
+  const [newRating, setNewRating] = useState(0); 
+  const [hoveredRating, setHoveredRating] = useState(0); 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -21,7 +23,6 @@ const ReviewSection = () => {
         const response = await fetch(`http://localhost:3001/api/reviews/${id}`);
         if (!response.ok) throw new Error("Failed to fetch reviews");
         const data = await response.json();
-        // console.log("Fetched reviews:", data);
         setReviews(data);
       } catch (err) {
         console.error("Error fetching reviews:", err.message);
@@ -32,40 +33,50 @@ const ReviewSection = () => {
   }, [id]);
 
   const handleReviewSubmit = async () => {
-    if (!newReview.trim()) return;
-
+    if (!newReview.trim() || newRating === 0) {
+      alert("Either Review or Star rating is missing.");
+      return;
+    }
+  
     try {
-      // console.log("Submitting review:", { movieId: id, reviewText: newReview });
-      const response = await addReview(id, newReview);
-
-      // Enrich the review with local user data
+      const response = await addReview(id, newReview, newRating); 
+  
       const addedReview = {
         review_text: newReview,
+        rating: newRating,
         username: user.username,
         created_at: new Date().toISOString(),
         ...response.data,
       };
-
-      // console.log("Review added:", addedReview);
-
-      // Add the enriched review to the state
+  
       setReviews((prev) => [addedReview, ...prev]);
-
-      // Clear the new review input
       setNewReview("");
+      setNewRating(0); 
     } catch (err) {
       console.error("Error submitting review:", err.response?.data || err.message);
       alert(err.response?.data?.error || "Failed to add review.");
     }
   };
+  
+
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return 0;
+    const total = reviews.reduce((sum, review) => sum + (review.rating || 0), 0);
+    return (total / reviews.length).toFixed(1); 
+  };
 
   return (
     <div className="reviews-section">
       <h2>Reviews</h2>
+      <p className="average-rating">
+        Average Rating: {calculateAverageRating()} ⭐
+      </p>
+
       {reviews.length > 0 ? (
         reviews.map((review, index) => (
           <div key={index} className="review">
             <p>{review.review_text}</p>
+            <p className="rating">Rating: {review.rating} ⭐</p>
             <small>
               — by {review.username || "Unknown User"},{" "}
               on {review.created_at
@@ -85,6 +96,22 @@ const ReviewSection = () => {
             onChange={(e) => setNewReview(e.target.value)}
             placeholder="Write your review..."
           />
+          <div className="rating-input">
+            <span>Rate this movie:</span>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                className={`star ${
+                  hoveredRating >= star || newRating >= star ? "filled" : "empty"
+                }`}
+                onMouseEnter={() => setHoveredRating(star)} 
+                onMouseLeave={() => setHoveredRating(0)} 
+                onClick={() => setNewRating(star)} 
+              >
+                ★
+              </span>
+            ))}
+          </div>
           <button onClick={handleReviewSubmit}>Submit</button>
         </div>
       ) : (
