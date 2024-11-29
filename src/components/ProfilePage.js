@@ -61,27 +61,20 @@ const ProfilePage = () => {
     fetchProfileAndFavorites();
   }, [username]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-    window.location.reload();
-  };
-
   const generateShareLinks = () => {
     const profileUrl = `${window.location.origin}/profile/${username}`;
     return {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`,
       twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
         profileUrl
-      )}&text=Check out my Favorite movies list on ReelRadar!`,
+      )}&text=Check out ${username}'s profile on ReelRadar!`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
         profileUrl
       )}`,
-      whatsapp: `https://api.whatsapp.com/send?text=Check out my Favorite movies list on ReelRadar! ${encodeURIComponent(
+      whatsapp: `https://api.whatsapp.com/send?text=Check out ${username}'s profile on ReelRadar! ${encodeURIComponent(
         profileUrl
       )}`,
-      email: `mailto:?subject=Check out my Favorite movies list on ReelRadar!&body=Check out my Favorite movies list on ReelRadar! ${encodeURIComponent(
+      email: `mailto:?subject=Check out ${username}'s profile on ReelRadar!&body=Check out ${username}'s profile: ${encodeURIComponent(
         profileUrl
       )}`,
     };
@@ -122,13 +115,7 @@ const ProfilePage = () => {
       </Helmet>
       <h1>{profile.username}'s Profile</h1>
 
-      {isLoggedIn && (
-        <button onClick={handleLogout} className="logout-button">
-          Logout
-        </button>
-      )}
-
-      <h2 className="share-h2">Share Your Profile</h2>
+      <h2 className="share-h2">Share {username}'s Profile</h2>
       <div className="share-links">
         <a
           href={shareLinks.facebook}
