@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import "./styles/ShowTimes.css";
+import ShareShowtimeButton from './ShareShowtimeButton';
 
-function MovieShowtimes() {
+function ShowTimes() {
     const [cinemaAreas, setCinemaAreas] = useState([]);
     const [currentArea, setCurrentArea] = useState('');
     const [currentShows, setCurrentShows] = useState([]);
@@ -83,6 +84,7 @@ function MovieShowtimes() {
                                 <p>Cinema: {show.theatre}</p>
                                 <p>Auditorium: {show.auditorium}</p>
                                 <p>Start Time: {new Date(show.startTime).toLocaleString()}</p>
+                                <ShareShowtimeButton showtime={show} />
                             </div>
                         </div>
                     ))
@@ -92,4 +94,4 @@ function MovieShowtimes() {
     );
 }
 
-export default MovieShowtimes;
+export default ShowTimes;

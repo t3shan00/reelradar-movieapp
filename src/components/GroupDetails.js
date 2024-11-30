@@ -13,7 +13,10 @@ const GroupDetail = () => {
   useEffect(() => {
     const fetchGroupDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/groups/${id}`);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:3001/api/groups/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setGroup(response.data);
       } catch (error) {
         console.error("Error fetching group details:", error);
@@ -29,12 +32,13 @@ const GroupDetail = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        console.log("Shared movies data:", response.data); // Log the response data
         setSharedMovies(response.data);
       } catch (error) {
         console.error("Error fetching shared movies:", error);
       }
     };
-
+    
     const fetchSharedShowtimes = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -44,6 +48,7 @@ const GroupDetail = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+        console.log("Shared showtimes data:", response.data); // Log the response data
         setSharedShowtimes(response.data);
       } catch (error) {
         console.error("Error fetching shared showtimes:", error);

@@ -1,0 +1,40 @@
+.share-section {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .share-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-speed);
+  }
+  
+  .share-button:hover {
+    background-color: var(--primary-color-dark);
+  }
+  
+  .share-menu {
+    display: none;
+    position: absolute;
+    background-color: var(--background-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    z-index: 1000; /* Ensure the menu is on top */
+    border-radius: var(--border-radius);
+    top: 100%; /* Position the menu below the button */
+    left: 0;
+  }
+  
+  .share-menu.open {
+    display: block;
+  }
+  
+  .share-menu select,
+  .share-menu button {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
