@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import "./styles/ShowTimes.css";
 import ShareShowtimeButton from './ShareShowtimeButton';
 
@@ -6,6 +7,7 @@ function ShowTimes() {
     const [cinemaAreas, setCinemaAreas] = useState([]);
     const [currentArea, setCurrentArea] = useState('');
     const [currentShows, setCurrentShows] = useState([]);
+    const navigate = useNavigate();
 
     const parseCinemaTheatres = (xml) => {
         const parser = new DOMParser();
@@ -61,6 +63,42 @@ function ShowTimes() {
         fetchCinemaShows(areaId);
     };
 
+    const fetchMovieIdByTitle = async (title) => {
+        const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=en-US`;
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTllNGRmMWY4ZDZhNmE1NDBjY2YyN2JiNmVmYzI1MyIsIm5iZiI6MTczMjAyNTU0Mi43Nzg4NDksInN1YiI6IjY3MzlmODRlNmEwMmEyNGQ3YjIxODE2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fXqSiWv07snaUkxoAsWteUTZNE1hdIuNNodLDtkC1nM'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.results && data.results.length > 0) {
+                return data.results[0].id;
+            } else {
+                throw new Error('No matching movie found');
+            }
+        } catch (error) {
+            console.error("Error fetching movie ID:", error);
+            return null;
+        }
+    };
+
+    const handleMovieClick = async (title) => {
+        const movieId = await fetchMovieIdByTitle(title);
+        if (movieId) {
+            navigate(`/movie/${movieId}`);
+        } else {
+            alert('Movie not found');
+        }
+    };
+
     return (
         <div className='movie-showtimes-container'>
             <h1>Movie Showtimes</h1>
@@ -80,7 +118,11 @@ function ShowTimes() {
                         <div key={show.id} className="show-item">
                             <img src={show.imageUrl} alt={show.title} />
                             <div className='show-info'>
-                                <h3>{show.title}</h3>
+                                <h3>
+                                    <Link to="#" onClick={() => handleMovieClick(show.title)}>
+                                        {show.title}
+                                    </Link>
+                                </h3>
                                 <p>Cinema: {show.theatre}</p>
                                 <p>Auditorium: {show.auditorium}</p>
                                 <p>Start Time: {new Date(show.startTime).toLocaleString()}</p>
@@ -88,7 +130,9 @@ function ShowTimes() {
                             </div>
                         </div>
                     ))
-                ) : ("")}
+                ) : (
+                    <p>No showtimes available for the selected area.</p>
+                )}
             </div>
         </div>
     );
