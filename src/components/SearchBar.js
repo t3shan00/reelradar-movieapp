@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import './styles/SearchBar.css';
+import styles from './styles/SearchBar.module.css';
 import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
@@ -47,7 +47,6 @@ function SearchBar() {
     setIsResultsVisible(false);
   };
 
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchBarRef.current && !searchBarRef.current.contains(event.target)) {
@@ -68,28 +67,28 @@ function SearchBar() {
   };
 
   return (
-      <div className="search-bar" ref={searchBarRef}>
-        <input
-          type="text"
-          placeholder="Search for a movie..."
-          className="search-input"
-          value={searchTerm}
-          onChange={handleInputChange}
-          onClick={handleInputClick}
-        />
-        <button className="search-button">
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
-        {isResultsVisible && searchResults.length > 0 && (
-          <ul className="search-results">
-            {searchResults.slice(0, 4).map(movie => (
-              <li key={movie.id} onClick={() => handleMovieClick(movie.id)}>
-                {movie.title}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+    <div className={styles.searchBar} ref={searchBarRef}>
+      <input
+        type="text"
+        placeholder="Search for a movie..."
+        className={styles.searchInput}
+        value={searchTerm}
+        onChange={handleInputChange}
+        onClick={handleInputClick}
+      />
+      <button className={styles.searchButton}>
+        <FontAwesomeIcon icon={faSearch} />
+      </button>
+      {isResultsVisible && searchResults.length > 0 && (
+        <ul className={styles.searchResults}>
+          {searchResults.slice(0, 4).map(movie => (
+            <li key={movie.id} onClick={() => handleMovieClick(movie.id)}>
+              {movie.title}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 

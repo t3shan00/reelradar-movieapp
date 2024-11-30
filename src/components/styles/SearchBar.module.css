@@ -1,4 +1,4 @@
-.search-bar {
+.searchBar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,11 +12,11 @@
   transition: box-shadow 0.3s ease;
 }
 
-.search-bar:hover {
+.searchBar:hover {
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
 }
 
-.search-input {
+.searchInput {
   padding: 12px 20px;
   width: 100%;
   border: none;
@@ -28,12 +28,12 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.search-input:focus {
+.searchInput:focus {
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
 }
 
-.search-button {
+.searchButton {
   background-color: #000000;
   color: #ffffff;
   border: none;
@@ -45,17 +45,17 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.search-button:hover {
+.searchButton:hover {
   background-color: #0056b3;
   transform: scale(1.05);
 }
 
-.search-button:focus {
+.searchButton:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.search-results {
+.searchResults {
   list-style: none;
   padding: 0;
   margin: 5px 0 0;
@@ -70,7 +70,7 @@
   top: 100%;
 }
 
-.search-results li {
+.searchResults li {
   padding: 12px;
   font-size: 16px;
   color: #333;
@@ -78,32 +78,32 @@
   transition: background-color 0.2s ease;
 }
 
-.search-results li:hover {
+.searchResults li:hover {
   background-color: #f0f2f5;
 }
 
 @media (max-width: 480px) {
-  .search-bar {
+  .searchBar {
     padding: 4px; 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
-  .search-input {
+  .searchInput {
     padding: 8px 12px;
     font-size: 12px;
   }
 
-  .search-button {
+  .searchButton {
     padding: 6px;
     font-size: 14px;
     margin-top: 8px;
   }
 
-  .search-results {
+  .searchResults {
     max-height: 150px; 
   }
 
-  .search-results li {
+  .searchResults li {
     font-size: 12px;
   }
 }

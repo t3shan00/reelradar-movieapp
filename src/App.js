@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import styles from './App.module.css';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
@@ -55,7 +55,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className={styles.App}>
         <Header />
         <RouteListener />
         <Routes>

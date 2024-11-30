@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './styles/GroupDetail.css';
+import styles from './styles/GroupDetail.module.css';
 
 const GroupDetail = () => {
   const { id } = useParams();
@@ -59,24 +59,24 @@ const GroupDetail = () => {
   }, [id]);
 
   return (
-    <div className="group-detail">
-      <div className="group-header">
+    <div className={styles.groupDetail}>
+      <div className={styles.groupHeader}>
         <h1>{group?.name}</h1>
         <p>{group?.description}</p>
       </div>
 
       {/* Shared Movies Section */}
-      <div className="shared-section">
+      <div className={styles.sharedSection}>
         <h2>Shared Movies</h2>
-        <div className="shared-movies">
+        <div className={styles.sharedMovies}>
           {sharedMovies.length > 0 ? (
             sharedMovies.map(movie => (
-              <div key={movie.tmdb_movie_id} className="shared-item">
+              <div key={movie.tmdb_movie_id} className={styles.sharedItem}>
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${movie.posterpath}`} 
                   alt={movie.title} 
                 />
-                <div className="shared-item-content">
+                <div className={styles.sharedItemContent}>
                   <div>
                     <h3>{movie.title}</h3>
                     <p>Release Date: {movie.releasedate}</p>
@@ -92,13 +92,13 @@ const GroupDetail = () => {
       </div>
 
       {/* Shared Showtimes Section */}
-      <div className="shared-section">
+      <div className={styles.sharedSection}>
         <h2>Shared Showtimes</h2>
-        <div className="shared-showtimes">
+        <div className={styles.sharedShowtimes}>
           {sharedShowtimes.length > 0 ? (
             sharedShowtimes.map((showtime, index) => (
-              <div key={index} className="shared-item">
-                <div className="shared-item-content">
+              <div key={index} className={styles.sharedItem}>
+                <div className={styles.sharedItemContent}>
                   <div>
                     <h3>{showtime.movietitle}</h3>
                     <p>Theatre: {showtime.theatre}</p>
