@@ -1,39 +1,38 @@
 import React, { useState } from 'react';
-import './authentication.css';
+import styles from './styles/authentication.module.css';
 
 const Authentication = () => {
     const [isUsernameFocused, setUsernameFocused] = useState(false);
     const [isPasswordFocused, setPasswordFocused] = useState(false);
 
     return (
-        <div className="login-container">
-            <div className="login-box">
-                <div className="input-group">
-                    <label className={`floating-label ${isUsernameFocused ? 'focused' : ''}`}>
+        <div className={styles.loginContainer}>
+            <div className={styles.loginBox}>
+                <div className={styles.inputGroup}>
+                    <label className={`${styles.floatingLabel} ${isUsernameFocused ? styles.focused : ''}`}>
                         Username
                     </label>
                     <input
                         type="text"
-                        className="input-field"
+                        className={styles.inputField}
                         onFocus={() => setUsernameFocused(true)}
                         onBlur={(e) => setUsernameFocused(e.target.value !== '')}
                     />
                 </div>
 
-                <div className="input-group">
-                    <label className={`floating-label ${isPasswordFocused ? 'focused' : ''}`}>
+                <div className={styles.inputGroup}>
+                    <label className={`${styles.floatingLabel} ${isPasswordFocused ? styles.focused : ''}`}>
                         Password
                     </label>
                     <input
                         type="password"
-                        className="input-field"
+                        className={styles.inputField}
                         onFocus={() => setPasswordFocused(true)}
                         onBlur={(e) => setPasswordFocused(e.target.value !== '')}
                     />
                 </div>
 
-                <p><a href="/signup" className="signup-link">Don't have an account? Sign up.</a></p>
-                <button className="login-button">Login</button>
+                <button className={styles.loginButton}>Login</button>
             </div>
         </div>
     );
