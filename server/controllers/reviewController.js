@@ -1,4 +1,4 @@
-import { createReview, getReviewsByMovie } from "../models/reviewModel.js";
+import { createReview, getReviewsByMovie, getAllReviews } from "../models/reviewModel.js";
 
 export const createReviewHandler = async (req, res, next) => {
   const { movieId, reviewText, rating } = req.body;
@@ -23,6 +23,16 @@ export const getReviewsHandler = async (req, res, next) => {
     const reviews = await getReviewsByMovie(movieId);
     res.status(200).json(reviews);
   } catch (err) {
+    next(err);
+  }
+};
+
+export const getAllReviewsHandler = async (req, res, next) => {
+  try {
+    const reviews = await getAllReviews();
+    res.status(200).json(reviews);
+  } catch (err) {
+    console.error("Error fetching all reviews:", err.message);
     next(err);
   }
 };

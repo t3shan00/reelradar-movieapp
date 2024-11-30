@@ -1,0 +1,58 @@
+.allReviewsPage {
+    margin: 32px auto;
+    padding: 32px;
+    max-width: 1280px;
+    background: linear-gradient(165deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.9));
+    border-radius: 16px;
+    color: #d1d5db;
+    border: 1px solid rgba(75, 85, 99, 0.3);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  .allReviewsPage h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #ffffff;
+    background: linear-gradient(to right, #ffffff, #93c5fd);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .review {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(55, 65, 81, 0.6), rgba(75, 85, 99, 0.4));
+    border: 1px solid rgba(75, 85, 99, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    color: #e5e7eb;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 15px;
+  }
+  
+  .review small {
+    font-size: 15px;
+  }
+  
+  .review a {
+    color: #60a5fa;
+    font-weight: 700;
+  }
+  
+  .review:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    border-color: rgba(96, 165, 250, 0.4);
+  }
+  
+  .movieTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #93c5fd;
+    margin-top: 8px;
+  }

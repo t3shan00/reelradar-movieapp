@@ -19,6 +19,7 @@ import GroupManagement from './components/GroupManagement';
 import GroupDetail from './components/GroupDetails';
 import ManageGroup from './components/ManageGroup';
 import ProfilePage from './components/ProfilePage';
+import AllReviewsPage from "./components/AllReviewsPage";
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -70,6 +71,7 @@ function App() {
           <Route path="/groups" element={<GroupManagement />} />
           <Route path="/groups/:id" element={<GroupDetail />} />
           <Route path="/groups/:groupId/manage" element={<ManageGroup />} />
+          <Route path="/reviews" element={<AllReviewsPage />} />
           <Route path="/" element={
             <>
               <SearchBar />
