@@ -8,6 +8,7 @@ function Header() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [user, setUser] = useState(null);
   const menuRef = useRef(null);
+  const menuButtonRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +53,13 @@ function Header() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      // Check if the click is outside both the menu and the menu button
+      if (
+        menuRef.current && 
+        !menuRef.current.contains(event.target) &&
+        menuButtonRef.current && 
+        !menuButtonRef.current.contains(event.target)
+      ) {
         setMenuVisible(false);
       }
     };
@@ -66,9 +73,29 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.headerContent}>
-        <button className={styles.menuButton} onClick={toggleMenu}>
-          <FontAwesomeIcon icon={faBars} />
-        </button>
+        <div className={styles.menuContainer}>
+          <button 
+            ref={menuButtonRef}
+            className={styles.menuButton} 
+            onClick={toggleMenu}
+          >
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+          {menuVisible && (
+            <div 
+              className={`${styles.menu} ${styles.menuVisible}`} 
+              ref={menuRef}
+            >
+              <ul>
+                <li onClick={() => handleNavigate('/genres')}>Filter Movies by Genre</li>
+                <li onClick={() => handleNavigate('/filter-by-year')}>Filter Movies by Year</li>
+                <li onClick={() => handleNavigate('/filter-by-rating')}>Filter Movies by Rating</li>
+                <li onClick={() => handleNavigate('/groups')}>Groups</li>
+                <li onClick={() => handleNavigate('/reviews')}>Browse Reviews</li>
+              </ul>
+            </div>
+          )}
+        </div>
         <h1 className={styles.title} onClick={() => handleNavigate('/')}>ReelRadar</h1>
       </div>
       <div className={styles.icons}>
@@ -87,17 +114,6 @@ function Header() {
           </span>
         )}
       </div>
-      {menuVisible && (
-        <div className={`${styles.menu} ${menuVisible ? styles.menuVisible : ''}`} ref={menuRef}>
-          <ul>
-            <li onClick={() => handleNavigate('/genres')}>Filter Movies by Genre</li>
-            <li onClick={() => handleNavigate('/filter-by-year')}>Filter Movies by Year</li>
-            <li onClick={() => handleNavigate('/filter-by-rating')}>Filter Movies by Rating</li>
-            <li onClick={() => handleNavigate('/groups')}>Groups</li>
-            <li onClick={() => handleNavigate('/reviews')}>Browse Reviews</li>
-          </ul>
-        </div>
-      )}
     </header>
   );
 }

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&family=Syne+Mono:wght@400&display=swap');
 
 .header {
+    position: relative; /* Add this line */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,7 +13,6 @@
     width: 100%;
     box-sizing: border-box;
 }
-
 .headerContent {
     display: flex;
     align-items: center;
@@ -56,6 +56,11 @@
     color: #667eea;
 }
 
+.menuContainer {
+    position: relative;
+    display: inline-block; /* Ensure it wraps around the button */
+}
+
 .menuButton {
     background: none;
     border: none;
@@ -69,19 +74,19 @@
 
 .menu {
     position: absolute;
-    left: clamp(10px, 3vw, 20px);
-    right: clamp(10px, 3vw, 20px);
-    top: 100%;
+    left: 0;
+    top: 100%; /* Position it right below the button */
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    transition: all 0.3s ease;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(-10px);
-    pointer-events: none;
-    max-width: 300px;
-    margin: 0 auto;
+    transition: all 0.3s ease;
+    width: auto; /* Allow the width to scale automatically */
+    min-width: 200px; /* Set a minimum width */
+    margin: 0; /* Remove margin */
 }
 
 .menuButton:hover {
@@ -92,8 +97,8 @@
 
 .menuVisible {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
-    pointer-events: auto;
 }
 
 .menu ul {
