@@ -1,46 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&family=Syne+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@700&family=Syne+Mono:wght@400&display=swap');
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0px 20px;
-    height: 80px;
+    padding: 0 clamp(10px, 3vw, 20px);
+    height: clamp(60px, 10vh, 80px);
     background-color: #000000;
     color: white;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .headerContent {
     display: flex;
     align-items: center;
-    gap: 15px;
-    flex: 0 0 auto;
+    gap: clamp(10px, 2vw, 15px);
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .title {
-    font-size: clamp(32px, 5vw, 72px);
+    font-size: clamp(24px, 5vw, 72px);
     font-family: 'Corinthia', cursive;
     margin: 0;
     cursor: pointer;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .icons {
     display: flex;
     align-items: center;
-    gap: clamp(10px, 2vw, 20px);
-    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: clamp(8px, 2vw, 20px);
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .icon {
     position: relative;
     cursor: pointer;
     color: white;
-    font-size: clamp(20px, 2vw, 30px);
+    font-size: clamp(16px, 2vw, 30px);
     transition: all 0.3s ease;
     opacity: 0.8;
-    padding: 5px;
+    padding: clamp(3px, 1vw, 5px);
 }
 
 .icon:hover {
@@ -53,17 +60,18 @@
     background: none;
     border: none;
     color: white;
-    font-size: 24px;
+    font-size: clamp(20px, 3vw, 24px);
     cursor: pointer;
-    padding: 8px;
+    padding: clamp(5px, 2vw, 8px);
     display: flex;
     align-items: center;
 }
 
 .menu {
     position: absolute;
-    left: 20px;
-    top: 70px;
+    left: clamp(10px, 3vw, 20px);
+    right: clamp(10px, 3vw, 20px);
+    top: 100%;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -72,7 +80,8 @@
     opacity: 0;
     transform: translateY(-10px);
     pointer-events: none;
-    min-width: 200px; 
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .menuButton:hover {
@@ -94,11 +103,12 @@
 }
 
 .menu li {
-    padding: 12px 20px;
+    padding: clamp(10px, 2vw, 12px) clamp(15px, 3vw, 20px);
     color: #333;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    font-size: 14px;
+    font-size: clamp(12px, 2vw, 14px);
+    text-align: center;
 }
 
 .menu li:hover {
@@ -106,29 +116,30 @@
 }
 
 .username {
-    margin-right: 10px;
+    margin-right: clamp(5px, 2vw, 10px);
     color: #f10404;
-    font-size: clamp(14px, 1.5vw, 20px);
+    font-size: clamp(12px, 1.5vw, 20px);
     font-weight: 600;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     white-space: nowrap;
-    max-width: 150px;
+    max-width: clamp(80px, 20vw, 150px);
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
 }
 
 .showtimesText {
-    font-size: clamp(16px, 1.8vw, 25px);
+    font-size: clamp(14px, 1.8vw, 25px);
     font-family: "Syne Mono", monospace;
     font-weight: 600;
     color: #ffffff;
     cursor: pointer;
     text-decoration: none;
-    padding: 8px 12px;
+    padding: clamp(5px, 2vw, 8px) clamp(8px, 2vw, 12px);
     white-space: nowrap;
+    position: relative;
 }
 
 .showtimesText::after {
@@ -149,55 +160,68 @@
     color: #6366f1;
 }
 
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .header {
+        flex-wrap: nowrap;
+    }
+
+    .headerContent,
+    .icons {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+}
+
 @media (max-width: 768px) {
     .header {
-        padding: 0 10px;
-        height: 60px;
+        padding: 0 clamp(5px, 2vw, 10px);
+        height: clamp(50px, 8vh, 60px);
     }
 
-    .headerContent {
-        gap: 10px;
-    }
-
-    .title {
-        font-size: clamp(28px, 4vw, 36px);
-    }
-
-    .icons {
-        gap: 8px;
-    }
-
-    .username {
-        max-width: 100px;
+    .menu {
+        left: 5px;
+        right: 5px;
+        width: calc(100% - 10px);
     }
 }
 
 @media (max-width: 480px) {
     .header {
-        padding: 0 8px;
+        padding: 0 clamp(3px, 1vw, 8px);
+    }
+
+    .title {
+        font-size: clamp(20px, 4vw, 32px);
+    }
+
+    .username {
+        max-width: clamp(60px, 15vw, 100px);
     }
 
     .showtimesText {
-        padding: 4px 8px;
-    }
-
-    .icon {
-        padding: 3px;
-    }
-
-    .menu {
-        left: 8px;
-        right: 8px;
-        width: auto;
+        font-size: clamp(12px, 1.5vw, 16px);
     }
 }
 
 @media (max-width: 360px) {
-    .username {
-        max-width: 80px;
+    .header {
+        flex-direction: column;
+        height: auto;
+        padding: 5px;
+    }
+
+    .headerContent,
+    .icons {
+        width: 100%;
+        justify-content: center;
     }
 
     .title {
-        font-size: 24px;
+        font-size: clamp(18px, 3vw, 24px);
+    }
+
+    .username {
+        max-width: clamp(50px, 10vw, 80px);
     }
 }
