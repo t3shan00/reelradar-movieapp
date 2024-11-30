@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { addReview } from "../api";
+import { addReview, getReviews } from "../api";
 import "./styles/ReviewSection.css";
 
 const ReviewSection = () => {
@@ -20,10 +20,8 @@ const ReviewSection = () => {
 
     const fetchReviews = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/reviews/${id}`);
-        if (!response.ok) throw new Error("Failed to fetch reviews");
-        const data = await response.json();
-        setReviews(data);
+        const response = await getReviews(id);
+        setReviews(response.data);
       } catch (err) {
         console.error("Error fetching reviews:", err.message);
       }
