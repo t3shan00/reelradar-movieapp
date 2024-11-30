@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import './YearFilterPage.css';
+import styles from './YearFilterPage.module.css';
 
 const YearFilterPage = () => {
   const [years, setYears] = useState([]);
@@ -90,11 +90,11 @@ const YearFilterPage = () => {
   }, [currentPage, totalPages]);
 
   return (
-    <div className="year-filter-page">
+    <div className={styles.yearFilterPage}>
       <h1>Filter Movies by Year</h1>
       
       {/* Filter Type Selector */}
-      <div className="filter-options">
+      <div className={styles.filterOptions}>
         {['exact', 'older', 'newer', 'range'].map(type => (
           <label key={type}>
             <input
@@ -117,22 +117,20 @@ const YearFilterPage = () => {
 
       {/* Year Range Inputs for Range Filter */}
       {filterType === 'range' && (
-        <div className="year-range-inputs" style={{display: 'flex', justifyContent: 'center', gap: '0.5rem', marginBottom: '1rem'}}>
+        <div className={styles.yearRangeInputs}>
           <input 
             type="number" 
             placeholder="Start Year" 
-            style={{padding: '0.5rem', borderRadius: '0.5rem'}}
             onChange={(e) => setYearRange(prev => ({ ...prev, start: e.target.value }))} 
           />
           <input 
             type="number" 
             placeholder="End Year" 
-            style={{padding: '0.5rem', borderRadius: '0.5rem'}}
             onChange={(e) => setYearRange(prev => ({ ...prev, end: e.target.value }))} 
           />
           <button 
             onClick={() => fetchMovies()}
-            className="year-button"
+            className={styles.yearButton}
           >
             Apply Range
           </button>
@@ -140,7 +138,7 @@ const YearFilterPage = () => {
       )}
 
       {/* Year Selector */}
-      <div className="year-list">
+      <div className={styles.yearList}>
         {years.map(year => (
           <button 
             key={year} 
@@ -148,7 +146,7 @@ const YearFilterPage = () => {
               setSelectedYear(year);
               setCurrentPage(1);
             }}
-            className={`year-button ${selectedYear === year ? 'selected' : ''}`}
+            className={`${styles.yearButton} ${selectedYear === year ? styles.selected : ''}`}
           >
             {year}
           </button>
@@ -162,12 +160,12 @@ const YearFilterPage = () => {
 
       {/* Movies Grid */}
       {!isLoading && movies.length > 0 && (
-        <div className="movies-section">
-          <div className="movies-list">
+        <div className={styles.moviesSection}>
+          <div className={styles.moviesList}>
             {movies.slice(0, 16).map(movie => (
               <div 
                 key={movie.id} 
-                className="movie-card"
+                className={styles.movieCard}
                 onClick={() => navigate(`/movie/${movie.id}`)}
               >
                 <img 
@@ -180,7 +178,7 @@ const YearFilterPage = () => {
           </div>
 
           {/* Pagination */}
-          <div className="pagination">
+          <div className={styles.pagination}>
             <button 
               onClick={() => setCurrentPage(prev => prev - 1)}
               disabled={!paginationRange.hasPrevious}

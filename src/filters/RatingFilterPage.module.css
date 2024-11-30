@@ -8,20 +8,20 @@
   --transition-speed: 0.3s;
 }
 
-.rating-filter-page {
+.ratingFilterPage {
   padding: 2rem;
   min-height: 100vh;
   color: white;
 }
 
-.rating-filter-page h1 {
+.ratingFilterPage h1 {
   text-align: center;
   margin-bottom: 1.5rem;
   font-size: clamp(1.5rem, 4vw, 2rem);
   color: var(--text-color);
 }
 
-.filter-options {
+.filterOptions {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +30,7 @@
   flex-wrap: wrap;
 }
 
-.rating-select {
+.ratingSelect {
   padding: 0.625rem 1.25rem;
   background-color: var(--card-background);
   color: white;
@@ -44,12 +44,12 @@
   cursor: pointer;
 }
 
-.rating-select:hover {
+.ratingSelect:hover {
   background-color: var(--primary-color-dark);
   transform: translateY(-2px);
 }
 
-.apply-button {
+.applyButton {
   padding: 0.625rem 1.25rem;
   background-color: var(--card-background);
   color: white;
@@ -64,31 +64,31 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.apply-button:hover {
+.applyButton:hover {
   background-color: var(--primary-color-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.movies-section {
+.moviesSection {
   margin-top: 1.5rem;
 }
 
-.movies-section h2 {
+.moviesSection h2 {
   text-align: center;
   margin-bottom: 1.5rem;
   color: var(--text-color);
   font-size: clamp(1.25rem, 3vw, 1.5rem);
 }
 
-.movies-list {
+.moviesList {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1.5rem;
   justify-content: center;
 }
 
-.movie-card {
+.movieCard {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -108,13 +108,13 @@
   max-width: 18.75rem;
 }
 
-.movie-card:hover {
+.movieCard:hover {
   transform: translateY(-0.5rem);
   box-shadow: 0 0.75rem 1.25rem rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
-.movie-card img {
+.movieCard img {
   aspect-ratio: 2/3;
   width: 100%;
   height: 100%; 
@@ -123,7 +123,7 @@
   display: block;
 }
 
-.movie-card h3 {
+.movieCard h3 {
   padding: 0.75rem 0.5rem;
   font-size: 0.95rem;
   white-space: nowrap;
@@ -133,13 +133,13 @@
   text-align: center;
 }
 
-.movie-card p {
+.movieCard p {
   padding: 0.5rem;
   font-size: 0.85rem;
   color: var(--text-color);
 }
 
-.movie-card::after {
+.movieCard::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -152,7 +152,7 @@
   pointer-events: none;
 }
 
-.movie-card:hover::after {
+.movieCard:hover::after {
   opacity: 1;
 }
 
@@ -189,57 +189,57 @@
 
 /* Responsive Breakpoints */
 @media (max-width: 1200px) {
-  .movies-list {
+  .moviesList {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
 }
 
 @media (max-width: 992px) {
-  .rating-filter-page {
+  .ratingFilterPage {
     padding: 1.5rem;
   }
 
-  .filter-options {
+  .filterOptions {
     gap: 0.75rem;
   }
 }
 
 @media (max-width: 768px) {
-  .filter-options {
+  .filterOptions {
     gap: 0.5rem;
   }
 
-  .rating-select {
+  .ratingSelect {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
 
-  .movies-list {
+  .moviesList {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
   }
 
-  .movie-card h3 {
+  .movieCard h3 {
     font-size: 0.85rem;
   }
 }
 
 @media (max-width: 576px) {
-  .rating-filter-page {
+  .ratingFilterPage {
     padding: 1rem;
   }
 
-  .filter-options {
+  .filterOptions {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .rating-select, .apply-button {
+  .ratingSelect, .applyButton {
     width: 100%;
     text-align: center;
   }
 
-  .movies-list {
+  .moviesList {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 0.75rem;
   }

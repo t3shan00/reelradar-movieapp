@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import './GenrePage.css';
+import styles from './GenrePage.module.css';
 
 const GenrePage = () => {
   const [genres, setGenres] = useState([]);
@@ -73,12 +73,12 @@ const GenrePage = () => {
   }, [currentPage, totalPages]);
 
   return (
-    <div className="genre-page">
+    <div className={styles.genrePage}>
       <h1>Select a Genre</h1>
-      <div className="genre-list">
+      <div className={styles.genreList}>
         {Array.isArray(genres) && genres.length > 0 ? (
           genres.map(genre => (
-            <button key={genre.id} onClick={() => handleGenreClick(genre.id)} className="genre-button">
+            <button key={genre.id} onClick={() => handleGenreClick(genre.id)} className={styles.genreButton}>
               {genre.name}
             </button>
           ))
@@ -90,12 +90,12 @@ const GenrePage = () => {
         <div style={{textAlign: 'center', color: 'black', padding: '2rem'}}>Loading movies...</div>
       )}
       {!isLoading && movies.length > 0 && (
-        <div className="movies-section">
-          <div className="movies-list">
+        <div className={styles.moviesSection}>
+          <div className={styles.moviesList}>
             {movies.slice((currentPage - 1) * 16, currentPage * 16).map(movie => (
               <div 
                 key={movie.id} 
-                className="movie-card"
+                className={styles.movieCard}
                 onClick={() => navigate(`/movie/${movie.id}`)}
               >
                 <img 
@@ -109,7 +109,7 @@ const GenrePage = () => {
           </div>
 
           {/* Pagination */}
-          <div className="pagination">
+          <div className={styles.pagination}>
             <button 
               onClick={() => setCurrentPage(prev => prev - 1)}
               disabled={!paginationRange.hasPrevious}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import './RatingFilterPage.css';
+import styles from './RatingFilterPage.module.css';
 
 const RatingFilterPage = () => {
   const [movies, setMovies] = useState([]);
@@ -63,13 +63,13 @@ const RatingFilterPage = () => {
   }, [currentPage, totalPages]);
 
   return (
-    <div className="rating-filter-page">
+    <div className={styles.ratingFilterPage}>
       <h1>Filter by Rating</h1>
-      <div className="filter-options">
+      <div className={styles.filterOptions}>
         <select 
           value={selectedRating} 
           onChange={(e) => setSelectedRating(e.target.value)}
-          className="rating-select"
+          className={styles.ratingSelect}
         >
           <option value="">Select Rating</option>
           <option value="1">&gt; 1</option>
@@ -82,7 +82,7 @@ const RatingFilterPage = () => {
           <option value="8">&gt; 8</option>
           <option value="9">&gt; 9</option>
         </select>
-        <button onClick={handleApplyFilter} className="apply-button">
+        <button onClick={handleApplyFilter} className={styles.applyButton}>
           Apply Filter
         </button>
       </div>
@@ -90,12 +90,12 @@ const RatingFilterPage = () => {
         <div style={{textAlign: 'center', color: 'black', padding: '2rem'}}>Loading movies...</div>
       )}
       {!isLoading && movies.length > 0 && (
-        <div className="movies-section">
-          <div className="movies-list">
+        <div className={styles.moviesSection}>
+          <div className={styles.moviesList}>
             {movies.slice((currentPage - 1) * 16, currentPage * 16).map(movie => (
               <div 
                 key={movie.id} 
-                className="movie-card"
+                className={styles.movieCard}
                 onClick={() => navigate(`/movie/${movie.id}`)}
               >
                 <img 
@@ -109,7 +109,7 @@ const RatingFilterPage = () => {
           </div>
 
           {/* Pagination */}
-          <div className="pagination">
+          <div className={styles.pagination}>
             <button 
               onClick={() => setCurrentPage(prev => prev - 1)}
               disabled={!paginationRange.hasPrevious}
