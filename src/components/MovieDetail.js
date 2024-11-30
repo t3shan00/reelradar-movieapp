@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import './styles/MovieDetail.css';
+import styles from './styles/MovieDetail.module.css';
 import FavoriteButton from "./FavoriteButton";
 import ShareButton from "./ShareMovieButton";
 import ReviewSection from "./ReviewSection";
@@ -98,69 +98,69 @@ const MovieDetail = () => {
   };
 
   if (error) {
-    return <div className="error-container">Error: {error}</div>;
+    return <div className={styles.errorContainer}>Error: {error}</div>;
   }
 
   if (!movie) {
-    return <div className="loading-container">Loading...</div>;
+    return <div className={styles.loadingContainer}>Loading...</div>;
   }
 
   return (
-    <div className="movie-detail">
-      <div className="backdrop-container">
-        <div className="backdrop-overlay"></div>
+    <div className={styles.movieDetail}>
+      <div className={styles.backdropContainer}>
+        <div className={styles.backdropOverlay}></div>
         <img
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
           alt=""
-          className="backdrop-image"
+          className={styles.backdropImage}
         />
       </div>
 
-      <div className="content-container">
-        <div className="movie-grid">
-          <div className="poster-section">
-            <div className="poster-wrapper">
+      <div className={styles.contentContainer}>
+        <div className={styles.movieGrid}>
+          <div className={styles.posterSection}>
+            <div className={styles.posterWrapper}>
               <img
                 src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
                 alt={movie.title}
-                className="movie-poster"
+                className={styles.moviePoster}
               />
             </div>
           </div>
 
-          <div className="details-section">
-            <h1 className="movie-title">{movie.title}</h1>
-            <div className="metadata-container">
-              <div className="metadata-item">
-                <span className="icon-star">⭐</span>
+          <div className={styles.detailsSection}>
+            <h1 className={styles.movieTitle}>{movie.title}</h1>
+            <div className={styles.metadataContainer}>
+              <div className={styles.metadataItem}>
+                <span className={styles.iconStar}>⭐</span>
                 <span>{movie.vote_average.toFixed(1)}/10</span>
               </div>
-              <div className="metadata-item">
-                <span className="icon-calendar">📅</span>
+              <div className={styles.metadataItem}>
+                <span className={styles.iconCalendar}>📅</span>
                 <span>{movie.release_date}</span>
               </div>
               {movie.runtime && (
-                <div className="metadata-item">
-                  <span className="icon-clock">⏱️</span>
+                <div className={styles.metadataItem}>
+                  <span className={styles.iconClock}>⏱️</span>
                   <span>{formatRuntime(movie.runtime)}</span>
                 </div>
               )}
             </div>
 
-            <div className="genres-container">
+            <div className={styles.genresContainer}>
               {movie.genres?.map((genre) => (
-                <span key={genre.id} className="genre-tag">
+                <span key={genre.id} className={styles.genreTag}>
                   🏷️ {genre.name}
                 </span>
               ))}
             </div>
 
-            <div className="overview-section">
-              <h2 className="section-title">Overview</h2>
-              <p className="overview-text">{movie.overview}</p>
+            <div className={styles.overviewSection}>
+              <h2 className={styles.sectionTitle}>Overview</h2>
+              <p className={styles.overviewText}>{movie.overview}</p>
             </div>
 
-            <div className="showtimes-section">
+            <div className={styles.showtimesSection}>
               <h2>Select Cinema Location:</h2>
               <select onChange={handleCinemaSelection} value={selectedCinema}>
                 <option value="">-- Choose a Cinema --</option>
@@ -171,10 +171,10 @@ const MovieDetail = () => {
                 ))}
               </select>
 
-              <div className="showtimes-display">
+              <div className={styles.showtimesDisplay}>
                 {showtimes.length > 0 ? (
                   showtimes.map(showtime => (
-                    <div key={showtime.id} className="showtime-item">
+                    <div key={showtime.id} className={styles.showtimeItem}>
                       <p><span>Cinema:</span> {showtime.theatre}</p>
                       <p><span>Auditorium:</span> {showtime.auditorium}</p>
                       <p><span>Start Time:</span> {new Date(showtime.startTime).toLocaleString()}</p>
