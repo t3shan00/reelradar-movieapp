@@ -5,6 +5,7 @@ import './styles/MovieDetail.css';
 import FavoriteButton from "./FavoriteButton";
 import ShareButton from "./ShareMovieButton";
 import ReviewSection from "./ReviewSection";
+import ShareShowtimeButton from './ShareShowtimeButton';
 
 const formatRuntime = (minutes) => {
   const hours = Math.floor(minutes / 60);
@@ -76,9 +77,11 @@ const MovieDetail = () => {
         .filter(show => show.getElementsByTagName('Title')[0].textContent === movie.title)
         .map(show => ({
           id: show.getElementsByTagName('ID')[0].textContent,
+          title: show.getElementsByTagName('Title')[0].textContent, // Add title
           startTime: show.getElementsByTagName('dttmShowStart')[0].textContent,
           theatre: show.getElementsByTagName('Theatre')[0].textContent,
           auditorium: show.getElementsByTagName('TheatreAuditorium')[0].textContent,
+          imageUrl: show.getElementsByTagName('EventSmallImagePortrait')[0].textContent, // Add imageUrl
         }));
       setShowtimes(showtimesData);
     } catch (error) {
@@ -175,6 +178,7 @@ const MovieDetail = () => {
                       <p><span>Cinema:</span> {showtime.theatre}</p>
                       <p><span>Auditorium:</span> {showtime.auditorium}</p>
                       <p><span>Start Time:</span> {new Date(showtime.startTime).toLocaleString()}</p>
+                      <ShareShowtimeButton showtime={showtime} />
                     </div>
                   ))
                 ) : (

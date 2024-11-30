@@ -1,9 +1,9 @@
 .shareSection {
     position: relative;
     display: inline-block;
-  }
-  
-  .shareButton {
+}
+
+.shareButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,77 +19,95 @@
     color: #fff;
     background: linear-gradient(135deg, #6e8efb, #a777e3);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .shareButton:hover {
+    transition: 
+        background 0.3s ease, 
+        transform 0.2s ease, 
+        box-shadow 0.2s ease;
+}
+
+.shareButton:hover {
     background: linear-gradient(135deg, #5a7bd3, #945ed3);
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .shareMenu {
-    display: none;
+}
+
+.shareMenu {
     position: absolute;
-    width: max-content;
-    background-color: #fff;
-    color: black;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    width: 250px;
+    background-color: #1c1c1c;
+    color: #ffffff;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     padding: 1.5rem;
     z-index: 1000;
     border-radius: 12px;
     top: calc(100% + 12px);
     left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .shareMenu.open {
-    display: block;
-  }
-  
-  .shareMenuContent {
+    transform: translateX(-50%) translateY(-10px);
+    transition: 
+        opacity 0.3s ease,
+        visibility 0.3s ease,
+        transform 0.3s ease;
+    border: 1px solid rgba(110, 142, 251, 0.2);
+}
+
+.shareMenu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.shareMenuContent {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-  
-  .shareMenu select,
-    .shareMenu button {
-  width: 100%;
-  padding: 12px 16px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  color: #000;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
-  
-  .shareMenu select:focus,
-  .shareMenu button:focus {
+
+.shareMenu select,
+.shareMenu button {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 14px;
+    border: 1px solid rgba(221, 221, 221, 0.2);
+    border-radius: 8px;
+    background-color: #222;
+    color: #ffffff;
+    transition: 
+        border-color 0.3s ease, 
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.shareMenu select:focus,
+.shareMenu button:focus {
     outline: none;
     border-color: #6e8efb;
-    background-color: #fff;
-  }
-  
-  .shareMenu button {
+    background-color: #2a2a2a;
+    transform: scale(1.01);
+}
+
+.shareMenu button {
     background-color: #6e8efb;
     color: #fff;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .shareMenu button:hover {
-    background-color: #5a7bd3;
-  }
+    transition: 
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
 
-  .shareMenu select {
+.shareMenu button:hover {
+    background-color: #5a7bd3;
+    transform: scale(1.02);
+}
+
+.shareMenu select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
     padding-right: 30px;
-  }
+}
