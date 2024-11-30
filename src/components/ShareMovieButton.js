@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './styles/ShareMovieButton.css';
+import styles from './styles/ShareMovieButton.module.css';
 
 const ShareButton = ({ movieId, movie }) => {
   const [userGroups, setUserGroups] = useState([]);
@@ -91,18 +91,20 @@ const ShareButton = ({ movieId, movie }) => {
   };
 
   return (
-    <div className="share-section">
-      <button className="share-button" onClick={toggleMenu}>Share to Group</button>
-      <div ref={menuRef} className={`share-menu ${menuOpen ? 'open' : ''}`}>
-        <select onChange={handleGroupSelection} value={selectedGroup}>
-          <option value="">-- Choose a Group --</option>
-          {userGroups.map(group => (
-            <option key={group.group_id} value={group.group_id} data-group-id={group.group_id}>
-              {group.name}
-            </option>
-          ))}
-        </select>
-        <button onClick={shareMovieToGroup}>Share</button>
+    <div className={styles.shareSection}>
+      <button className={styles.shareButton} onClick={toggleMenu}>Share to Group</button>
+      <div ref={menuRef} className={`${styles.shareMenu} ${menuOpen ? styles.open : ''}`}>
+        <div className={styles.shareMenuContent}>
+          <select onChange={handleGroupSelection} value={selectedGroup}>
+            <option value="">-- Choose a Group --</option>
+            {userGroups.map(group => (
+              <option key={group.group_id} value={group.group_id} data-group-id={group.group_id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
+          <button onClick={shareMovieToGroup}>Share</button>
+        </div>
       </div>
     </div>
   );

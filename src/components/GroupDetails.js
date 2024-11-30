@@ -32,7 +32,6 @@ const GroupDetail = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log("Shared movies data:", response.data); // Log the response data
         setSharedMovies(response.data);
       } catch (error) {
         console.error("Error fetching shared movies:", error);
@@ -48,7 +47,6 @@ const GroupDetail = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log("Shared showtimes data:", response.data); // Log the response data
         setSharedShowtimes(response.data);
       } catch (error) {
         console.error("Error fetching shared showtimes:", error);

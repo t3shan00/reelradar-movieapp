@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './styles/ShareShowtimeButton.css';
+import styles from './styles/ShareShowtimeButton.module.css';
 
 const ShareShowtimeButton = ({ showtime }) => {
   const [userGroups, setUserGroups] = useState([]);
@@ -27,19 +27,6 @@ const ShareShowtimeButton = ({ showtime }) => {
     fetchUserGroups();
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [menuRef]);
-
   const handleGroupSelection = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     const groupId = selectedOption.getAttribute('data-group-id');
@@ -54,15 +41,13 @@ const ShareShowtimeButton = ({ showtime }) => {
   
     const token = localStorage.getItem("token");
     const showtimeData = {
-      tmdbMovieId: showtime.id, // Assuming showtime.id is the TMDB movie ID
+      tmdbMovieId: showtime.id,
       title: showtime.title,
       startTime: showtime.startTime,
       theatre: showtime.theatre,
       auditorium: showtime.auditorium,
       imageUrl: showtime.imageUrl
     };
-  
-    console.log("Sharing showtime data:", showtimeData); // Log the request payload
   
     try {
       const response = await axios.post(
@@ -88,10 +73,14 @@ const ShareShowtimeButton = ({ showtime }) => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleMouseLeave = () => {
+    setMenuOpen(false);
+  };
+
   return (
-    <div className="share-section">
-      <button className="share-button" onClick={toggleMenu}>Share Showtime</button>
-      <div ref={menuRef} className={`share-menu ${menuOpen ? 'open' : ''}`}>
+    <div className={styles.shareSection}>
+      <button className={styles.shareButton} onClick={toggleMenu}>Share Showtime</button>
+      <div ref={menuRef} className={`${styles.shareMenu} ${menuOpen ? styles.open : ''}`} onMouseLeave={handleMouseLeave}>
         <select onChange={handleGroupSelection} value={selectedGroup}>
           <option value="">-- Choose a Group --</option>
           {userGroups.map(group => (
