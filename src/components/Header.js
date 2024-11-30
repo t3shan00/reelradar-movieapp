@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './styles/Header.css';
+import styles from './styles/Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
@@ -45,30 +45,30 @@ function Header() {
   }, []);
 
   return (
-    <header className="header">
-      <div className="header-content">
-        <button className="menu-button" onClick={toggleMenu}>
+    <header className={styles.header}>
+      <div className={styles.headerContent}>
+        <button className={styles.menuButton} onClick={toggleMenu}>
           <FontAwesomeIcon icon={faBars} />
         </button>
-        <h1 className="title" onClick={() => handleNavigate('/')}>ReelRadar</h1>
+        <h1 className={styles.title} onClick={() => handleNavigate('/')}>ReelRadar</h1>
       </div>
-      <div className="icons">
-        <span className="showtimes-text" onClick={() => handleNavigate('/showtimes')}>Showtimes</span>
+      <div className={styles.icons}>
+        <span className={styles.showtimesText} onClick={() => handleNavigate('/showtimes')}>Showtimes</span>
         
         {user && (
           <>
-            <span className="username" onClick={() => handleNavigate(user ? '/dashboard' : '/login')}>{user.username || user.email}</span>
-            <span className="icon" onClick={handleLogout}>
+            <span className={styles.username} onClick={() => handleNavigate(user ? '/dashboard' : '/login')}>{user.username || user.email}</span>
+            <span className={styles.icon} onClick={handleLogout}>
               <FontAwesomeIcon icon={faSignOutAlt} />
             </span>
           </>
         )}
-        <span className="icon" onClick={() => handleNavigate(user ? '/dashboard' : '/login')}>
+        <span className={styles.icon} onClick={() => handleNavigate(user ? '/dashboard' : '/login')}>
           <FontAwesomeIcon icon={faUser} />
         </span>
       </div>
       {menuVisible && (
-        <div className={`menu ${menuVisible ? 'menu-visible' : ''}`} ref={menuRef}>
+        <div className={`${styles.menu} ${menuVisible ? styles.menuVisible : ''}`} ref={menuRef}>
           <ul>
             <li onClick={() => handleNavigate('/genres')}>Filter Movies by Genre</li>
             <li onClick={() => handleNavigate('/filter-by-year')}>Filter Movies by Year</li>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import "./styles/GroupManagement.css";
+import styles from './styles/GroupManagement.module.css';
 
 const GroupManagement = () => {
   const navigate = useNavigate();
@@ -183,58 +183,60 @@ const GroupManagement = () => {
   const filteredGroups = groups.filter(group => !userGroupIds.includes(group.group_id));
 
   return (
-    <div className="container">
-      <h1>Group Management</h1>
-      {error && <p className="error">{error}</p>}
-      <div className="new-group-form">
-        <h2>Create New Group</h2>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Group Management</h1>
+      {error && <p className={styles.error}>{error}</p>}
+      <div className={styles.newGroupForm}>
+        <h2 className={styles.subtitle}>Create New Group</h2>
         <input
           type="text"
           placeholder="Enter group name"
           value={newGroupName}
           onChange={(e) => setNewGroupName(e.target.value)}
+          className={styles.input}
         />
-        <button onClick={createGroup} disabled={loading}>
+        <button onClick={createGroup} disabled={loading} className={styles.button}>
           {loading ? "Creating..." : "Create Group"}
         </button>
       </div>
-      <h2>My Groups</h2>
-      <ul className="group-list">
+      <h2 className={styles.subtitle}>My Groups</h2>
+      <ul className={styles.groupList}>
         {userGroups.map((group) => (
-          <li key={group.group_id}>
+          <li key={group.group_id} className={styles.groupItem}>
             <span>{group.name}</span>
-            <div className="group-actions">
-              <button onClick={() => viewGroup(group)}>View</button>
+            <div className={styles.groupActions}>
+              <button onClick={() => viewGroup(group)} className={styles.button}>View</button>
               {group.created_by === Number(localStorage.getItem("userId")) && (
                 <>
-                  <button className="manage-button" onClick={() => manageGroup(group)}>Manage</button>
+                  <button className={styles.manageButton} onClick={() => manageGroup(group)}>Manage</button>
                 </>
               )}
               {group.created_by !== Number(localStorage.getItem("userId")) && (
-              <button className="leave-button" onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
+              <button className={`${styles.button} ${styles.leaveButton}`} onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
               )}
               {group.created_by === Number(localStorage.getItem("userId")) && (
-                <button className="leave-button" onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
+                <button className={`${styles.button} ${styles.leaveButton}`} onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
               )}
             </div>
           </li>
         ))}
       </ul>
-      <h2>All Groups</h2>
-      <ul className="group-list">
+      <h2 className={styles.subtitle}>All Groups</h2>
+      <ul className={styles.groupList}>
         {filteredGroups.map((group) => (
-          <li key={group.group_id}>
+          <li key={group.group_id} className={styles.groupItem}>
             <span>{group.name}</span>
-            <div className="group-actions">
-              <button className="join-button" onClick={() => joinGroup(group.group_id)}>Join</button>
+            <div className={styles.groupActions}>
+              <button className={`${styles.button} ${styles.joinButton}`} onClick={() => joinGroup(group.group_id)}>Join</button>
             </div>
           </li>
         ))}
       </ul>
-      <div className="pagination">
+      <div className={styles.pagination}>
         <button
           onClick={() => setPagination({ ...pagination, currentPage: pagination.currentPage - 1 })}
           disabled={pagination.currentPage === 1}
+          className={styles.button}
         >
           Previous
         </button>
@@ -242,6 +244,7 @@ const GroupManagement = () => {
         <button
           onClick={() => setPagination({ ...pagination, currentPage: pagination.currentPage + 1 })}
           disabled={pagination.currentPage === pagination.totalPages}
+          className={styles.button}
         >
           Next
         </button>
