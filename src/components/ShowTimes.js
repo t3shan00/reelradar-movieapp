@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "./styles/ShowTimes.css";
+import styles from './styles/ShowTimes.module.css';
 import ShareShowtimeButton from './ShareShowtimeButton';
 
 function ShowTimes() {
@@ -100,7 +100,7 @@ function ShowTimes() {
     };
 
     return (
-        <div className='movie-showtimes-container'>
+        <div className={styles.movieShowtimesContainer}>
             <h1>Movie Showtimes</h1>
             <label htmlFor="cinema-select">Select Area:</label>
             <select id="cinema-select" onChange={handleAreaSelection}>
@@ -112,12 +112,12 @@ function ShowTimes() {
                 ))}
             </select>
 
-            <div className="showtimes-display">
+            <div className={styles.showtimesDisplay}>
                 {currentShows.length > 0 ? (
                     currentShows.map((show) => (
-                        <div key={show.id} className="show-item">
+                        <div key={show.id} className={styles.showItem}>
                             <img src={show.imageUrl} alt={show.title} />
-                            <div className='show-info'>
+                            <div className={styles.showInfo}>
                                 <h3>
                                     <Link to="#" onClick={() => handleMovieClick(show.title)}>
                                         {show.title}
