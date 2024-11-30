@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { createUser, findUserByIdentifier, findUserByUsername, deleteUserById } from '../Models/userModels.js';
 import { fetchUserFavorites } from "../models/favoriteModel.js";
 
-const { sign } = jwt;
+const { sign, verify } = jwt;
 
 export const register = async (req, res, next) => {
     const { email, username, password } = req.body;
@@ -59,6 +59,29 @@ export const login = async (req, res, next) => {
         });
     } catch (err) {
         next(err);
+    }
+};
+
+export const refreshToken = async (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Authorization required" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        const decoded = verify(token, process.env.JWT_SECRET_KEY);
+        const newToken = sign(
+            { userId: decoded.userId, email: decoded.email, username: decoded.username },
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: "1h" }
+        );
+
+        res.status(200).json({ token: newToken });
+    } catch (err) {
+        console.error("Token refresh failed:", err.message);
+        res.status(403).json({ message: "Invalid credentials" });
     }
 };
 

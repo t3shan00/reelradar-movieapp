@@ -13,7 +13,55 @@ function Header() {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUser(userData);
+
+    const intervalId = setInterval(() => {
+      if (!isTokenValid()) {
+        handleLogout();
+      } else {
+        refreshToken();
+      }
+    }, 60000); // Check every minute
+
+    const activityEvents = ['click', 'mousemove', 'keydown'];
+    activityEvents.forEach(event => {
+      window.addEventListener(event, refreshToken);
+    });
+
+    return () => {
+      clearInterval(intervalId);
+      activityEvents.forEach(event => {
+        window.removeEventListener(event, refreshToken);
+      });
+    };
   }, []);
+
+  const isTokenValid = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = payload.exp * 1000;
+    return Date.now() < expiry;
+  };
+
+  const refreshToken = async () => {
+    try {
+      const response = await fetch('/api/refresh-token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
+    } catch (err) {
+      console.error('Failed to refresh token:', err);
+    }
+  };
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
@@ -22,6 +70,7 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setUser(null);
     navigate("/login");
     window.location.reload();
   };
@@ -55,17 +104,18 @@ function Header() {
       <div className={styles.icons}>
         <span className={styles.showtimesText} onClick={() => handleNavigate('/showtimes')}>Showtimes</span>
         
-        {user && (
+        {user ? (
           <>
-            <span className={styles.username} onClick={() => handleNavigate(user ? '/dashboard' : '/login')}>{user.username || user.email}</span>
+            <span className={styles.username} onClick={() => handleNavigate('/dashboard')}>{user.username || user.email}</span>
             <span className={styles.icon} onClick={handleLogout}>
               <FontAwesomeIcon icon={faSignOutAlt} />
             </span>
           </>
+        ) : (
+          <span className={styles.icon} onClick={() => handleNavigate('/login')}>
+            <FontAwesomeIcon icon={faUser} />
+          </span>
         )}
-        <span className={styles.icon} onClick={() => handleNavigate(user ? '/dashboard' : '/login')}>
-          <FontAwesomeIcon icon={faUser} />
-        </span>
       </div>
       {menuVisible && (
         <div className={`${styles.menu} ${menuVisible ? styles.menuVisible : ''}`} ref={menuRef}>
