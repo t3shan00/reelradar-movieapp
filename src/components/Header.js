@@ -17,22 +17,10 @@ function Header() {
     const intervalId = setInterval(() => {
       if (!isTokenValid()) {
         handleLogout();
-      } else {
-        refreshToken();
       }
     }, 60000); // Check every minute
 
-    const activityEvents = ['click', 'mousemove', 'keydown'];
-    activityEvents.forEach(event => {
-      window.addEventListener(event, refreshToken);
-    });
-
-    return () => {
-      clearInterval(intervalId);
-      activityEvents.forEach(event => {
-        window.removeEventListener(event, refreshToken);
-      });
-    };
+    return () => clearInterval(intervalId);
   }, []);
 
   const isTokenValid = () => {
@@ -43,24 +31,6 @@ function Header() {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const expiry = payload.exp * 1000;
     return Date.now() < expiry;
-  };
-
-  const refreshToken = async () => {
-    try {
-      const response = await fetch('/api/refresh-token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      const data = await response.json();
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-      }
-    } catch (err) {
-      console.error('Failed to refresh token:', err);
-    }
   };
 
   const toggleMenu = () => {
