@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './styles/UpcomingMovies.css';
+import { useNavigate } from 'react-router-dom';
+import styles from './styles/UpcomingMovies.module.css';
 
 const UpcomingMovies = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
@@ -33,9 +33,10 @@ const UpcomingMovies = () => {
   const settings = {
     dots: true,
     infinite: true,
+    centerMode: true,
+    variableWidth: false,
     speed: 500,
     slidesToShow: 5,
-    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
     responsive: [
@@ -65,22 +66,22 @@ const UpcomingMovies = () => {
   };
 
   return (
-    <div className="upcoming-movie-slider">
-      <h2 className="upcoming-movies-title">Upcoming Movies</h2>
-      <div className="separator"></div>
+    <div className={styles.upcomingMoviesSlider}>
+      <h2 className={styles.upcomingMoviesTitle}>Upcoming Movies</h2>
+      <div className={styles.separator}></div>
       <Slider {...settings}>
         {upcomingMovies.map((movie) => (
-          <div key={movie.id} className="movie-card" onClick={() => handleMovieClick(movie.id)}>
+          <div key={movie.id} className={styles.upcomingMovieCard} onClick={() => handleMovieClick(movie.id)}>
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
-              className="movie-poster"
+              className={styles.upcomingMoviePoster}
             />
-            {/* <h3 className="movie-title">{movie.title }</h3> */}
+            {/* <h3 className={styles.movieTitle}>{movie.title}</h3> */}
           </div>
         ))}
       </Slider>
-      <div className="separator"></div>
+      <div className={styles.separator}></div>
     </div>
   );
 }

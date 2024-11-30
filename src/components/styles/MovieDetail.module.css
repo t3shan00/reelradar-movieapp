@@ -1,30 +1,40 @@
-.movie-detail {
+:root {
+  --primary-color: #3b82f6;
+  --primary-color-dark: #2563eb;
+  --text-color: #ffffff;
+  --background-color: #1a1a1a;
+  --card-background: #2d2d2d;
+  --border-radius: 0.75rem;
+  --transition-speed: 0.3s;
+}
+
+.movieDetail {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
-  color: white;
+  background: linear-gradient(to bottom, var(--background-color), var(--card-background));
+  color: var(--text-color);
   position: relative;
   padding-bottom: 24px;
 }
 
-.backdrop-container {
+.backdropContainer {
   position: relative;
   width: 100%;
 }
 
-.backdrop-overlay {
+.backdropOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #1a1a1a, transparent);
+  background: linear-gradient(to top, var(--background-color), transparent);
 }
 
-.backdrop-image {
+.backdropImage {
   width: 100%;
   height: 384px;
   object-fit: cover;
   opacity: 0.3;
 }
 
-.content-container {
+.contentContainer {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 16px;
@@ -33,45 +43,45 @@
   z-index: 1;
 }
 
-.movie-grid {
+.movieGrid {
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
 @media (min-width: 768px) {
-  .movie-grid {
+  .movieGrid {
     flex-direction: row;
   }
   
-  .details-section {
+  .detailsSection {
     width: 66.667%;
   }
 }
 
-.poster-wrapper {
-  border-radius: 8px;
+.posterWrapper {
+  border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-speed) ease;
 }
 
-.poster-wrapper {
+.posterWrapper {
   max-width: 250px;
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
+  transition: transform var(--transition-speed) ease;
 }
 
-.movie-poster {
+.moviePoster {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.movie-title {
+.movieTitle {
   font-size: 3rem !important;
   font-weight: 700;
   margin-bottom: 1rem;
@@ -83,36 +93,36 @@
 }
 
 @media (min-width: 768px) {
-  .movie-title {
+  .movieTitle {
     font-size: 3rem;
   }
 }
 
-.metadata-container {
+.metadataContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   margin-bottom: 32px;
 }
 
-.metadata-item {
+.metadataItem {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.icon-star { color: #ffd700; }
-.icon-calendar { color: #60a5fa; }
-.icon-clock { color: #4ade80; }
+.iconStar { color: #ffd700; }
+.iconCalendar { color: #60a5fa; }
+.iconClock { color: #4ade80; }
 
-.genres-container {
+.genresContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
 }
 
-.genre-tag {
+.genreTag {
   padding: 4px 12px;
   background-color: rgba(75, 85, 99, 0.7);
   border-radius: 9999px;
@@ -122,70 +132,70 @@
   gap: 4px;
 }
 
-.overview-section {
+.overviewSection {
   background-color: rgba(31, 41, 55, 0.5);
   backdrop-filter: blur(8px);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   padding: 16px;
   margin-bottom: 24px;
 }
 
-.section-title {
+.sectionTitle {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 16px;
 }
 
-.overview-text {
+.overviewText {
   color: #d1d5db;
   line-height: 1.75;
 }
 
-.additional-info {
+.additionalInfo {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 
 @media (min-width: 768px) {
-  .additional-info {
+  .additionalInfo {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-.info-card {
+.infoCard {
   background-color: rgba(31, 41, 55, 0.5);
   backdrop-filter: blur(8px);
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   padding: 16px;
 }
 
-.info-title {
+.infoTitle {
   font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.info-text {
+.infoText {
   color: #d1d5db;
 }
 
-.loading-container,
-.error-container {
+.loadingContainer,
+.errorContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #1a1a1a;
-  color: white;
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 1.25rem;
 }
 
-.error-container {
+.errorContainer {
   color: #ef4444;
 }
 
-.showtimes-section {
+.showtimesSection {
   margin-top: 32px;
   padding: 32px;
   background: linear-gradient(165deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.9));
@@ -196,7 +206,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.showtimes-section h2 {
+.showtimesSection h2 {
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 24px;
@@ -206,12 +216,12 @@
   -webkit-text-fill-color: transparent;
 }
 
-.cinema-select-container {
+.cinemaSelectContainer {
   position: relative;
   margin-bottom: 32px;
 }
 
-.showtimes-section select {
+.showtimesSection select {
   width: 100%;
   padding: 16px;
   padding-right: 48px;
@@ -225,18 +235,18 @@
   cursor: pointer;
 }
 
-.showtimes-section select:hover {
+.showtimesSection select:hover {
   background-color: rgba(55, 65, 81, 0.9);
   border-color: rgba(96, 165, 250, 0.5);
 }
 
-.showtimes-section select:focus {
+.showtimesSection select:focus {
   outline: none;
   border-color: #60a5fa;
   box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
 }
 
-.cinema-select-container::after {
+.cinemaSelectContainer::after {
   content: '▼';
   position: absolute;
   right: 16px;
@@ -247,14 +257,14 @@
   font-size: 0.8rem;
 }
 
-.showtimes-display {
+.showtimesDisplay {
   margin-top: 24px;
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
-.showtime-item {
+.showtimeItem {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -268,27 +278,27 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.showtime-item:hover {
+.showtimeItem:hover {
   transform: translateY(-4px) scale(1.02);
   filter: blur(0px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
   border-color: rgba(96, 165, 250, 0.4);
 }
 
-.showtime-time {
+.showtimeTime {
   font-size: 1.5rem;
   font-weight: 700;
   color: #60a5fa;
   margin-bottom: 4px;
 }
 
-.showtime-info {
+.showtimeInfo {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.showtime-detail {
+.showtimeDetail {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -296,7 +306,7 @@
   font-size: 0.95rem;
 }
 
-.showtime-price {
+.showtimePrice {
   margin-top: 8px;
   padding-top: 12px;
   border-top: 1px solid rgba(75, 85, 99, 0.3);
@@ -306,21 +316,21 @@
 
 /* Responsive Adjustments */
 @media (min-width: 768px) {
-  .showtimes-section {
+  .showtimesSection {
     padding: 40px;
   }
 
-  .showtimes-section h2 {
+  .showtimesSection h2 {
     font-size: 1.2rem;
   }
   
-  .cinema-select-container {
+  .cinemaSelectContainer {
     max-width: 480px;
   }
 }
 
 @media (min-width: 1024px) {
-  .showtimes-display {
+  .showtimesDisplay {
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 }

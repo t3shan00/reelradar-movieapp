@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import { useNavigate } from 'react-router-dom'; 
-import './styles/PopularMovies.css';
+import styles from './styles/PopularMovies.module.css';
 
 function PopularMovies({ movies }) {
   const navigate = useNavigate();
@@ -59,22 +59,22 @@ function PopularMovies({ movies }) {
   };
 
   return (
-    <div className="popular-movies-slider">
-      <h2 className="popular-movies-title">Popular Movies</h2>
-      <div className="separator"></div>
+    <div className={styles.popularMoviesSlider}>
+      <h2 className={styles.popularMoviesTitle}>Popular Movies</h2>
+      <div className={styles.separator}></div>
       <Slider {...settings}>
         {movies.map((movie) => (
-          <div key={movie.id} className="popular-movie-card" onClick={() => handleMovieClick(movie.id)}> {/* Make card clickable */}
+          <div key={movie.id} className={styles.popularMovieCard} onClick={() => handleMovieClick(movie.id)}> {/* Make card clickable */}
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={movie.title}
-              className="popular-movie-poster"
+              className={styles.popularMoviePoster}
             />
-            {/* <h3 className="movie-title">{movie.title}</h3> */}
+            {/* <h3 className={styles.movieTitle}>{movie.title}</h3> */}
           </div>
         ))}
       </Slider>
-      <div className="separator"></div>
+      <div className={styles.separator}></div>
     </div>
   );
 }
