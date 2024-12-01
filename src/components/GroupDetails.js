@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,10 +7,44 @@ import styles from './styles/GroupDetail.module.css';
 
 const GroupDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [group, setGroup] = useState(null);
   const [sharedMovies, setSharedMovies] = useState([]);
   const [sharedShowtimes, setSharedShowtimes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const fetchMovieIdByTitle = async (title) => {
+    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=en-US`;
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTllNGRmMWY4ZDZhNmE1NDBjY2YyN2JiNmVmYzI1MyIsIm5iZiI6MTczMjAyNTU0Mi43Nzg4NDksInN1YiI6IjY3MzlmODRlNmEwMmEyNGQ3YjIxODE2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fXqSiWv07snaUkxoAsWteUTZNE1hdIuNNodLDtkC1nM'
+      }
+    };
+
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      if (data.results && data.results.length > 0) {
+        return data.results[0].id;
+      }
+      throw new Error('No matching movie found');
+    } catch (error) {
+      console.error("Error fetching movie ID:", error);
+      return null;
+    }
+  };
+
+  const handleMovieClick = async (title) => {
+    const movieId = await fetchMovieIdByTitle(title);
+    if (movieId) {
+      navigate(`/movie/${movieId}`);
+    } else {
+      toast.error('Movie details not found');
+    }
+  };
 
   const fetchGroupDetails = useCallback(async () => {
     try {
@@ -77,26 +111,16 @@ const GroupDetail = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Optimistic update
       setSharedMovies(prevMovies => 
         prevMovies.filter(movie => movie.tmdb_movie_id !== tmdbMovieId)
       );
       
-      // Refresh data
       await fetchSharedMovies();
       
-      toast.success('Movie removed successfully!', {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      toast.success('Movie removed successfully!');
     } catch (error) {
       console.error("Error removing movie:", error);
       toast.error('Failed to remove movie. Please try again.');
-      // Refresh to ensure consistency
       await fetchSharedMovies();
     } finally {
       setIsLoading(false);
@@ -115,26 +139,16 @@ const GroupDetail = () => {
         }
       );
 
-      // Optimistic update
       setSharedShowtimes(prevShowtimes => 
         prevShowtimes.filter(showtime => showtime.showtimeid !== showtimeId)
       );
 
-      // Refresh data
       await fetchSharedShowtimes();
       
-      toast.success('Showtime removed successfully!', {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      toast.success('Showtime removed successfully!');
     } catch (error) {
       console.error("Error removing showtime:", error);
       toast.error('Failed to remove showtime. Please try again.');
-      // Refresh to ensure consistency
       await fetchSharedShowtimes();
     } finally {
       setIsLoading(false);
@@ -172,7 +186,12 @@ const GroupDetail = () => {
                   />
                   <div className={styles.sharedItemContent}>
                     <div>
-                      <h3>{movie.title}</h3>
+                      <h3 
+                        onClick={() => handleMovieClick(movie.title)}
+                        className={styles.clickableTitle}
+                      >
+                        {movie.title}
+                      </h3>
                       <p>Release Date: {new Date(movie.releasedate).toLocaleDateString()}</p>
                       <p>Shared By: {movie.sharedbyusername}</p>
                       <button 
@@ -199,7 +218,12 @@ const GroupDetail = () => {
                 <div key={showtime.showtimeid} className={styles.sharedItem}>
                   <div className={styles.sharedItemContent}>
                     <div>
-                      <h3>{showtime.movietitle}</h3>
+                      <h3 
+                        onClick={() => handleMovieClick(showtime.movietitle)}
+                        className={styles.clickableTitle}
+                      >
+                        {showtime.movietitle}
+                      </h3>
                       <p>Theatre: {showtime.theatre}</p>
                       <p>Auditorium: {showtime.auditorium}</p>
                       <p>Time: {new Date(showtime.starttime).toLocaleString()}</p>

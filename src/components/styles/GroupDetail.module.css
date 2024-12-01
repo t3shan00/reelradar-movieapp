@@ -173,6 +173,17 @@
   opacity: 1;
 }
 
+.clickableTitle {
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.2s;
+}
+
+.clickableTitle:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
 @media (max-width: 767px) {
   :global(.Toastify__toast-container) {
     width: 90%;
