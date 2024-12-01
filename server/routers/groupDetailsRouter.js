@@ -3,7 +3,10 @@ import {
     shareMovieWithGroup,
     shareShowtimeWithGroup,
     fetchSharedMovies,
-    fetchSharedShowtimes 
+    fetchSharedShowtimes,
+    deleteSharedMovie,
+    deleteSharedShowtime,
+    getMovieIdByTmdbId
 } from '../controllers/groupDetailsController.js';
 import { auth } from '../utils/auth.js';
 
@@ -20,5 +23,14 @@ router.get('/groups/:groupId/movies', auth, fetchSharedMovies);
 
 // Route to fetch shared showtimes for a group
 router.get('/groups/:groupId/showtimes', auth, fetchSharedShowtimes);
+
+// Route to delete a shared movie
+router.delete('/groups/:groupId/movies/:movieId', auth, deleteSharedMovie);
+
+// Route to delete a shared showtime
+router.delete('/groups/:groupId/showtimes/:showtimeId', auth, deleteSharedShowtime);
+
+// Route to get movieid from tmdbid
+router.get('/movies/tmdb/:tmdbMovieId', auth, getMovieIdByTmdbId);
 
 export default router;

@@ -113,6 +113,75 @@
   margin: 4px 0;
 }
 
+.sharedItem button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sharedItem button:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sharedItem button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+:global(.Toastify__toast-container) {
+  padding: 0;
+}
+
+:global(.Toastify__toast) {
+  background: #2d2d2d;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+}
+
+:global(.Toastify__toast--success) {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+:global(.Toastify__toast--error) {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+:global(.Toastify__progress-bar) {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+:global(.Toastify__close-button) {
+  color: white;
+  opacity: 0.7;
+}
+
+:global(.Toastify__close-button:hover) {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  :global(.Toastify__toast-container) {
+    width: 90%;
+    padding: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 @media (max-width: 767px) {
   .sharedMovies,
   .sharedShowtimes {
