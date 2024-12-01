@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import styles from './styles/ShareShowtimeButton.module.css';
 
 const ShareShowtimeButton = ({ showtime }) => {
@@ -21,6 +22,7 @@ const ShareShowtimeButton = ({ showtime }) => {
         setUserGroups(response.data);
       } catch (err) {
         console.error("Failed to load user groups:", err);
+        toast.error("Failed to load user groups. Please try again.");
       }
     };
 
@@ -35,7 +37,7 @@ const ShareShowtimeButton = ({ showtime }) => {
 
   const shareShowtimeToGroup = async () => {
     if (!selectedGroup) {
-      alert("Please select a group to share the showtime.");
+      toast.warning("Please select a group to share the showtime.");
       return;
     }
   
@@ -58,14 +60,15 @@ const ShareShowtimeButton = ({ showtime }) => {
         }
       );
       console.log("Share showtime response:", response);
-      alert("Showtime shared successfully!");
+      toast.success("Showtime shared successfully!");
+      setMenuOpen(false);
     } catch (err) {
       if (err.response) {
         console.error("Server responded with an error:", err.response.data);
       } else {
         console.error("Failed to share showtime:", err);
       }
-      alert("Failed to share showtime. Please try again.");
+      toast.error("Failed to share showtime. Please try again.");
     }
   };
 
@@ -81,15 +84,17 @@ const ShareShowtimeButton = ({ showtime }) => {
     <div className={styles.shareSection}>
       <button className={styles.shareButton} onClick={toggleMenu}>Share Showtime</button>
       <div ref={menuRef} className={`${styles.shareMenu} ${menuOpen ? styles.open : ''}`} onMouseLeave={handleMouseLeave}>
-        <select onChange={handleGroupSelection} value={selectedGroup}>
-          <option value="">-- Choose a Group --</option>
-          {userGroups.map(group => (
-            <option key={group.group_id} value={group.group_id} data-group-id={group.group_id}>
-              {group.name}
-            </option>
-          ))}
-        </select>
-        <button onClick={shareShowtimeToGroup}>Share</button>
+        <div className={styles.shareMenuContent}>
+          <select onChange={handleGroupSelection} value={selectedGroup}>
+            <option value="">-- Choose a Group --</option>
+            {userGroups.map(group => (
+              <option key={group.group_id} value={group.group_id} data-group-id={group.group_id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
+          <button onClick={shareShowtimeToGroup}>Share</button>
+        </div>
       </div>
     </div>
   );
