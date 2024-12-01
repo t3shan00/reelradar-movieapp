@@ -12,6 +12,7 @@ const GroupDetail = () => {
   const [sharedMovies, setSharedMovies] = useState([]);
   const [sharedShowtimes, setSharedShowtimes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const fetchMovieIdByTitle = async (title) => {
     const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=en-US`;
@@ -27,10 +28,7 @@ const GroupDetail = () => {
       const response = await fetch(url, options);
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
-      if (data.results && data.results.length > 0) {
-        return data.results[0].id;
-      }
-      throw new Error('No matching movie found');
+      return data.results?.[0]?.id ?? null;
     } catch (error) {
       console.error("Error fetching movie ID:", error);
       return null;
@@ -38,30 +36,40 @@ const GroupDetail = () => {
   };
 
   const handleMovieClick = async (title) => {
-    const movieId = await fetchMovieIdByTitle(title);
-    if (movieId) {
-      navigate(`/movie/${movieId}`);
-    } else {
-      toast.error('Movie details not found');
+    try {
+      const movieId = await fetchMovieIdByTitle(title);
+      if (movieId) {
+        navigate(`/movie/${movieId}`);
+      } else {
+        toast.error('Movie details not found');
+      }
+    } catch (error) {
+      toast.error('Error navigating to movie details');
     }
   };
 
   const fetchGroupDetails = useCallback(async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error('Authentication required');
+      navigate('/login');
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(`http://localhost:3001/api/groups/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGroup(response.data);
     } catch (error) {
-      console.error("Error fetching group details:", error);
+      setError('Failed to load group details');
       toast.error('Failed to load group details');
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const fetchSharedMovies = useCallback(async () => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         `http://localhost:3001/api/groups/${id}/movies`,
         {
@@ -70,14 +78,13 @@ const GroupDetail = () => {
       );
       setSharedMovies(response.data);
     } catch (error) {
-      console.error("Error fetching shared movies:", error);
       toast.error('Failed to load shared movies');
     }
   }, [id]);
 
   const fetchSharedShowtimes = useCallback(async () => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         `http://localhost:3001/api/groups/${id}/showtimes`,
         {
@@ -86,7 +93,6 @@ const GroupDetail = () => {
       );
       setSharedShowtimes(response.data);
     } catch (error) {
-      console.error("Error fetching shared showtimes:", error);
       toast.error('Failed to load shared showtimes');
     }
   }, [id]);
@@ -100,8 +106,9 @@ const GroupDetail = () => {
   const removeMovie = async (tmdbMovieId) => {
     if (isLoading) return;
     setIsLoading(true);
+    const token = localStorage.getItem("token");
+
     try {
-      const token = localStorage.getItem("token");
       const movieResponse = await axios.get(`http://localhost:3001/api/movies/tmdb/${tmdbMovieId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -114,24 +121,22 @@ const GroupDetail = () => {
       setSharedMovies(prevMovies => 
         prevMovies.filter(movie => movie.tmdb_movie_id !== tmdbMovieId)
       );
-      
-      await fetchSharedMovies();
-      
       toast.success('Movie removed successfully!');
     } catch (error) {
       console.error("Error removing movie:", error);
       toast.error('Failed to remove movie. Please try again.');
-      await fetchSharedMovies();
     } finally {
       setIsLoading(false);
+      await fetchSharedMovies();
     }
   };
 
   const removeShowtime = async (showtimeId) => {
     if (isLoading) return;
     setIsLoading(true);
+    const token = localStorage.getItem("token");
+
     try {
-      const token = localStorage.getItem("token");
       await axios.delete(
         `http://localhost:3001/api/groups/${id}/showtimes/${showtimeId}`, 
         {
@@ -142,18 +147,19 @@ const GroupDetail = () => {
       setSharedShowtimes(prevShowtimes => 
         prevShowtimes.filter(showtime => showtime.showtimeid !== showtimeId)
       );
-
-      await fetchSharedShowtimes();
-      
       toast.success('Showtime removed successfully!');
     } catch (error) {
       console.error("Error removing showtime:", error);
       toast.error('Failed to remove showtime. Please try again.');
-      await fetchSharedShowtimes();
     } finally {
       setIsLoading(false);
+      await fetchSharedShowtimes();
     }
   };
+
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
 
   return (
     <>
@@ -213,34 +219,34 @@ const GroupDetail = () => {
         <div className={styles.sharedSection}>
           <h2>Shared Showtimes</h2>
           <div className={styles.sharedShowtimes}>
-            {sharedShowtimes.length > 0 ? (
-              sharedShowtimes.map((showtime) => (
-                <div key={showtime.showtimeid} className={styles.sharedItem}>
-                  <div className={styles.sharedItemContent}>
-                    <div>
-                      <h3 
-                        onClick={() => handleMovieClick(showtime.movietitle)}
-                        className={styles.clickableTitle}
-                      >
-                        {showtime.movietitle}
-                      </h3>
-                      <p>Theatre: {showtime.theatre}</p>
-                      <p>Auditorium: {showtime.auditorium}</p>
-                      <p>Time: {new Date(showtime.starttime).toLocaleString()}</p>
-                      <p>Shared By: {showtime.sharedbyusername}</p>
-                      <button 
-                        onClick={() => removeShowtime(showtime.showtimeid)}
-                        disabled={isLoading}
-                      >
-                        Remove
-                      </button>
-                    </div>
+          {sharedShowtimes.length > 0 ? (
+            sharedShowtimes.map((showtime) => (
+              <div key={showtime.showtimeid} className={styles.sharedItem}>
+                <div key={`content-${showtime.showtimeid}`} className={styles.sharedItemContent}>
+                  <div key={`inner-${showtime.showtimeid}`}>
+                    <h3 
+                      onClick={() => handleMovieClick(showtime.movietitle)}
+                      className={styles.clickableTitle}
+                    >
+                      {showtime.movietitle}
+                    </h3>
+                    <p>Theatre: {showtime.theatre}</p>
+                    <p>Auditorium: {showtime.auditorium}</p>
+                    <p>Time: {new Date(showtime.starttime).toLocaleString()}</p>
+                    <p>Shared By: {showtime.sharedbyusername}</p>
+                    <button 
+                      onClick={() => removeShowtime(showtime.showtimeid)}
+                      disabled={isLoading}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
-              ))
-            ) : (
-              <p>No shared showtimes available.</p>
-            )}
+              </div>
+            ))
+          ) : (
+            <p>No shared showtimes available.</p>
+          )}
           </div>
         </div>
       </div>
