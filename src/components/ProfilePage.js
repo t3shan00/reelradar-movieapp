@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getUserProfile, getFavoritesByUsername } from "../api";
 import { Helmet } from "react-helmet";
-import "./styles/Dashboard.css";
-import "./styles/ProfilePage.css";
+import styles from './styles/ProfilePage.module.css';
 
 const ProfilePage = () => {
   const { username } = useParams();
@@ -98,8 +97,8 @@ const ProfilePage = () => {
   const profileUrl = `${window.location.origin}/profile/${username}`;
 
   return (
-    <div>
-        <Helmet>
+    <div className={styles.profileContainer}>
+      <Helmet>
         <title>{`${profile.username}'s Profile - ReelRadar`}</title>
         <meta
           property="og:title"
@@ -113,71 +112,73 @@ const ProfilePage = () => {
         <meta property="og:url" content={profileUrl} />
         <meta property="og:type" content="website" />
       </Helmet>
-      <h1>{profile.username}'s Profile</h1>
+      <div className={styles.contentWrapper}>
+        <h1 className={styles.title}>{profile.username}'s Profile</h1>
 
-      <h2 className="share-h2">Share {username}'s Profile</h2>
-      <div className="share-links">
-        <a
-          href={shareLinks.facebook}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="share-button facebook"
-        >
-          Share on Facebook
-        </a>
-        <a
-          href={shareLinks.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="share-button twitter"
-        >
-          Share on Twitter
-        </a>
-        <a
-          href={shareLinks.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="share-button linkedin"
-        >
-          Share on LinkedIn
-        </a>
-        <a
-          href={shareLinks.whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="share-button whatsapp"
-        >
-          Share on WhatsApp
-        </a>
-        <a
-          href={shareLinks.email}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="share-button email"
-        >
-          Share via Email
-        </a>
-      </div>
-
-      <h2>Favorite Movies</h2>
-      {favorites.length > 0 ? (
-        <div className="favorite-movies-grid">
-          {favorites.map((movie) => (
-            <div key={movie.tmdb_movieid} className="favorite-movie-card">
-              <a href={`/movie/${movie.tmdb_movieid}`}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                  alt={movie.title || "Movie Poster"}
-                  className="favorite-movie-poster"
-                />
-              </a>
-              <p>{movie.title}</p>
-            </div>
-          ))}
+        <h2 className={styles.shareTitle}>Share {username}'s Profile</h2>
+        <div className={styles.shareLinks}>
+          <a
+            href={shareLinks.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.facebook}
+          >
+            Share on Facebook
+          </a>
+          <a
+            href={shareLinks.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.twitter}
+          >
+            Share on Twitter
+          </a>
+          <a
+            href={shareLinks.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.linkedin}
+          >
+            Share on LinkedIn
+          </a>
+          <a
+            href={shareLinks.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.whatsapp}
+          >
+            Share on WhatsApp
+          </a>
+          <a
+            href={shareLinks.email}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.email}
+          >
+            Share via Email
+          </a>
         </div>
-      ) : (
-        <p>This user has not added any favorite movies yet.</p>
-      )}
+
+        <h2 className={styles.title}>Favorite Movies</h2>
+        {favorites.length > 0 ? (
+          <div className={styles.favoriteMoviesGrid}>
+            {favorites.map((movie) => (
+              <div key={movie.tmdb_movieid} className={styles.movieCard}>
+                <a href={`/movie/${movie.tmdb_movieid}`}>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    alt={movie.title || "Movie Poster"}
+                    className={styles.moviePoster}
+                  />
+                  <p className={styles.movieTitle}>{movie.title}</p>
+                </a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className={styles.userInfo}>This user has not added any favorite movies yet.</p>
+        )}
+      </div>
     </div>
   );
 };

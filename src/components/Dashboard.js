@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import './styles/Dashboard.css';
+import styles from './styles/Dashboard.module.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -125,40 +125,44 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard-container">
+    <div className={styles.dashboardContainer}>
       {user ? (
-        <>
-          <h1>Welcome to the Dashboard, {user.username || user.email}</h1>
-          <p>Your email: {user.email}</p>
-          <p>Your UserName: {user.username}</p>
-          <p>Your Public Profile Link: <a href={`/profile/${user.username}`} target="_blank">{user.username}</a></p>
-          <p>Joined On: {user.createdat ? new Date(user.createdat).toLocaleDateString() : "N/A"}</p>
-          <h2>Your Favorite Movies</h2>
+        <div className={styles.contentWrapper}>
+          <h1 className={styles.title}>Welcome, {user.username || user.email}</h1>
+          <div className={styles.userInfo}>
+            <p>Email: {user.email}</p>
+            <p>Username: {user.username}</p>
+            <p>Public Profile: <a className={styles.userLink} href={`/profile/${user.username}`} target="_blank" rel="noopener noreferrer">{user.username}</a></p>
+            <p>Member since {user.createdat ? new Date(user.createdat).toLocaleDateString() : "N/A"}</p>
+          </div>
+          <h2 className={styles.title}>Your Favorite Movies</h2>
           {favoriteMovies.length > 0 ? (
-            <div className="favorite-movies-grid">
+            <div className={styles.favoriteMoviesGrid}>
               {favoriteMovies.map((movie) => (
-                <div key={movie.tmdb_movieid} className="favorite-movie-card">
+                <div key={movie.tmdb_movieid} className={styles.movieCard}>
                   <a href={`/movie/${movie.tmdb_movieid}`}>
                     <img
                       src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                       alt={movie.title || "Movie Poster"}
-                      className="favorite-movie-poster"
+                      className={styles.moviePoster}
                     />
+                    <p className={styles.movieTitle}>{movie.title}</p>
                   </a>
-                  <p>{movie.title}</p>
                 </div>
               ))}
             </div>
           ) : (
-            <p>You haven't added any favorite movies yet.</p>
+            <p className={styles.userInfo}>You haven't added any favorite movies yet.</p>
           )}
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
-          <button onClick={handleDeleteAccount} className="delete-account-button">
-            Delete Account
-          </button>
-        </>
+          <div>
+            <button onClick={handleLogout} className={styles.logoutButton}>
+              Logout
+            </button>
+            <button onClick={handleDeleteAccount} className={styles.deleteButton}>
+              Delete Account
+            </button>
+          </div>
+        </div>
       ) : (
         <p>Loading...</p>
       )}
