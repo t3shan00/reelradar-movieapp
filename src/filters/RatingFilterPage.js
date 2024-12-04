@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './RatingFilterPage.module.css';
@@ -13,7 +13,7 @@ const RatingFilterPage = () => {
 
   const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 
-  const fetchMoviesByRating = async (page = 1) => {
+  const fetchMoviesByRating = useCallback(async (page = 1) => {
     setIsLoading(true);
     try {
       const response = await fetch(
@@ -28,7 +28,7 @@ const RatingFilterPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedRating, API_KEY]);
 
   const handleApplyFilter = () => {
     setCurrentPage(1);
@@ -39,7 +39,7 @@ const RatingFilterPage = () => {
     if (selectedRating) {
       fetchMoviesByRating(currentPage);
     }
-  }, [selectedRating, currentPage]);
+  }, [selectedRating, currentPage, fetchMoviesByRating]);
 
   const paginationRange = useMemo(() => {
     const delta = 2;

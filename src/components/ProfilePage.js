@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUserProfile, getFavoritesByUsername } from "../api";
 import { Helmet } from "react-helmet";
 import styles from './styles/ProfilePage.module.css';
 
 const ProfilePage = () => {
   const { username } = useParams();
-  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -80,7 +79,6 @@ const ProfilePage = () => {
   };
 
   const shareLinks = generateShareLinks();
-  const isLoggedIn = !!localStorage.getItem("token");
 
   if (loading) {
     return <p>Loading...</p>;

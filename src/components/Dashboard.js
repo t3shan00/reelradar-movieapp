@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import styles from './styles/Dashboard.module.css';
@@ -7,7 +7,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -64,27 +63,25 @@ const Dashboard = () => {
         setFavoriteMovies(validMovies);
       } catch (err) {
         console.error("Error fetching favorite movies:", err.message);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchFavorites();
   }, [navigate]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
     window.location.reload();
-  };
+  }, [navigate]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
-
+  
       if (decodedToken.exp < currentTime) {
         handleLogout();
       } else {
@@ -92,7 +89,7 @@ const Dashboard = () => {
         setTimeout(handleLogout, timeout);
       }
     }
-  }, [navigate]);
+  }, [navigate, handleLogout]);
 
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem("token");

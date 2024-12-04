@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import './styles/ManageGroup.css';
@@ -10,12 +10,7 @@ const ManageGroup = () => {
   const [error, setError] = useState('');
   const [popupMessage, setPopupMessage] = useState('');
 
-  useEffect(() => {
-    fetchJoinRequests();
-    fetchGroupMembers();
-  }, [groupId]);
-
-  const fetchJoinRequests = async () => {
+  const fetchJoinRequests = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       const url = `http://localhost:3001/api/groups/${groupId}/join-requests`;
@@ -27,9 +22,9 @@ const ManageGroup = () => {
       console.error("Failed to fetch join requests:", err);
       setError("Failed to fetch join requests. Please try again.");
     }
-  };
+  }, [groupId]);
 
-  const fetchGroupMembers = async () => {
+  const fetchGroupMembers = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
       const url = `http://localhost:3001/api/groups/${groupId}/members`;
@@ -41,7 +36,12 @@ const ManageGroup = () => {
       console.error("Failed to fetch group members:", err);
       setError("Failed to fetch group members. Please try again.");
     }
-  };
+  }, [groupId]);
+
+  useEffect(() => {
+    fetchJoinRequests();
+    fetchGroupMembers();
+  }, [fetchJoinRequests, fetchGroupMembers]);
 
   const handleRequest = async (requestId, status) => {
     try {

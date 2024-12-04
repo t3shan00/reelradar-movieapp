@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha *.test.js",
-    "devStart": "cross-env NODE_ENV=development nodemon index.js",
-    "build": "CI=false react-scripts build"
+    "devStart": "cross-env NODE_ENV=development nodemon index.js"
   },
   "keywords": [],
   "author": "",

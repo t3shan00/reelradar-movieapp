@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import styles from './styles/MovieDetail.module.css';
 import FavoriteButton from "./FavoriteButton";
 import ShareButton from "./ShareMovieButton";
