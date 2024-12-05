@@ -70,6 +70,11 @@ const Login = () => {
               Don't have an account yet? Sign up here.
             </a>
           </p>
+          <p>
+            <a href="/forgot-password" className="forgot-password-link">
+              Forgot your password?
+            </a>
+          </p>
           <button type="submit" className="login-button">
             Login
           </button>

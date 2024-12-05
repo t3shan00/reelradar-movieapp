@@ -22,6 +22,14 @@ export const registerUser = (email, username, password) =>
 export const loginUser = (identifier, password) =>
   API.post("/user/login", { identifier, password });
 
+export const sendResetEmail = (email) => API.post("/auth/forgot-password", { email });
+
+export const resetPassword = (token, newPassword) => {
+  return API.post(`/auth/reset-password/${token}`, {
+    newPassword,
+  });
+};
+
 // UserProfile APIs
 
 export const getUserProfile = (username) =>

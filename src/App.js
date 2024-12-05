@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/PopularMovies';
@@ -22,6 +20,8 @@ import GroupDetail from './components/GroupDetails';
 import ManageGroup from './components/ManageGroup';
 import ProfilePage from './components/ProfilePage';
 import AllReviewsPage from "./components/AllReviewsPage";
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -47,8 +47,13 @@ function App() {
     const location = useLocation();
 
     useEffect(() => {
-      if (location.pathname !== '/login') {
-        sessionStorage.setItem('lastPage', location.pathname + location.search);
+      const pathname = location.pathname;
+  
+      if (pathname.startsWith("/reset-password/") && pathname.split("/").length === 3) {
+        return;
+      }
+      if (pathname !== "/login") {
+        sessionStorage.setItem("lastPage", pathname + location.search);
       }
     }, [location]);
 
@@ -62,6 +67,8 @@ function App() {
         <RouteListener />
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile/:username" element={<ProfilePage />} />
@@ -82,18 +89,6 @@ function App() {
             </>
           } />
         </Routes>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={true}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
       </div>
     </Router>
   );

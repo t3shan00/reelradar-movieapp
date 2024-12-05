@@ -36,3 +36,37 @@ export const findUserByUsername = async (username) => {
 export const deleteUserById = async (userId) => {
     return pool.query("DELETE FROM Users WHERE UserID = $1", [userId]);
   };
+
+  export const findUserByEmail = async (email) => {
+    const query = `
+      SELECT * FROM Users WHERE Email = $1;
+    `;
+    const result = await pool.query(query, [email]);
+    return result.rows[0];
+  };
+  
+  // Update reset token for a user
+  export const savePasswordResetToken = async (userId, token) => {
+    const query = `
+      UPDATE Users SET ResetToken = $1, ResetTokenExpiry = $2 WHERE UserID = $3;
+    `;
+    const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+    await pool.query(query, [token, expiry, userId]);
+  };
+  
+  // Update the user's password
+  export const updateUserPassword = async (userId, hashedPassword) => {
+    const query = `
+      UPDATE Users SET PasswordHash = $1, ResetToken = NULL, ResetTokenExpiry = NULL WHERE UserID = $2;
+    `;
+    await pool.query(query, [hashedPassword, userId]);
+  };
+  
+  // Verify reset token
+  export const verifyResetToken = async (token) => {
+    const query = `
+      SELECT * FROM Users WHERE ResetToken = $1 AND ResetTokenExpiry > NOW();
+    `;
+    const result = await pool.query(query, [token]);
+    return result.rows[0];
+  };

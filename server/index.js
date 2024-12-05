@@ -6,6 +6,7 @@ import reviewRouter from "./routers/reviewRouter.js";
 import favoriteRouter from "./routers/favoriteRouter.js";
 import groupRouter from "./routers/groupRouter.js";
 import groupDetailsRouter from './routers/groupDetailsRouter.js';
+import authRouter from "./routers/authRouter.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/reviews", reviewRouter);
 app.use("/api/favorites", favoriteRouter);
 app.use("/api/groups", groupRouter);
 app.use('/api', groupDetailsRouter);
+app.use("/auth", authRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

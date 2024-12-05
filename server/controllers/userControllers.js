@@ -2,6 +2,9 @@ import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { createUser, findUserByIdentifier, findUserByUsername, deleteUserById } from '../Models/userModels.js';
 import { fetchUserFavorites } from "../models/favoriteModel.js";
+import { findUserByEmail, savePasswordResetToken, updateUserPassword, verifyResetToken } from "../models/userModels.js";
+import nodemailer from "nodemailer";
+
 
 const { sign } = jwt;
 
@@ -88,13 +91,13 @@ export const getFavoritesByUsername = async (req, res) => {
     const { username } = req.params;
   
     try {
-      const user = await findUserByUsername(username); // Find the user by username
+      const user = await findUserByUsername(username); 
   
       if (!user) {
         return res.status(404).json({ error: "User not found." });
       }
   
-      const favorites = await fetchUserFavorites(user.userid); // Fetch the user's favorite movies
+      const favorites = await fetchUserFavorites(user.userid); 
       res.status(200).json(favorites);
     } catch (err) {
       console.error("Error fetching favorites by username:", err.message);
@@ -113,4 +116,68 @@ export const deleteUserHandler = async (req, res) => {
       console.error("Error deleting user:", err.message);
       res.status(500).json({ error: "Failed to delete account. Please try again later." });
     }
+};
+
+// Generate a reset token
+const generateResetToken = (userId) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
+};
+
+// Send a password reset email
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ error: "User with this email does not exist." });
+    }
+
+    const resetToken = generateResetToken(user.userid);
+    await savePasswordResetToken(user.userid, resetToken);
+
+    // Configure nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Password Reset Request",
+      html: `<p>Click <a href="${resetLink}">here</a> to reset your password. The link is valid for 1 hour.</p>`,
+    });
+
+    res.status(200).json({ message: "Password reset link has been sent to your email." });
+  } catch (err) {
+    console.error("Error sending reset email:", err.message);
+    res.status(500).json({ error: "Failed to send password reset email." });
+  }
+};
+
+// Handle password reset
+export const resetPassword = async (req, res) => {
+  const { token } = req.params; // Get token from URL params
+  const { newPassword } = req.body; // Get new password from the request body
+
+  try {
+    const user = await verifyResetToken(token);
+    if (!user) {
+      return res.status(400).json({ error: "Invalid or expired reset token." });
+    }
+
+    const hashedPassword = await hash(newPassword, 10);
+    await updateUserPassword(user.userid, hashedPassword);
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (err) {
+    console.error("Error resetting password:", err.message);
+    res.status(500).json({ error: "Failed to reset password." });
+  }
 };
