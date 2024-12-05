@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './styles/Header.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,24 @@ function Header() {
   const menuButtonRef = useRef(null);
   const navigate = useNavigate();
 
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
+    window.location.reload();
+  }, [navigate]);
+
+  const isTokenValid = useCallback(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expiry = payload.exp * 1000;
+    return Date.now() < expiry;
+  }, []);
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUser(userData);
@@ -22,28 +40,10 @@ function Header() {
     }, 60000); // Check every minute
 
     return () => clearInterval(intervalId);
-  }, []);
-
-  const isTokenValid = () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return false;
-    }
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const expiry = payload.exp * 1000;
-    return Date.now() < expiry;
-  };
+  }, [isTokenValid, handleLogout]);
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-    navigate("/login");
-    window.location.reload();
   };
 
   const handleNavigate = (path) => {
@@ -53,7 +53,6 @@ function Header() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the click is outside both the menu and the menu button
       if (
         menuRef.current && 
         !menuRef.current.contains(event.target) &&

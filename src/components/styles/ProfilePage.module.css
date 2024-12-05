@@ -1,0 +1,101 @@
+.profileContainer {
+  composes: dashboardContainer from './Dashboard.module.css';
+}
+
+.contentWrapper {
+  composes: contentWrapper from './Dashboard.module.css';
+}
+
+.title {
+  composes: title from './Dashboard.module.css';
+}
+
+.shareTitle {
+  composes: title;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.shareLinks {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.shareButton {
+  padding: 0.875rem 2rem;
+  color: white;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+}
+
+.facebook {
+  composes: shareButton;
+  background: rgba(59, 89, 152, 0.8);
+}
+
+.facebook:hover {
+  background: rgba(59, 89, 152, 0.9);
+  transform: translateY(-2px);
+}
+
+.twitter {
+  composes: shareButton;
+  background: rgba(29, 161, 242, 0.8);
+}
+
+.twitter:hover {
+  background: rgba(29, 161, 242, 0.9);
+  transform: translateY(-2px);
+}
+
+.linkedin {
+  composes: shareButton;
+  background: rgba(0, 119, 181, 0.8);
+}
+
+.linkedin:hover {
+  background: rgba(0, 119, 181, 0.9);
+  transform: translateY(-2px);
+}
+
+.whatsapp {
+  composes: shareButton;
+  background: rgba(37, 211, 102, 0.8);
+}
+
+.whatsapp:hover {
+  background: rgba(37, 211, 102, 0.9);
+  transform: translateY(-2px);
+}
+
+.email {
+  composes: shareButton;
+  background: rgba(108, 117, 125, 0.8);
+}
+
+.email:hover {
+  background: rgba(108, 117, 125, 0.9);
+  transform: translateY(-2px);
+}
+
+.favoriteMoviesGrid {
+  composes: favoriteMoviesGrid from './Dashboard.module.css';
+}
+
+.movieCard {
+  composes: movieCard from './Dashboard.module.css';
+}
+
+.moviePoster {
+  composes: moviePoster from './Dashboard.module.css';
+}
+
+.movieTitle {
+  composes: movieTitle from './Dashboard.module.css';
+}

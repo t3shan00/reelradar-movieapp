@@ -5,7 +5,6 @@ import ShareShowtimeButton from './ShareShowtimeButton';
 
 function ShowTimes() {
     const [cinemaAreas, setCinemaAreas] = useState([]);
-    const [currentArea, setCurrentArea] = useState('');
     const [currentShows, setCurrentShows] = useState([]);
     const navigate = useNavigate();
 
@@ -59,7 +58,6 @@ function ShowTimes() {
 
     const handleAreaSelection = (e) => {
         const areaId = e.target.value;
-        setCurrentArea(areaId);
         fetchCinemaShows(areaId);
     };
 

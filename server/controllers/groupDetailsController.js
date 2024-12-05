@@ -5,7 +5,9 @@ import {
     insertMovie,
     shareShowtime,
     getSharedMovies,
-    getSharedShowtimes
+    getSharedShowtimes,
+    removeSharedMovie,
+    removeSharedShowtime
 } from '../models/groupDetailsModel.js';
 
 // Function to share a movie with a group
@@ -132,3 +134,47 @@ export const fetchSharedShowtimes = async (req, res) => {
       res.status(500).json({ message: 'Error fetching shared showtimes', error: error.message });
     }
   };
+
+// Function to delete a shared movie
+export const deleteSharedMovie = async (req, res) => {
+  const { groupId, movieId } = req.params;
+  console.log("Group ID:", groupId); // Add this line
+  console.log("Movie ID:", movieId); // Add this line
+  try {
+    await removeSharedMovie(groupId, movieId);
+    res.status(200).json({ message: 'Shared movie removed successfully' });
+  } catch (error) {
+    console.error('Error removing shared movie:', error);
+    res.status(500).json({ message: 'Error removing shared movie', error: error.message });
+  }
+};
+
+// Function to delete a shared showtime
+export const deleteSharedShowtime = async (req, res) => {
+  const { groupId, showtimeId } = req.params;
+  try {
+    const result = await removeSharedShowtime(groupId, showtimeId);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Showtime not found or not authorized to delete' });
+    }
+    res.status(200).json({ message: 'Shared showtime removed successfully' });
+  } catch (error) {
+    console.error('Error removing shared showtime:', error);
+    res.status(500).json({ message: 'Error removing shared showtime', error: error.message });
+  }
+};
+
+// Function to fetch movie ID by TMDB ID
+export const getMovieIdByTmdbId = async (req, res) => {
+  const { tmdbMovieId } = req.params;
+  try {
+    const result = await findMovieByTmdbId(tmdbMovieId);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Movie not found' });
+    }
+    res.status(200).json({ movieId: result.rows[0].movieid });
+  } catch (error) {
+    console.error('Error fetching movie ID:', error);
+    res.status(500).json({ message: 'Error fetching movie ID', error: error.message });
+  }
+};

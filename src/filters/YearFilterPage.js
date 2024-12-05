@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './YearFilterPage.module.css';
@@ -22,7 +22,7 @@ const YearFilterPage = () => {
     setYears(yearsArray);
   }, []);
 
-  const fetchMovies = async (page = 1) => {
+  const fetchMovies = useCallback(async (page = 1) => {
     if (!selectedYear && filterType !== 'range') return;
 
     setIsLoading(true);
@@ -49,6 +49,9 @@ const YearFilterPage = () => {
       }
 
       const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
       
       setMovies(data.results || []);
@@ -59,13 +62,13 @@ const YearFilterPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedYear, filterType, yearRange]);
 
   useEffect(() => {
     if (selectedYear !== null || (filterType === 'range' && yearRange.start && yearRange.end)) {
       fetchMovies(currentPage);
     }
-  }, [selectedYear, filterType, yearRange, currentPage]);
+  }, [selectedYear, filterType, yearRange, currentPage, fetchMovies]);
 
   //pagination
   const paginationRange = useMemo(() => {

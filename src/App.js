@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './App.module.css';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import MovieGrid from './components/PopularMovies';
@@ -80,6 +82,18 @@ function App() {
             </>
           } />
         </Routes>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     </Router>
   );

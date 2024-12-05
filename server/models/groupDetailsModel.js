@@ -89,12 +89,13 @@ export const getSharedMovies = async (groupId) => {
 export const getSharedShowtimes = async (groupId) => {
   const query = `
     SELECT 
-      m.Title AS MovieTitle,
-      s.Theatre,
-      s.Auditorium,
-      s.StartTime,
-      gm.SharedAt,
-      u.username AS SharedByUsername
+      s.ShowtimeID as showtimeid,
+      m.Title AS movietitle,
+      s.Theatre as theatre,
+      s.Auditorium as auditorium,
+      s.StartTime as starttime,
+      gm.SharedAt as sharedat,
+      u.username AS sharedbyusername
     FROM Showtimes s
     JOIN Movies m ON s.MovieID = m.MovieID
     JOIN GroupMovies gm ON m.MovieID = gm.MovieID
@@ -107,6 +108,39 @@ export const getSharedShowtimes = async (groupId) => {
     return result;
   } catch (error) {
     console.error('Error fetching shared showtimes:', error);
+    throw error;
+  }
+};
+
+// Remove a shared movie from a group
+export const removeSharedMovie = async (groupId, movieId) => {
+  const query = `
+    DELETE FROM GroupMovies 
+    WHERE GroupID = $1 AND MovieID = $2
+  `;
+  try {
+    const result = await pool.query(query, [groupId, movieId]);
+    return result;
+  } catch (error) {
+    console.error('Error removing shared movie:', error);
+    throw error;
+  }
+};
+
+// Remove a shared showtime from a group
+export const removeSharedShowtime = async (groupId, showtimeId) => {
+  const query = `
+    DELETE FROM Showtimes 
+    WHERE ShowtimeID = $1 AND MovieID IN (
+      SELECT MovieID FROM GroupMovies WHERE GroupID = $2
+    )
+    RETURNING *
+  `;
+  try {
+    const result = await pool.query(query, [showtimeId, groupId]);
+    return result;
+  } catch (error) {
+    console.error('Error removing shared showtime:', error);
     throw error;
   }
 };

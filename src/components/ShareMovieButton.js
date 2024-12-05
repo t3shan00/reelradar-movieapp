@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import styles from './styles/ShareMovieButton.module.css';
 
 const ShareButton = ({ movieId, movie }) => {
@@ -22,6 +23,7 @@ const ShareButton = ({ movieId, movie }) => {
         setUserGroups(response.data);
       } catch (err) {
         console.error("Failed to load user groups:", err);
+        toast.error("Failed to load user groups. Please try again.");
       }
     };
 
@@ -52,7 +54,7 @@ const ShareButton = ({ movieId, movie }) => {
 
   const shareMovieToGroup = async () => {
     if (!selectedGroup) {
-      alert("Please select a group to share the movie.");
+      toast.warning("Please select a group to share the movie.");
       return;
     }
 
@@ -79,10 +81,11 @@ const ShareButton = ({ movieId, movie }) => {
         }
       );
       console.log("Share movie response:", response);
-      alert("Movie shared successfully!");
+      toast.success("Movie shared successfully!");
+      setMenuOpen(false);
     } catch (err) {
       console.error("Failed to share movie:", err);
-      alert("Failed to share movie. Please try again.");
+      toast.error("Failed to share movie. Please try again.");
     }
   };
 

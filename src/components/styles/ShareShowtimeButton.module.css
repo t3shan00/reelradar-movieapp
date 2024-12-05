@@ -111,3 +111,25 @@
     background-position: right 12px center;
     padding-right: 30px;
 }
+
+:global(.Toastify__toast) {
+    border-radius: 8px;
+    padding: 16px;
+    color: #ffffff;
+  }
+  
+  :global(.Toastify__toast--success) {
+    background: linear-gradient(135deg, #28a745, #20c997);
+  }
+  
+  :global(.Toastify__toast--error) {
+    background: linear-gradient(135deg, #dc3545, #f86b7d);
+  }
+  
+  :global(.Toastify__toast--warning) {
+    background: linear-gradient(135deg, #ffc107, #ffb020);
+  }
+  
+  :global(.Toastify__progress-bar) {
+    background: rgba(255, 255, 255, 0.7);
+  }

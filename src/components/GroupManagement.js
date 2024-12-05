@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styles from './styles/GroupManagement.module.css';
 
 const GroupManagement = () => {
@@ -32,6 +33,7 @@ const GroupManagement = () => {
       setUserGroups(response.data);
     } catch (err) {
       console.error("Failed to load user groups:", err);
+      toast.error("Failed to load user groups. Please try again.");
       setError("Failed to load user groups. Please try again.");
     }
   };
@@ -52,13 +54,14 @@ const GroupManagement = () => {
       });
     } catch (err) {
       console.error("Failed to load groups:", err);
+      toast.error("Failed to load groups. Please try again.");
       setError("Failed to load groups. Please try again.");
     }
   };
 
   const joinGroup = async (groupId) => {
     if (!groupId) {
-      setError("Group ID is missing.");
+      toast.error("Group ID is missing.");
       return;
     }
     try {
@@ -75,15 +78,15 @@ const GroupManagement = () => {
           },
         }
       );
-      alert("Join request sent successfully");
+      toast.success("Join request sent successfully!");
       fetchGroups();
       fetchUserGroups();
     } catch (err) {
       if (err.response && err.response.status === 409) {
-        setError("Join request already sent.");
+        toast.warning("Join request already sent.");
       } else {
         console.error("Failed to join group:", err);
-        setError("Failed to join group. Please try again.");
+        toast.error("Failed to join group. Please try again.");
       }
     }
   };
@@ -119,20 +122,20 @@ const GroupManagement = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        alert("Left group");
+        toast.success("Successfully left the group");
       }
 
       fetchGroups();
       fetchUserGroups();
     } catch (err) {
       console.error("Failed to leave group:", err);
-      setError("Failed to leave group. Please try again.");
+      toast.error("Failed to leave group. Please try again.");
     }
   };
 
   const createGroup = async () => {
     if (!newGroupName) {
-      setError("Please enter a group name.");
+      toast.warning("Please enter a group name.");
       return;
     }
 
@@ -148,13 +151,13 @@ const GroupManagement = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
+      toast.success("Group created and joined successfully!");
       fetchGroups();
       fetchUserGroups();
       setNewGroupName("");
-      alert("Group created and joined successfully!");
     } catch (err) {
       console.error("Failed to create group:", err);
-      setError("Failed to create group. Please try again.");
+      toast.error("Failed to create group. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -166,12 +169,12 @@ const GroupManagement = () => {
       await axios.delete(`http://localhost:3001/api/groups/${groupId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      alert("Group deleted");
+      toast.success("Group deleted successfully");
       fetchGroups();
       fetchUserGroups();
     } catch (err) {
       console.error("Failed to delete group:", err.message);
-      setError("Failed to delete group. Please try again.");
+      toast.error("Failed to delete group. Please try again.");
     }
   };
 
@@ -207,12 +210,10 @@ const GroupManagement = () => {
             <div className={styles.groupActions}>
               <button onClick={() => viewGroup(group)} className={styles.button}>View</button>
               {group.created_by === Number(localStorage.getItem("userId")) && (
-                <>
-                  <button className={styles.manageButton} onClick={() => manageGroup(group)}>Manage</button>
-                </>
+                <button className={styles.manageButton} onClick={() => manageGroup(group)}>Manage</button>
               )}
               {group.created_by !== Number(localStorage.getItem("userId")) && (
-              <button className={`${styles.button} ${styles.leaveButton}`} onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
+                <button className={`${styles.button} ${styles.leaveButton}`} onClick={() => leaveGroup(group.group_id)}>Leave Group</button>
               )}
               {group.created_by === Number(localStorage.getItem("userId")) && (
                 <button className={`${styles.button} ${styles.leaveButton}`} onClick={() => deleteGroup(group.group_id)}>Delete Group</button>
@@ -234,7 +235,7 @@ const GroupManagement = () => {
       </ul>
       <div className={styles.pagination}>
         <button
-          onClick={() => setPagination({ ...pagination, currentPage: pagination.currentPage - 1 })}
+          onClick={() => handlePageChange(pagination.currentPage - 1)}
           disabled={pagination.currentPage === 1}
           className={styles.button}
         >
@@ -242,7 +243,7 @@ const GroupManagement = () => {
         </button>
         <span>Page {pagination.currentPage} of {pagination.totalPages}</span>
         <button
-          onClick={() => setPagination({ ...pagination, currentPage: pagination.currentPage + 1 })}
+          onClick={() => handlePageChange(pagination.currentPage + 1)}
           disabled={pagination.currentPage === pagination.totalPages}
           className={styles.button}
         >
