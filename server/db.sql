@@ -7,6 +7,11 @@ CREATE TABLE IF NOT EXISTS Users (
     CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Add two column for password reset
+ALTER TABLE Users
+ADD COLUMN ResetToken TEXT,
+ADD COLUMN ResetTokenExpiry TIMESTAMP;
+
 -- Reviews Table
 CREATE TABLE IF NOT EXISTS Reviews (
     ReviewID SERIAL PRIMARY KEY,
