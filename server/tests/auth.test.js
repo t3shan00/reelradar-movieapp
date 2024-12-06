@@ -57,62 +57,62 @@ describe('User Authentication Tests', () => {
     });
   });
 
-  // // 2. Sign in tests
-  // describe('Login Tests', () => {
-  //   // Positive case - login with email
-  //   it('should successfully login with email', async () => {
-  //     const response = await request(app)
-  //       .post('/user/login')
-  //       .send({
-  //         identifier: testUser.email,
-  //         password: testUser.password
-  //       });
+  // 2. Sign in tests
+  describe('Login Tests', () => {
+    // Positive case - login with email
+    it('should successfully login with email', async () => {
+      const response = await request(app)
+        .post('/user/login')
+        .send({
+          identifier: testUser.email,
+          password: testUser.password
+        });
 
-  //     expect(response.status).to.equal(200);
-  //     expect(response.body).to.have.property('token');
-  //     expect(response.body).to.have.property('id');
-  //     expect(response.body.email).to.equal(testUser.email);
-  //     expect(response.body.username).to.equal(testUser.username);
-  //   });
+      expect(response.status).to.equal(200);
+      expect(response.body).to.have.property('token');
+      expect(response.body).to.have.property('id');
+      expect(response.body.email).to.equal(testUser.email);
+      expect(response.body.username).to.equal(testUser.username);
+    });
 
-  //   // Positive case - login with username
-  //   it('should successfully login with username', async () => {
-  //     const response = await request(app)
-  //       .post('/user/login')
-  //       .send({
-  //         identifier: testUser.username,
-  //         password: testUser.password
-  //       });
+    // Positive case - login with username
+    it('should successfully login with username', async () => {
+      const response = await request(app)
+        .post('/user/login')
+        .send({
+          identifier: testUser.username,
+          password: testUser.password
+        });
 
-  //     expect(response.status).to.equal(200);
-  //     expect(response.body).to.have.property('token');
-  //     expect(response.body.username).to.equal(testUser.username);
-  //   });
+      expect(response.status).to.equal(200);
+      expect(response.body).to.have.property('token');
+      expect(response.body.username).to.equal(testUser.username);
+    });
 
-  //   // Negative case - wrong password
-  //   it('should fail with incorrect password', async () => {
-  //     const response = await request(app)
-  //       .post('/user/login')
-  //       .send({
-  //         identifier: testUser.email,
-  //         password: 'wrongpassword'
-  //       });
+    // Negative case - wrong password
+    it('should fail with incorrect password', async () => {
+      const response = await request(app)
+        .post('/user/login')
+        .send({
+          identifier: testUser.email,
+          password: 'wrongpassword'
+        });
 
-  //     expect(response.status).to.equal(500);
-  //     expect(response.body.error).to.equal('Invalid credentials.');
-  //   });
+      expect(response.status).to.equal(500);
+      expect(response.body.error).to.equal('Invalid credentials.');
+    });
 
-  //   // Negative case - non-existent user
-  //   it('should fail with non-existent user', async () => {
-  //     const response = await request(app)
-  //       .post('/user/login')
-  //       .send({
-  //         identifier: 'nonexistent@example.com',
-  //         password: testUser.password
-  //       });
+    // Negative case - non-existent user
+    it('should fail with non-existent user', async () => {
+      const response = await request(app)
+        .post('/user/login')
+        .send({
+          identifier: 'nonexistent@example.com',
+          password: testUser.password
+        });
 
-  //     expect(response.status).to.equal(500);
-  //     expect(response.body.error).to.equal('Invalid credentials.');
-  //   });
-  // });
+      expect(response.status).to.equal(500);
+      expect(response.body.error).to.equal('Invalid credentials.');
+    });
+  });
 });

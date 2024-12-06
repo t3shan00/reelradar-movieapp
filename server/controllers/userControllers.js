@@ -48,13 +48,13 @@ export const login = async (req, res, next) => {
         const user = await findUserByIdentifier(identifier);
 
         if (!user) {
-            return next(new Error(invalidMessage)); 
+            return res.status(500).json({ error: invalidMessage });
         }
 
         const isMatch = await compare(password, user.passwordhash);
 
         if (!isMatch) {
-            return next(new Error(invalidMessage)); 
+            return res.status(500).json({ error: invalidMessage });
         }
 
         const token = sign(
@@ -71,7 +71,7 @@ export const login = async (req, res, next) => {
             token: token,
         });
     } catch (err) {
-        next(err);
+        res.status(500).json({ error: err.message });
     }
 };
 
