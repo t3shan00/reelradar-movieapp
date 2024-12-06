@@ -115,4 +115,45 @@ describe('User Authentication Tests', () => {
       expect(response.body.error).to.equal('Invalid credentials.');
     });
   });
+
+  // 3. Sign out tests
+  describe('Logout Tests', () => {
+    let authToken; 
+
+    before(async () => {
+      const loginResponse = await request(app)
+        .post('/user/login')
+        .send({
+          identifier: testUser.email,
+          password: testUser.password
+        });
+      authToken = loginResponse.body.token;
+    });
+
+    it('should successfully log out a user', async () => {
+      const response = await request(app)
+        .post('/user/logout')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.message).to.equal('Successfully logged out');
+    });
+
+    it('should fail to log out with invalid token', async () => {
+      const response = await request(app)
+        .post('/user/logout')
+        .set('Authorization', 'Bearer invalid_token');
+
+      expect(response.status).to.equal(403);
+      expect(response.body.message).to.equal('Invalid credentials');
+    });
+
+    it('should fail to log out without token', async () => {
+      const response = await request(app)
+        .post('/user/logout');
+
+      expect(response.status).to.equal(401);
+      expect(response.body.message).to.equal('Authorization required');
+    });
+  });
 });

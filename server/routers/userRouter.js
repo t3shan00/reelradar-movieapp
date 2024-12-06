@@ -26,4 +26,8 @@ userRouter.post("/forgot-password", forgotPassword);
 // Reset password route
 userRouter.post("/reset-password", resetPassword);
 
+userRouter.post("/logout", auth, (req, res) => {
+  res.status(200).json({ message: 'Successfully logged out' });
+});
+
 export { userRouter };
