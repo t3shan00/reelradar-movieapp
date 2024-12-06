@@ -1,6 +1,6 @@
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUser, findUserByIdentifier, findUserByUsername, deleteUserById } from '../Models/userModels.js';
+import { createUser, findUserByIdentifier, findUserByUsername, deleteUserById, checkExistingUser } from '../models/userModels.js';
 import { fetchUserFavorites } from "../models/favoriteModel.js";
 import { findUserByEmail, savePasswordResetToken, updateUserPassword, verifyResetToken } from "../models/userModels.js";
 import nodemailer from "nodemailer";
@@ -9,25 +9,35 @@ import nodemailer from "nodemailer";
 const { sign } = jwt;
 
 export const register = async (req, res, next) => {
-    const { email, username, password } = req.body;
+  const { email, username, password } = req.body;
+
+  try {
+    if (!email || !username || !password) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters" });
+    }
 
     try {
-        const hashedPassword = await hash(password, 10);
-
-        const user = await createUser(email, username, hashedPassword);
-
-        res.status(201).json({
-            id: user.userid,
-            email: user.email,
-            username: user.username,
-        });
-    } catch (err) {
-        if (err.code === "23505") {
-            const field = err.constraint.includes("email") ? "Email" : "Username";
-            return res.status(400).json({ error: `${field} already exists.` });
-        }
-        next(err);
+      await checkExistingUser(email, username);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
+
+    const hashedPassword = await hash(password, 10);
+    const user = await createUser(email, username, hashedPassword);
+
+    res.status(201).json({
+      id: user.userid,
+      email: user.email,
+      username: user.username,
+    });
+  } catch (err) {
+    console.error('Registration error:', err);
+    next(err);
+  }
 };
 
 export const login = async (req, res, next) => {

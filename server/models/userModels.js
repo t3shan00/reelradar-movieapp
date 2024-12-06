@@ -70,3 +70,27 @@ export const deleteUserById = async (userId) => {
     const result = await pool.query(query, [token]);
     return result.rows[0];
   };
+
+  export const checkExistingUser = async (email, username) => {
+    // First check email
+    const emailCheck = await pool.query(
+        'SELECT * FROM users WHERE email = $1',
+        [email]
+    );
+    
+    if (emailCheck.rows.length > 0) {
+        throw new Error('Email already exists');
+    }
+    
+    // Then check username
+    const usernameCheck = await pool.query(
+        'SELECT * FROM users WHERE username = $1',
+        [username]
+    );
+    
+    if (usernameCheck.rows.length > 0) {
+        throw new Error('Username already exists');
+    }
+    
+    return true;
+};

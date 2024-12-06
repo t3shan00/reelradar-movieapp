@@ -13,9 +13,9 @@ Reel Radar is an advanced web application designed for 🎞️ movie enthusiasts
 We have a diverse and collaborative team with the following roles:
 - **Jayathra** (🌀 Scrum Master): Project coordination, task management, and full-stack development.
 - **Anil**: Full-stack development.
-- **Motiar**: Backend development.
-- **Chenqi**: Learning and support role.
-- **Rubayat Kabir**: Tester, ensuring quality throughout the project.
+- **Chenqi**: UI/UX development,Learning and support role.
+- **Motiar**: Tester
+- **Rubayat Kabir**: Tester
 
 ## 🌟 Key Features
 
