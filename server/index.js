@@ -7,6 +7,7 @@ import favoriteRouter from "./routers/favoriteRouter.js";
 import groupRouter from "./routers/groupRouter.js";
 import groupDetailsRouter from './routers/groupDetailsRouter.js';
 import authRouter from "./routers/authRouter.js";
+import { pool } from './utils/db.js';
 
 dotenv.config();
 
