@@ -67,4 +67,5 @@ jobs:
           app-name: 'reel-anil-backend'
           slot-name: 'Production'
           package: ./app
+          enable-oryx-build: true
           
