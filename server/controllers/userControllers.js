@@ -155,7 +155,7 @@ export const forgotPassword = async (req, res) => {
       },
     });
 
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetLink = `${process.env.WEBSITE_ADDRESS}/reset-password/${resetToken}`;
 
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
@@ -173,8 +173,8 @@ export const forgotPassword = async (req, res) => {
 
 // Handle password reset
 export const resetPassword = async (req, res) => {
-  const { token } = req.params; // Get token from URL params
-  const { newPassword } = req.body; // Get new password from the request body
+  const { token } = req.params; 
+  const { newPassword } = req.body; 
 
   try {
     const user = await verifyResetToken(token);
