@@ -23,6 +23,7 @@ dist/
 .env.production
 .env.test
 /server/.env
+/src/.env
 
 # Cache directories
 .cache/
