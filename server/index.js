@@ -17,6 +17,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ message: 'Backend is running!' });
+});
+
 app.use('/user', userRouter);
 app.use('/reviews', reviewRouter);
 app.use("/api/reviews", reviewRouter);
