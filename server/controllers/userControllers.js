@@ -41,38 +41,38 @@ export const register = async (req, res, next) => {
 };
 
 export const login = async (req, res, next) => {
-    const { identifier, password } = req.body;
-    const invalidMessage = "Invalid credentials.";
+  const { identifier, password } = req.body;
+  const invalidMessage = "Invalid credentials.";
 
-    try {
-        const user = await findUserByIdentifier(identifier);
+  try {
+      const user = await findUserByIdentifier(identifier);
 
-        if (!user) {
-            return res.status(500).json({ error: invalidMessage });
-        }
+      if (!user) {
+          return res.status(500).json({ error: invalidMessage });
+      }
 
-        const isMatch = await compare(password, user.passwordhash);
+      const isMatch = await compare(password, user.passwordhash);
 
-        if (!isMatch) {
-            return res.status(500).json({ error: invalidMessage });
-        }
+      if (!isMatch) {
+          return res.status(500).json({ error: invalidMessage });
+      }
 
-        const token = sign(
-            { userId: user.userid, email: user.email, username: user.username },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: "1h" }
-        );
+      const token = sign(
+          { userId: user.userid, email: user.email, username: user.username },
+          process.env.JWT_SECRET_KEY,
+          { expiresIn: "1h" }
+      );
 
-        res.status(200).json({
-            id: user.userid,
-            email: user.email,
-            username: user.username,
-            createdat: user.createdat,
-            token: token,
-        });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+      res.status(200).json({
+          id: user.userid,
+          email: user.email,
+          username: user.username,
+          createdat: user.createdat,
+          token: token,
+      });
+  } catch (err) {
+      res.status(500).json({ error: invalidMessage });
+  }
 };
 
 export const getUserProfile = async (req, res) => {

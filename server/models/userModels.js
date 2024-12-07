@@ -37,7 +37,7 @@ export const deleteUserById = async (userId) => {
     return pool.query("DELETE FROM Users WHERE UserID = $1", [userId]);
   };
 
-  export const findUserByEmail = async (email) => {
+export const findUserByEmail = async (email) => {
     const query = `
       SELECT * FROM Users WHERE Email = $1;
     `;
@@ -46,7 +46,7 @@ export const deleteUserById = async (userId) => {
   };
   
   // Update reset token for a user
-  export const savePasswordResetToken = async (userId, token) => {
+export const savePasswordResetToken = async (userId, token) => {
     const query = `
       UPDATE Users SET ResetToken = $1, ResetTokenExpiry = $2 WHERE UserID = $3;
     `;
@@ -55,7 +55,7 @@ export const deleteUserById = async (userId) => {
   };
   
   // Update the user's password
-  export const updateUserPassword = async (userId, hashedPassword) => {
+export const updateUserPassword = async (userId, hashedPassword) => {
     const query = `
       UPDATE Users SET PasswordHash = $1, ResetToken = NULL, ResetTokenExpiry = NULL WHERE UserID = $2;
     `;
@@ -63,7 +63,7 @@ export const deleteUserById = async (userId) => {
   };
   
   // Verify reset token
-  export const verifyResetToken = async (token) => {
+export const verifyResetToken = async (token) => {
     const query = `
       SELECT * FROM Users WHERE ResetToken = $1 AND ResetTokenExpiry > NOW();
     `;
@@ -71,26 +71,35 @@ export const deleteUserById = async (userId) => {
     return result.rows[0];
   };
 
-  export const checkExistingUser = async (email, username) => {
-    // First check email
-    const emailCheck = await pool.query(
-        'SELECT * FROM users WHERE email = $1',
-        [email]
-    );
-    
-    if (emailCheck.rows.length > 0) {
-        throw new Error('Email already exists');
+export const checkExistingUser = async (email, username) => {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        
+        const emailCheck = await client.query(
+            'SELECT * FROM users WHERE email = $1',
+            [email]
+        );
+        
+        if (emailCheck.rows.length > 0) {
+            throw new Error('Email already exists');
+        }
+        
+        const usernameCheck = await client.query(
+            'SELECT * FROM users WHERE username = $1',
+            [username]
+        );
+        
+        if (usernameCheck.rows.length > 0) {
+            throw new Error('Username already exists');
+        }
+        
+        await client.query('COMMIT');
+        return true;
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
     }
-    
-    // Then check username
-    const usernameCheck = await pool.query(
-        'SELECT * FROM users WHERE username = $1',
-        [username]
-    );
-    
-    if (usernameCheck.rows.length > 0) {
-        throw new Error('Username already exists');
-    }
-    
-    return true;
 };

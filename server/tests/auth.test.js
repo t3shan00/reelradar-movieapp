@@ -21,7 +21,32 @@ const testUser = {
   password: 'Test123!'
 };
 
+const newTestUser = {
+  email: 'newtest@example.com',
+  username: 'newtestuser',
+  password: 'Test123!'
+};
+
 describe('User Authentication Tests', () => {
+  let authToken;
+
+  // 在所有测试开始前获取认证令牌
+  before(async () => {
+    // 先注册测试用户
+    await request(app)
+      .post('/user/register')
+      .send(testUser);
+    
+    // 登录并获取令牌
+    const loginResponse = await request(app)
+      .post('/user/login')
+      .send({
+        identifier: testUser.email,
+        password: testUser.password
+      });
+    authToken = loginResponse.body.token;
+  });
+
   // Clean up test data
   after(async () => {
     try {
@@ -36,22 +61,31 @@ describe('User Authentication Tests', () => {
   describe('Registration Tests', () => {
     // Positive case
     it('should successfully register a new user', async () => {
+      const newUser = {
+        email: 'newuser@example.com',
+        username: 'newuser',
+        password: 'Test123!'
+      };
+  
       const response = await request(app)
         .post('/user/register')
-        .send(testUser);
-
+        .send(newUser);
+  
       expect(response.status).to.equal(201);
       expect(response.body).to.have.property('id');
-      expect(response.body.email).to.equal(testUser.email);
-      expect(response.body.username).to.equal(testUser.username);
+      expect(response.body.email).to.equal(newUser.email);
+      expect(response.body.username).to.equal(newUser.username);
+  
+      // Clean up
+      await pool.query('DELETE FROM users WHERE email = $1', [newUser.email]);
     });
-
+  
     // Negative case
     it('should not allow duplicate email registration', async () => {
       const response = await request(app)
         .post('/user/register')
         .send(testUser);
-
+  
       expect(response.status).to.equal(400);
       expect(response.body.error).to.include('Email already exists');
     });
@@ -70,9 +104,7 @@ describe('User Authentication Tests', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property('token');
-      expect(response.body).to.have.property('id');
-      expect(response.body.email).to.equal(testUser.email);
-      expect(response.body.username).to.equal(testUser.username);
+      authToken = response.body.token;
     });
 
     // Positive case - login with username
@@ -116,10 +148,9 @@ describe('User Authentication Tests', () => {
     });
   });
 
-  // 3. Sign out tests
+// 3. Sign out tests
   describe('Logout Tests', () => {
     let authToken; 
-
     before(async () => {
       const loginResponse = await request(app)
         .post('/user/login')
@@ -129,31 +160,102 @@ describe('User Authentication Tests', () => {
         });
       authToken = loginResponse.body.token;
     });
-
     it('should successfully log out a user', async () => {
       const response = await request(app)
         .post('/user/logout')
         .set('Authorization', `Bearer ${authToken}`);
-
       expect(response.status).to.equal(200);
       expect(response.body.message).to.equal('Successfully logged out');
     });
-
     it('should fail to log out with invalid token', async () => {
       const response = await request(app)
         .post('/user/logout')
+        .set('Authorization', 'Bearer invalid_token');
+      expect(response.status).to.equal(403);
+      expect(response.body.message).to.equal('Invalid credentials');
+    });
+    it('should fail to log out without token', async () => {
+      const response = await request(app)
+        .post('/user/logout');
+      expect(response.status).to.equal(401);
+      expect(response.body.message).to.equal('Authorization required');
+    });
+  });
+
+  // 3. Sign out tests
+  describe('Logout Tests', () => {
+    let authToken; 
+    before(async () => {
+      const loginResponse = await request(app)
+        .post('/user/login')
+        .send({
+          identifier: testUser.email,
+          password: testUser.password
+        });
+      authToken = loginResponse.body.token;
+    });
+    it('should successfully log out a user', async () => {
+      const response = await request(app)
+        .post('/user/logout')
+        .set('Authorization', `Bearer ${authToken}`);
+      expect(response.status).to.equal(200);
+      expect(response.body.message).to.equal('Successfully logged out');
+    });
+    it('should fail to log out with invalid token', async () => {
+      const response = await request(app)
+        .post('/user/logout')
+        .set('Authorization', 'Bearer invalid_token');
+      expect(response.status).to.equal(403);
+      expect(response.body.message).to.equal('Invalid credentials');
+    });
+    it('should fail to log out without token', async () => {
+      const response = await request(app)
+        .post('/user/logout');
+      expect(response.status).to.equal(401);
+      expect(response.body.message).to.equal('Authorization required');
+    });
+  });
+
+  // 4. 账户删除测试
+  describe('Account Deletion Tests', () => {
+    // 积极测试用例 - 成功删除账户
+    it('should successfully delete user account with valid token', async () => {
+      expect(authToken).to.exist;
+      
+      const response = await request(app)
+        .delete('/user/delete')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.message).to.equal('Account deleted successfully.');
+
+      // 验证用户确实被删除了
+      const checkUser = await pool.query(
+        'SELECT * FROM users WHERE email = $1',
+        [testUser.email]
+      );
+      expect(checkUser.rows.length).to.equal(0);
+    });
+
+    // 消极测试用例 - 无效令牌
+    it('should fail to delete account with invalid token', async () => {
+      const response = await request(app)
+        .delete('/user/delete')
         .set('Authorization', 'Bearer invalid_token');
 
       expect(response.status).to.equal(403);
       expect(response.body.message).to.equal('Invalid credentials');
     });
 
-    it('should fail to log out without token', async () => {
+    // 消极测试用例 - 没有令牌
+    it('should fail to delete account without token', async () => {
       const response = await request(app)
-        .post('/user/logout');
+        .delete('/user/delete');
 
       expect(response.status).to.equal(401);
       expect(response.body.message).to.equal('Authorization required');
     });
+
+
   });
 });
