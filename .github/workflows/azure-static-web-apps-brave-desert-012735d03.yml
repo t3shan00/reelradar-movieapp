@@ -35,6 +35,13 @@ jobs:
                const coredemo = require('@actions/core')
                return await coredemo.getIDToken()
            result-encoding: string
+
+      - name: Set Environment Variables
+        run: |
+          echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}" >> $GITHUB_ENV
+          echo "REACT_APP_TMDB_API_KEY=${{ secrets.REACT_APP_TMDB_API_KEY }}" >> $GITHUB_ENV
+          echo "REACT_APP_TMDB_BEARER_TOKEN=${{ secrets.REACT_APP_TMDB_BEARER_TOKEN }}" >> $GITHUB_ENV
+   
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
