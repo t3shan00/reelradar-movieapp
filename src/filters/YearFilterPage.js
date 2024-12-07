@@ -14,7 +14,7 @@ const YearFilterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const API_KEY = "6e9e4df1f8d6a6a540ccf27bb6efc253"; //added api instead of .env
+  const API_KEY = "6e9e4df1f8d6a6a540ccf27bb6efc253"; 
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
