@@ -14,7 +14,7 @@ const ShareShowtimeButton = ({ showtime }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3001/api/groups/my-groups",
+          `${process.env.REACT_APP_BASE_URL}/api/groups/my-groups`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -53,7 +53,7 @@ const ShareShowtimeButton = ({ showtime }) => {
   
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/groups/${selectedGroup}/showtimes`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${selectedGroup}/showtimes`,
         showtimeData,
         {
           headers: { Authorization: `Bearer ${token}` },

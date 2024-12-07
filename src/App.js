@@ -23,7 +23,7 @@ import AllReviewsPage from "./components/AllReviewsPage";
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 
-const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 function App() {

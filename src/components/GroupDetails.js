@@ -20,7 +20,7 @@ const GroupDetail = () => {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTllNGRmMWY4ZDZhNmE1NDBjY2YyN2JiNmVmYzI1MyIsIm5iZiI6MTczMjAyNTU0Mi43Nzg4NDksInN1YiI6IjY3MzlmODRlNmEwMmEyNGQ3YjIxODE2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fXqSiWv07snaUkxoAsWteUTZNE1hdIuNNodLDtkC1nM'
+        Authorization: `Bearer ${process.env.REACT_APP_TMDB_BEARER_TOKEN}`
       }
     };
 
@@ -57,7 +57,7 @@ const GroupDetail = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:3001/api/groups/${id}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/groups/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setGroup(response.data);
@@ -71,7 +71,7 @@ const GroupDetail = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/groups/${id}/movies`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${id}/movies`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -86,7 +86,7 @@ const GroupDetail = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/groups/${id}/showtimes`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${id}/showtimes`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -109,12 +109,12 @@ const GroupDetail = () => {
     const token = localStorage.getItem("token");
 
     try {
-      const movieResponse = await axios.get(`http://localhost:3001/api/movies/tmdb/${tmdbMovieId}`, {
+      const movieResponse = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/movies/tmdb/${tmdbMovieId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const movieId = movieResponse.data.movieId;
 
-      await axios.delete(`http://localhost:3001/api/groups/${id}/movies/${movieId}`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/groups/${id}/movies/${movieId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -138,7 +138,7 @@ const GroupDetail = () => {
 
     try {
       await axios.delete(
-        `http://localhost:3001/api/groups/${id}/showtimes/${showtimeId}`, 
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${id}/showtimes/${showtimeId}`, 
         {
           headers: { Authorization: `Bearer ${token}` },
         }

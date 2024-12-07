@@ -14,7 +14,7 @@ const ShareButton = ({ movieId, movie }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:3001/api/groups/my-groups",
+          `${process.env.REACT_APP_BASE_URL}/api/groups/my-groups`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -74,7 +74,7 @@ const ShareButton = ({ movieId, movie }) => {
       console.log(`Sharing movie to group ID: ${selectedGroup}`);
       console.log("Movie data being shared:", movieData);
       const response = await axios.post(
-        `http://localhost:3001/api/groups/${selectedGroup}/movies`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${selectedGroup}/movies`,
         movieData,
         {
           headers: { Authorization: `Bearer ${token}` },

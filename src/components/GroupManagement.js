@@ -25,7 +25,7 @@ const GroupManagement = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:3001/api/groups/my-groups",
+        `${process.env.REACT_APP_BASE_URL}/api/groups/my-groups`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -42,7 +42,7 @@ const GroupManagement = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3001/api/groups?page=${page}&limit=10`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups?page=${page}&limit=10`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -69,7 +69,7 @@ const GroupManagement = () => {
       const userId = localStorage.getItem("userId");
   
       await axios.post(
-        `http://localhost:3001/api/groups/${groupId}/join`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}/join`,
         { userId },
         {
           headers: {
@@ -105,7 +105,7 @@ const GroupManagement = () => {
       const userId = localStorage.getItem("userId");
 
       const groupResponse = await axios.get(
-        `http://localhost:3001/api/groups/${groupId}`,
+        `${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -117,7 +117,7 @@ const GroupManagement = () => {
         await deleteGroup(groupId);
       } else {
         await axios.delete(
-          `http://localhost:3001/api/groups/${groupId}/leave`,
+          `${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}/leave`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -146,7 +146,7 @@ const GroupManagement = () => {
 
     try {
       await axios.post(
-        "http://localhost:3001/api/groups",
+        `${process.env.REACT_APP_BASE_URL}/api/groups`,
         { groupName: newGroupName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -166,7 +166,7 @@ const GroupManagement = () => {
   const deleteGroup = async (groupId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3001/api/groups/${groupId}`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("Group deleted successfully");

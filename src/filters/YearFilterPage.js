@@ -14,14 +14,14 @@ const YearFilterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const API_KEY = '6e9e4df1f8d6a6a540ccf27bb6efc253';
+  const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
   useEffect(() => {
     const currentYear = new Date().getFullYear();
     const yearsArray = Array.from({ length: currentYear - 1980 + 1 }, (_, i) => currentYear - i);
     setYears(yearsArray);
   }, []);
-
+  
   const fetchMovies = useCallback(async (page = 1) => {
     if (!selectedYear && filterType !== 'range') return;
 

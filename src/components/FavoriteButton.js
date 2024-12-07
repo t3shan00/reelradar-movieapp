@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import FontAwesomeIcon
-import { faStar } from '@fortawesome/free-solid-svg-icons'; // Import the star icon
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
+import { faStar } from '@fortawesome/free-solid-svg-icons'; 
 import "./styles/FavoriteButton.css";
 
 const FavoriteButton = ({ movieId }) => {
@@ -21,7 +21,7 @@ const FavoriteButton = ({ movieId }) => {
       setUser (userData);
 
       // Fetch favorite status
-      fetch(`http://localhost:3001/api/favorites/${movieId}`, {
+      fetch(`${process.env.REACT_APP_BASE_URL}/api/favorites/${movieId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const FavoriteButton = ({ movieId }) => {
       return;
     }
 
-    const url = `http://localhost:3001/api/favorites/${movieId}`;
+    const url = `${process.env.REACT_APP_BASE_URL}/api/favorites/${movieId}`;
     const method = isFavorite ? "DELETE" : "POST";
 
     fetch(url, {
@@ -102,13 +102,13 @@ const FavoriteButton = ({ movieId }) => {
           onClick={handleFavoriteToggle}
           className={`favorite-button ${isFavorite ? "favorited" : ""}`}
         >
-          <FontAwesomeIcon icon={faStar} /> {/* Add the star icon here */}
+          <FontAwesomeIcon icon={faStar} /> 
           {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
         </button>
       ) : (
         <div className="favorite-disabled">
           <button disabled className="favorite-button disabled">
-            <FontAwesomeIcon icon={faStar} /> {/* Add the star icon here */}
+            <FontAwesomeIcon icon={faStar} /> 
             Add to Favorites
           </button>
           <p>

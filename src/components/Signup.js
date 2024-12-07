@@ -8,7 +8,7 @@ const Signup = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
+  const [showPopup, setShowPopup] = useState(false);
 
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isUsernameFocused, setUsernameFocused] = useState(false);
@@ -20,7 +20,7 @@ const Signup = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/dashboard"); // Redirect to dashboard
+      navigate("/dashboard");
     }
   }, [navigate]);
 
@@ -50,8 +50,8 @@ const Signup = () => {
   };
 
   const closePopup = () => {
-    setShowPopup(false); // Hide popup
-    navigate("/login"); // Redirect to login page
+    setShowPopup(false); 
+    navigate("/login"); 
   };
 
   return (

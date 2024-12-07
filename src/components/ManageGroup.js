@@ -13,7 +13,7 @@ const ManageGroup = () => {
   const fetchJoinRequests = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-      const url = `http://localhost:3001/api/groups/${groupId}/join-requests`;
+      const url = `${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}/join-requests`;
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -27,7 +27,7 @@ const ManageGroup = () => {
   const fetchGroupMembers = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-      const url = `http://localhost:3001/api/groups/${groupId}/members`;
+      const url = `${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}/members`;
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -46,7 +46,7 @@ const ManageGroup = () => {
   const handleRequest = async (requestId, status) => {
     try {
       const token = localStorage.getItem("token");
-      const url = `http://localhost:3001/api/groups/join-requests/${requestId}`;
+      const url = `${process.env.REACT_APP_BASE_URL}/api/groups/join-requests/${requestId}`;
       await axios.put(url, { status }, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -61,7 +61,7 @@ const ManageGroup = () => {
   const handleRemoveMember = async (memberId) => {
     try {
       const token = localStorage.getItem("token");
-      const url = `http://localhost:3001/api/groups/${groupId}/members/${memberId}`;
+      const url = `${process.env.REACT_APP_BASE_URL}/api/groups/${groupId}/members/${memberId}`;
       await axios.delete(url, {
         headers: { Authorization: `Bearer ${token}` },
       });

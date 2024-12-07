@@ -19,7 +19,7 @@ const Dashboard = () => {
     }
     const fetchFavorites = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/favorites", {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/favorites`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const Dashboard = () => {
         const movieIds = await response.json(); 
         console.log("Fetched movie IDs:", movieIds);
 
-        const tmdbBearerToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2ZTllNGRmMWY4ZDZhNmE1NDBjY2YyN2JiNmVmYzI1MyIsIm5iZiI6MTczMjAyNTU0Mi43Nzg4NDksInN1YiI6IjY3MzlmODRlNmEwMmEyNGQ3YjIxODE2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fXqSiWv07snaUkxoAsWteUTZNE1hdIuNNodLDtkC1nM";
+        const tmdbBearerToken = process.env.REACT_APP_TMDB_BEARER_TOKEN;
 
         const promises = movieIds.map((movie) =>
           fetch(`https://api.themoviedb.org/3/movie/${movie.tmdb_movieid}`, {
@@ -97,7 +97,7 @@ const Dashboard = () => {
 
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       try {
-        const response = await fetch("http://localhost:3001/user/delete", {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/user/delete`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const Dashboard = () => {
           alert("Account deleted successfully.");
           localStorage.removeItem("token");
           localStorage.removeItem("user");
-          navigate("/signup"); // Redirect to signup page
+          navigate("/signup"); 
         } else {
           const errorData = await response.json();
           alert(`Failed to delete account: ${errorData.error}`);
