@@ -10,13 +10,28 @@ import authRouter from "./routers/authRouter.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.get('/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW()');
+    res.json({ success: true, time: result.rows[0].now });
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ success: false, error: 'Database connection failed' });
+  }
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ message: 'Backend is running!' });
+});
+
 app.use('/user', userRouter);
 app.use('/reviews', reviewRouter);
 app.use("/api/reviews", reviewRouter);
@@ -31,5 +46,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
