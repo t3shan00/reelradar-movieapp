@@ -41,6 +41,15 @@ jobs:
           echo "REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}" >> $GITHUB_ENV
           echo "REACT_APP_TMDB_API_KEY=${{ secrets.REACT_APP_TMDB_API_KEY }}" >> $GITHUB_ENV
           echo "REACT_APP_TMDB_BEARER_TOKEN=${{ secrets.REACT_APP_TMDB_BEARER_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Install Dependencies
+        run: npm install
+  
+      - name: Build
+        run: npm run build
+  
+      - name: Copy config file
+        run: cp public/staticwebapp.config.json build/staticwebapp.config.json
    
       - name: Build And Deploy
         id: builddeploy
