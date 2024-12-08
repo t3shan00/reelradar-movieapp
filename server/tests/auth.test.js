@@ -3,9 +3,9 @@ import request from 'supertest';
 import express from 'express';
 import cors from 'cors';
 import { userRouter } from '../routers/userRouter.js';
-import reviewRouter from '../routers/reviewRouter.js';
 import { pool } from '../utils/db.js';
 import dotenv from 'dotenv';
+import reviewRouter from '../routers/reviewRouter.js';
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/user', userRouter);
-app.use('/reviews', reviewRouter);
+app.use('/api/reviews', reviewRouter);
 
 const testUser = {
   email: 'test@example.com',
@@ -27,10 +27,9 @@ const newTestUser = {
   password: 'Test123!'
 };
 
-describe('User Authentication Tests', () => {
+describe('User Authentication and Review Tests', () => {
   let authToken;
 
-  // Obtain authentication tokens before all tests begin
   before(async () => {
     // Register test user first
     await request(app)
@@ -257,5 +256,78 @@ describe('User Authentication Tests', () => {
     });
 
 
+  });
+
+  // Review Browsing Tests
+  describe('Review Browsing Tests', () => {
+    // Positive case: Successfully get all reviews
+    describe('GET /api/reviews', () => {
+      it('should successfully retrieve all reviews', async () => {
+        const response = await request(app)
+          .get('/api/reviews');
+        
+        expect(response.status).to.equal(200);
+        expect(response.body).to.be.an('array');
+        
+        // If there are reviews, validate the review object structure
+        if (response.body.length > 0) {
+          const review = response.body[0];
+          expect(review).to.have.property('review_text');
+          expect(review).to.have.property('rating');
+          expect(review).to.have.property('created_at');
+          expect(review).to.have.property('username');
+          expect(review).to.have.property('movie_title');
+          expect(review).to.have.property('movie_id');
+        }
+      });
+    });
+
+    // Negative case: Try to get reviews for a non-existent movie
+    describe('GET /api/reviews/:movieId', () => {
+      it('should handle non-existent movie ID gracefully', async () => {
+        const nonExistentMovieId = '999999999';
+        
+        const response = await request(app)
+          .get(`/api/reviews/${nonExistentMovieId}`);
+        
+        expect(response.status).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(0);
+      });
+    });
+
+    // Additional test: Create a review (requires authentication)
+    describe('POST /api/reviews', () => {
+      it('should create a new review when authenticated', async () => {
+        const reviewData = {
+          movieId: "123", // Use a valid movie ID
+          reviewText: "Test review",
+          rating: 4
+        };
+
+        const response = await request(app)
+          .post('/api/reviews')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send(reviewData);
+
+        expect(response.status).to.equal(201);
+        expect(response.body).to.have.property('reviewtext');
+        expect(response.body.reviewtext).to.equal(reviewData.reviewText);
+      });
+
+      it('should fail to create review without authentication', async () => {
+        const reviewData = {
+          movieId: "123",
+          reviewText: "Test review",
+          rating: 4
+        };
+
+        const response = await request(app)
+          .post('/api/reviews')
+          .send(reviewData);
+
+        expect(response.status).to.equal(401);
+      });
+    });
   });
 });
