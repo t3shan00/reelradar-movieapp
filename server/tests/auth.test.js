@@ -30,14 +30,14 @@ const newTestUser = {
 describe('User Authentication Tests', () => {
   let authToken;
 
-  // 在所有测试开始前获取认证令牌
+  // Obtain authentication tokens before all tests begin
   before(async () => {
-    // 先注册测试用户
+    // Register test user first
     await request(app)
       .post('/user/register')
       .send(testUser);
     
-    // 登录并获取令牌
+    // Log in and get a token
     const loginResponse = await request(app)
       .post('/user/login')
       .send({
@@ -216,9 +216,9 @@ describe('User Authentication Tests', () => {
     });
   });
 
-  // 4. 账户删除测试
+  // 4. Account Deletion Testing
   describe('Account Deletion Tests', () => {
-    // 积极测试用例 - 成功删除账户
+    // Positive Case - Successful Account Deletion
     it('should successfully delete user account with valid token', async () => {
       expect(authToken).to.exist;
       
@@ -229,7 +229,7 @@ describe('User Authentication Tests', () => {
       expect(response.status).to.equal(200);
       expect(response.body.message).to.equal('Account deleted successfully.');
 
-      // 验证用户确实被删除了
+      // Verify that the user has been deleted
       const checkUser = await pool.query(
         'SELECT * FROM users WHERE email = $1',
         [testUser.email]
@@ -237,7 +237,7 @@ describe('User Authentication Tests', () => {
       expect(checkUser.rows.length).to.equal(0);
     });
 
-    // 消极测试用例 - 无效令牌
+    // Negative Test Case - Invalid Token
     it('should fail to delete account with invalid token', async () => {
       const response = await request(app)
         .delete('/user/delete')
@@ -247,7 +247,7 @@ describe('User Authentication Tests', () => {
       expect(response.body.message).to.equal('Invalid credentials');
     });
 
-    // 消极测试用例 - 没有令牌
+    // Negative Test Case - No Token
     it('should fail to delete account without token', async () => {
       const response = await request(app)
         .delete('/user/delete');
