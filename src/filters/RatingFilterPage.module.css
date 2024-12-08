@@ -20,64 +20,96 @@
   color: var(--text-color);
 }
 
-.filterOptions {
+.filterListWrapper {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.filterListContainer {
+  position: relative;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 0 40px;
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Center align the filter list */
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
+  min-height: 50px;
 }
 
-.ratingSelect {
+.filterList {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center; /* Center align the filter items */
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 40px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
+}
+
+.filterList::-webkit-scrollbar {
+  display: none;
+}
+
+.ratingButton {
+  flex: 0 0 auto;
+  white-space: nowrap;
   padding: 0.625rem 1.25rem;
   background-color: var(--card-background);
   color: white;
   border: none;
   border-radius: var(--border-radius);
-  font-weight: 500;
-  transition: 
-    background-color var(--transition-speed) ease,
-    transform var(--transition-speed) ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  font-weight: 500;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.ratingSelect:hover {
+.ratingButton:hover {
   background-color: var(--primary-color-dark);
   transform: translateY(-2px);
 }
 
-.applyButton {
-  padding: 0.625rem 1.25rem;
-  background-color: var(--card-background);
-  color: white;
+.ratingButton.selected {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.8);
   border: none;
-  border-radius: var(--border-radius);
+  color: white;
   cursor: pointer;
-  font-weight: 500;
-  text-transform: capitalize;
-  transition: 
-    background-color var(--transition-speed) ease,
-    transform var(--transition-speed) ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
-.applyButton:hover {
-  background-color: var(--primary-color-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+.scrollLeft {
+  left: 0;
+}
+
+.scrollRight {
+  right: 0;
+}
+
+.scrollButton:hover {
+  background-color: rgba(0, 0, 0, 0.95);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .moviesSection {
   margin-top: 1.5rem;
-}
-
-.moviesSection h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: var(--text-color);
-  font-size: clamp(1.25rem, 3vw, 1.5rem);
 }
 
 .moviesList {
@@ -92,7 +124,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(to bottom, var(--card-background) 0%, #ffffff 100%);
+  background: var(--card-background);
   border-radius: var(--border-radius);
   padding: 0.625rem;
   margin: 0.625rem;
@@ -101,10 +133,8 @@
   transition: all var(--transition-speed) ease;
   transform-origin: center bottom;
   will-change: transform;
-  aspect-ratio: 2/3;
   width: 100%;
-  max-height: none;
-  max-width: 18.75rem;
+  max-width: 180px;
 }
 
 .movieCard:hover {
@@ -114,11 +144,10 @@
 }
 
 .movieCard img {
-  aspect-ratio: 2/3;
   width: 100%;
-  height: 100%; 
+  height: auto;
   border-radius: var(--border-radius);
-  object-fit: cover; 
+  object-fit: cover;
   display: block;
 }
 
@@ -161,7 +190,6 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 2rem;
-  flex-wrap: wrap;
 }
 
 .pagination button {
@@ -171,9 +199,7 @@
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: 
-    background-color var(--transition-speed) ease,
-    transform var(--transition-speed) ease;
+  transition: all var(--transition-speed) ease;
 }
 
 .pagination button:hover:not(:disabled) {
@@ -186,7 +212,6 @@
   cursor: not-allowed;
 }
 
-/* Responsive Breakpoints */
 @media (max-width: 1200px) {
   .moviesList {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -197,18 +222,27 @@
   .ratingFilterPage {
     padding: 1.5rem;
   }
-
-  .filterOptions {
-    gap: 0.75rem;
-  }
 }
 
 @media (max-width: 768px) {
-  .filterOptions {
-    gap: 0.5rem;
+  .scrollButton {
+    width: 32px;
+    height: 32px;
   }
 
-  .ratingSelect {
+  .scrollLeft {
+    left: 2px;
+  }
+
+  .scrollRight {
+    right: 2px;
+  }
+
+  .filterList {
+    padding: 0.5rem 36px;
+  }
+
+  .ratingButton {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
@@ -223,23 +257,26 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
+  .scrollButton {
+    width: 28px;
+    height: 28px;
+  }
+
   .ratingFilterPage {
     padding: 1rem;
-  }
-
-  .filterOptions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .ratingSelect, .applyButton {
-    width: 100%;
-    text-align: center;
   }
 
   .moviesList {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 0.75rem;
   }
+}
+
+.loadingState,
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color);
+  font-size: 1.1rem;
 }

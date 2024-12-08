@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './YearFilterPage.module.css';
@@ -12,6 +12,7 @@ const YearFilterPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const yearListRef = useRef(null);
   const navigate = useNavigate();
 
   const API_KEY = "6e9e4df1f8d6a6a540ccf27bb6efc253";
@@ -70,7 +71,16 @@ const YearFilterPage = () => {
     }
   }, [selectedYear, filterType, yearRange, currentPage, fetchMovies]);
 
-  //pagination
+  const scrollYears = (direction) => {
+    if (yearListRef.current) {
+      const scrollAmount = 200;
+      yearListRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const paginationRange = useMemo(() => {
     const delta = 2;
     const range = [];
@@ -91,6 +101,43 @@ const YearFilterPage = () => {
       hasNext: currentPage < totalPages
     };
   }, [currentPage, totalPages]);
+
+  const renderYearList = () => (
+    <div className={styles.yearListWrapper}>
+      <div className={styles.yearListContainer}>
+        <button 
+          className={`${styles.scrollButton} ${styles.scrollLeft}`}
+          onClick={() => scrollYears('left')}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        
+        <div className={styles.yearList} ref={yearListRef}>
+          {years.map(year => (
+            <button 
+              key={year} 
+              onClick={() => {
+                setSelectedYear(year);
+                setCurrentPage(1);
+              }}
+              className={`${styles.yearButton} ${selectedYear === year ? styles.selected : ''}`}
+            >
+              {year}
+            </button>
+          ))}
+        </div>
+
+        <button 
+          className={`${styles.scrollButton} ${styles.scrollRight}`}
+          onClick={() => scrollYears('right')}
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div className={styles.yearFilterPage}>
@@ -141,20 +188,7 @@ const YearFilterPage = () => {
       )}
 
       {/* Year Selector */}
-      <div className={styles.yearList}>
-        {years.map(year => (
-          <button 
-            key={year} 
-            onClick={() => {
-              setSelectedYear(year);
-              setCurrentPage(1);
-            }}
-            className={`${styles.yearButton} ${selectedYear === year ? styles.selected : ''}`}
-          >
-            {year}
-          </button>
-        ))}
-      </div>
+      {renderYearList()}
 
       {/* Loading State */}
       {isLoading && (

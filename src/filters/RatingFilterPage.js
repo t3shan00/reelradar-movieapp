@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+// RatingFilterPage.js
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './RatingFilterPage.module.css';
@@ -9,9 +10,21 @@ const RatingFilterPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const filterListRef = useRef(null);
   const navigate = useNavigate();
 
   const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
+  const ratings = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  const scrollRatings = (direction) => {
+    if (filterListRef.current) {
+      const scrollAmount = 200;
+      filterListRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   const fetchMoviesByRating = useCallback(async (page = 1) => {
     setIsLoading(true);
@@ -30,7 +43,8 @@ const RatingFilterPage = () => {
     }
   }, [selectedRating, API_KEY]);
 
-  const handleApplyFilter = () => {
+  const handleRatingClick = (rating) => {
+    setSelectedRating(rating);
     setCurrentPage(1);
     fetchMoviesByRating(1);
   };
@@ -44,15 +58,9 @@ const RatingFilterPage = () => {
   const paginationRange = useMemo(() => {
     const delta = 2;
     const range = [];
-    
-    for (
-      let i = Math.max(2, currentPage - delta);
-      i <= Math.min(totalPages - 1, currentPage + delta);
-      i++
-    ) {
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
       range.push(i);
     }
-
     return {
       first: 1,
       last: totalPages,
@@ -62,33 +70,49 @@ const RatingFilterPage = () => {
     };
   }, [currentPage, totalPages]);
 
+  const renderFilterOptions = () => (
+    <div className={styles.filterListWrapper}>
+      <div className={styles.filterListContainer}>
+        <button 
+          className={`${styles.scrollButton} ${styles.scrollLeft}`}
+          onClick={() => scrollRatings('left')}
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        
+        <div className={styles.filterList} ref={filterListRef}>
+          {ratings.map(rating => (
+            <button 
+              key={rating}
+              onClick={() => handleRatingClick(rating)}
+              className={`${styles.ratingButton} ${selectedRating === rating ? styles.selected : ''}`}
+            >
+              {`> ${rating}`}
+            </button>
+          ))}
+        </div>
+
+        <button 
+          className={`${styles.scrollButton} ${styles.scrollRight}`}
+          onClick={() => scrollRatings('right')}
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className={styles.ratingFilterPage}>
       <h1>Filter by Rating</h1>
-      <div className={styles.filterOptions}>
-        <select 
-          value={selectedRating} 
-          onChange={(e) => setSelectedRating(e.target.value)}
-          className={styles.ratingSelect}
-        >
-          <option value="">Select Rating</option>
-          <option value="1">&gt; 1</option>
-          <option value="2">&gt; 2</option>
-          <option value="3">&gt; 3</option>
-          <option value="4">&gt; 4</option>
-          <option value="5">&gt; 5</option>
-          <option value="6">&gt; 6</option>
-          <option value="7">&gt; 7</option>
-          <option value="8">&gt; 8</option>
-          <option value="9">&gt; 9</option>
-        </select>
-        <button onClick={handleApplyFilter} className={styles.applyButton}>
-          Apply Filter
-        </button>
-      </div>
+      {renderFilterOptions()}
+      
       {isLoading && (
-        <div style={{textAlign: 'center', color: 'black', padding: '2rem'}}>Loading movies...</div>
+        <div className={styles.loadingState}>Loading movies...</div>
       )}
+      
       {!isLoading && movies.length > 0 && (
         <div className={styles.moviesSection}>
           <div className={styles.moviesList}>
@@ -101,6 +125,7 @@ const RatingFilterPage = () => {
                 <img 
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                   alt={movie.title} 
+                  loading="lazy"
                 />
                 <h3>{movie.title}</h3>
                 <p>Rating: {movie.vote_average.toFixed(1)}</p>
@@ -108,26 +133,27 @@ const RatingFilterPage = () => {
             ))}
           </div>
 
-          {/* Pagination */}
           <div className={styles.pagination}>
             <button 
               onClick={() => setCurrentPage(prev => prev - 1)}
               disabled={!paginationRange.hasPrevious}
+              aria-label="Previous page"
             >
               <ChevronLeft />
             </button>
-
             <button 
               onClick={() => setCurrentPage(prev => prev + 1)}
               disabled={!paginationRange.hasNext}
+              aria-label="Next page"
             >
               <ChevronRight />
             </button>
           </div>
         </div>
       )}
+      
       {!isLoading && movies.length === 0 && (
-        <div style={{textAlign: 'center', color: 'black', padding: '2rem'}}>
+        <div className={styles.emptyState}>
           No movies found for the selected rating range.
         </div>
       )}
