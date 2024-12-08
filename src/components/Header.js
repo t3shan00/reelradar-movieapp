@@ -29,18 +29,23 @@ function Header() {
     return Date.now() < expiry;
   }, []);
 
+  // useEffect(() => {
+  //   const userData = JSON.parse(localStorage.getItem("user"));
+  //   setUser(userData);
+
+  //   const intervalId = setInterval(() => {
+  //     if (!isTokenValid()) {
+  //       handleLogout();
+  //     }
+  //   }, 60000); // Check every minute
+
+  //   return () => clearInterval(intervalId);
+  // }, [isTokenValid, handleLogout]);
+
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUser(userData);
-
-    const intervalId = setInterval(() => {
-      if (!isTokenValid()) {
-        handleLogout();
-      }
-    }, 60000); // Check every minute
-
-    return () => clearInterval(intervalId);
-  }, [isTokenValid, handleLogout]);
+  }, []);
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);

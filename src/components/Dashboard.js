@@ -76,20 +76,20 @@ const Dashboard = () => {
     window.location.reload();
   }, [navigate]);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     const decodedToken = jwtDecode(token);
+  //     const currentTime = Date.now() / 1000;
   
-      if (decodedToken.exp < currentTime) {
-        handleLogout();
-      } else {
-        const timeout = (decodedToken.exp - currentTime) * 1000;
-        setTimeout(handleLogout, timeout);
-      }
-    }
-  }, [navigate, handleLogout]);
+  //     if (decodedToken.exp < currentTime) {
+  //       handleLogout();
+  //     } else {
+  //       const timeout = (decodedToken.exp - currentTime) * 1000;
+  //       setTimeout(handleLogout, timeout);
+  //     }
+  //   }
+  // }, [navigate, handleLogout]);
 
   const handleDeleteAccount = async () => {
     const token = localStorage.getItem("token");
