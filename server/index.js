@@ -17,7 +17,7 @@ const app = express();
 
 app.use(cors());
 app.use(cors({
-  origin: "https://brave-desert-012735d03.4.azurestaticapps.net/",
+  origin: "https://brave-desert-012735d03.4.azurestaticapps.net",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
