@@ -240,7 +240,7 @@ We intend to implement the following features in the future:
 
 ## Access Information
 
-- **Live Application**: [Reel Radar Web Application](https://brave-desert-012735d03.4.azurestaticapps.net/)  
+- **Live Application**: [Reel Radar Web Application](https://brave-desert-012735d03.3.azurestaticapps.net)  
 - **Repository**: [GitHub Repository](https://github.com/group11-awdp-oamk/reelradar)
 
 ## License
