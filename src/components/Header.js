@@ -19,15 +19,15 @@ function Header() {
     window.location.reload();
   }, [navigate]);
 
-  const isTokenValid = useCallback(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return false;
-    }
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    const expiry = payload.exp * 1000;
-    return Date.now() < expiry;
-  }, []);
+  // const isTokenValid = useCallback(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     return false;
+  //   }
+  //   const payload = JSON.parse(atob(token.split('.')[1]));
+  //   const expiry = payload.exp * 1000;
+  //   return Date.now() < expiry;
+  // }, []);
 
   // useEffect(() => {
   //   const userData = JSON.parse(localStorage.getItem("user"));
