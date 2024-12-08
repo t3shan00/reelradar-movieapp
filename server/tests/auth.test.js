@@ -215,50 +215,7 @@ describe('User Authentication and Review Tests', () => {
     });
   });
 
-  // 4. Account Deletion Testing
-  describe('Account Deletion Tests', () => {
-    // Positive Case - Successful Account Deletion
-    it('should successfully delete user account with valid token', async () => {
-      expect(authToken).to.exist;
-      
-      const response = await request(app)
-        .delete('/user/delete')
-        .set('Authorization', `Bearer ${authToken}`);
-
-      expect(response.status).to.equal(200);
-      expect(response.body.message).to.equal('Account deleted successfully.');
-
-      // Verify that the user has been deleted
-      const checkUser = await pool.query(
-        'SELECT * FROM users WHERE email = $1',
-        [testUser.email]
-      );
-      expect(checkUser.rows.length).to.equal(0);
-    });
-
-    // Negative Test Case - Invalid Token
-    it('should fail to delete account with invalid token', async () => {
-      const response = await request(app)
-        .delete('/user/delete')
-        .set('Authorization', 'Bearer invalid_token');
-
-      expect(response.status).to.equal(403);
-      expect(response.body.message).to.equal('Invalid credentials');
-    });
-
-    // Negative Test Case - No Token
-    it('should fail to delete account without token', async () => {
-      const response = await request(app)
-        .delete('/user/delete');
-
-      expect(response.status).to.equal(401);
-      expect(response.body.message).to.equal('Authorization required');
-    });
-
-
-  });
-
-  // Review Browsing Tests
+  // 5. Review Browsing Tests
   describe('Review Browsing Tests', () => {
     // Positive case: Successfully get all reviews
     describe('GET /api/reviews', () => {
@@ -315,6 +272,23 @@ describe('User Authentication and Review Tests', () => {
         expect(response.body.reviewtext).to.equal(reviewData.reviewText);
       });
 
+      describe('POST /api/reviews - Invalid Input', () => {
+        it('should return an error for missing review text', async () => {
+          const reviewData = {
+            movieId: "123",
+            rating: 4
+          };
+      
+          const response = await request(app)
+            .post('/api/reviews')
+            .set('Authorization', `Bearer ${authToken}`)
+            .send(reviewData);
+      
+          expect(response.status).to.equal(400);
+          expect(response.body.error).to.equal('Both Star Rating and Rating Text are required.');
+        });
+      });
+
       it('should fail to create review without authentication', async () => {
         const reviewData = {
           movieId: "123",
@@ -329,5 +303,48 @@ describe('User Authentication and Review Tests', () => {
         expect(response.status).to.equal(401);
       });
     });
+  });
+
+  // 5. Account Deletion Testing
+  describe('Account Deletion Tests', () => {
+    // Positive Case - Successful Account Deletion
+    it('should successfully delete user account with valid token', async () => {
+      expect(authToken).to.exist;
+      
+      const response = await request(app)
+        .delete('/user/delete')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.message).to.equal('Account deleted successfully.');
+
+      // Verify that the user has been deleted
+      const checkUser = await pool.query(
+        'SELECT * FROM users WHERE email = $1',
+        [testUser.email]
+      );
+      expect(checkUser.rows.length).to.equal(0);
+    });
+
+    // Negative Test Case - Invalid Token
+    it('should fail to delete account with invalid token', async () => {
+      const response = await request(app)
+        .delete('/user/delete')
+        .set('Authorization', 'Bearer invalid_token');
+
+      expect(response.status).to.equal(403);
+      expect(response.body.message).to.equal('Invalid credentials');
+    });
+
+    // Negative Test Case - No Token
+    it('should fail to delete account without token', async () => {
+      const response = await request(app)
+        .delete('/user/delete');
+
+      expect(response.status).to.equal(401);
+      expect(response.body.message).to.equal('Authorization required');
+    });
+
+
   });
 });

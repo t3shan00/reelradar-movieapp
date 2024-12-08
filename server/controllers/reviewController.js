@@ -7,7 +7,7 @@ export const createReviewHandler = async (req, res, next) => {
   const userId = req.userId;
 
   if (!movieId || !reviewText) {
-    return res.status(400).json({ error: "Movie ID and review text are required." });
+    return res.status(400).json({ error: "Both Star Rating and Rating Text are required." });
   }
 
   const client = await pool.connect();

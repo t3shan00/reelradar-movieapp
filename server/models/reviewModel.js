@@ -52,7 +52,7 @@ export const getAllReviews = async () => {
   try {
     console.log("Executing query to fetch all reviews");
     const result = await pool.query(query);
-    console.log("Fetched reviews from DB:", result.rows);
+    // console.log("Fetched reviews from DB:", result.rows);
     return result.rows;
   } catch (err) {
     console.error("Error executing query:", err.message);
