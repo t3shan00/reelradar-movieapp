@@ -16,6 +16,12 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.use(cors());
+app.use(cors({
+  origin: "https://brave-desert-012735d03.4.azurestaticapps.net/",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
