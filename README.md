@@ -1,6 +1,6 @@
 # Reel Radar: Movie Exploration Platform ![Version](https://img.shields.io/badge/version-1.0.0-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
-## Project Overview
+## Project Overview🎥
 
 We developed Reel Radar as a sophisticated web application for cinema enthusiasts. Throughout its creation, the team focused on robust features, clean code practices, and effective collaboration. This process enhanced our understanding of full-stack development, API integration, and user-centered design principles.
 
@@ -11,7 +11,7 @@ Reel Radar pursues three primary objectives:
 
 Our iterative improvements, informed by continuous testing and user feedback, resulted in a stable and user-friendly application.
 
-## Development Team
+## Development Team👩‍💻
 
 Our development team members possess diverse expertise:  
 - **Jayathra**: Scrum Master, Project Coordination, Full-Stack Development  
@@ -20,14 +20,14 @@ Our development team members possess diverse expertise:
 - **Motiar**: Testing and Quality Assurance  
 - **Rubayat Kabir**: Quality Assurance
 
-## User Interface and User Experience Design
+## User Interface and User Experience Design📱
 
 We adopted a UI/UX design focusing on:  
 - **Responsive Design**: A mobile-first approach ensures compatibility across various devices.  
 - **High Performance**: We optimized loading times and ensured smooth transitions.  
 - **Intuitive Navigation**: We introduced a user-friendly information architecture.
 
-## Technical Implementation
+## Technical Implementation🛠️
 
 ### Technology Stack
 
@@ -60,7 +60,7 @@ Our team selected the following technology stack based on reliability, performan
    - HTTPS encryption  
    - JWT authentication
 
-## Application Architecture
+## Application Architecture🏗️
 
 ### Frontend Structure
 
@@ -78,7 +78,7 @@ Our backend architecture follows RESTful principles:
 - Efficient database operations rely on prepared statements  
 - Structured error handling and logging mechanisms ensure maintainability
 
-### Database Design
+### Database Design💾
 
 Our PostgreSQL database emphasizes scalability and performance:
 
@@ -111,13 +111,13 @@ Our PostgreSQL database emphasizes scalability and performance:
 - **Relationship Management**: Cascading deletes and many-to-many junction tables preserve referential integrity.  
 - **Performance Features**: Connection pooling, prepared statements, and normalization enhance efficiency.
 
-#### Security Measures
+#### Security Measures🔒
 
 - Password reset token management  
 - Secure foreign key constraints  
 - Input validation through check constraints
 
-## Installation Guide
+## Installation Guide📥
 
 ### Prerequisites
 
@@ -213,7 +213,7 @@ Ensure the following are installed and configured:
    - Check the backend console logs to verify database connections  
    - Test user registration and authentication functionality
 
-### Common Setup Issues and Solutions
+### Common Setup Issues and Solutions⚙️
 
 1. **Database Connection Errors**  
    - Verify that the PostgreSQL service is running  
@@ -231,19 +231,19 @@ Ensure the following are installed and configured:
 
 For additional assistance, refer to our troubleshooting guide in the documentation or create an issue in our GitHub repository.
 
-## Future Development Plans
+## Future Development Plans🚀
 
 We intend to implement the following features in the future:  
 1. A push notification system  
 2. An AI-powered recommendation engine  
 3. Enhanced social features
 
-## Access Information
+## Access Information🌐
 
-- **Live Application**: [Reel Radar Web Application](https://brave-desert-012735d03.3.azurestaticapps.net)  
+- **Live Application**: [Reel Radar Web Application](https://brave-desert-012735d03.4.azurestaticapps.net/)  
 - **Repository**: [GitHub Repository](https://github.com/group11-awdp-oamk/reelradar)
 
-## License
+## License📜
 
 This project is distributed under the MIT License. Refer to the LICENSE file for detailed information.
 ```
