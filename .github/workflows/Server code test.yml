@@ -1,49 +1,57 @@
-name: Run Tests for Server
+name: Run Tests
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'server/**'
-  workflow_dispatch:
+  pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Run Tests in Server Folder
+
+    services:
+      postgres:
+        image: postgres:14
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
 
     steps:
-      # Check out the code
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-      # Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: 16
 
-      # Install dependencies
-      - name: Install Dependencies
-        working-directory: server
+      - name: Install dependencies
         run: npm install
 
-      # Run tests
-      - name: Run Tests
-        working-directory: server
-        run: npm run test
-
-      - name: Set environment variables
-        env:
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USER: ${{ secrets.DB_USER }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_NAME: ${{ secrets.DB_NAME }}
-          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          PORT: ${{ secrets.PORT }}
-          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+      - name: Wait for PostgreSQL to be ready
         run: |
-          echo "Environment variables set."
+          until pg_isready -h localhost -U test_user -d test_db; do
+            sleep 1;
+          done
+
+      - name: Run migrations (if required)
+        run: |
+          npx knex migrate:latest
+
+      - name: Run tests
+        env:
+          PORT : 3001
+          DB_USER : test_user
+          DB_HOST: 127.0.0.1
+          DB_NAME : test_db
+          DB_PASSWORD: test_password
+          DB_PORT : 5432
+          JWT_SECRET_KEY : asdfasdfkajehfkew
+          TMDB_API_KEY: 6e9e4df1f8d6a6a540ccf27bb6efc253
+          EMAIL_USER : techbloganil@gmail.com
+          EMAIL_PASS : zvpd gizv nyxo dusc
+        run: npm test
