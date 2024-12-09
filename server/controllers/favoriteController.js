@@ -1,7 +1,6 @@
 import { fetchUserFavorites } from "../models/favoriteModel.js";
 import { pool } from "../utils/db.js";
 
-// Add a movie to the user's favorites
 export const addFavorite = async (req, res) => {
   const userId = req.userId; 
   const { movieId } = req.params; 
