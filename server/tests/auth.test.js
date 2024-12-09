@@ -20,6 +20,7 @@ const testUser = {
   username: 'testuser',
   password: 'Test123!'
 };
+//run the test
 
 const newTestUser = {
   email: 'newtest@example.com',
