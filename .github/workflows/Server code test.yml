@@ -38,10 +38,6 @@ jobs:
             sleep 1;
           done
 
-      - name: Run migrations (if required)
-        run: |
-          npx knex migrate:latest
-
       - name: Run tests
         env:
           PORT : 3001
