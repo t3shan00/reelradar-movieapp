@@ -23,9 +23,12 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: npm install
+      - name: npm install and test
         working-directory: server
-        run: npm install
+        run: | 
+          npm install
+          npm test
+        
 
       - name: Zip artifact for deployment
         working-directory: server
