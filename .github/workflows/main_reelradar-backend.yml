@@ -27,7 +27,7 @@ jobs:
         working-directory: server
         run: | 
           npm install
-          npm test
+          npm run test --if-present
         
 
       - name: Zip artifact for deployment
