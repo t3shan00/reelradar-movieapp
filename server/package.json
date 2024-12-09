@@ -7,8 +7,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test mocha tests/**/*.test.js --experimental-modules",
     "devStart": "cross-env NODE_ENV=development nodemon index.js",
-    "start": "node index.js",
-    "postinstall": "npm install"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
