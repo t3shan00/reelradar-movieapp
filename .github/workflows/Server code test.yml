@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run Server Tests
 
 on:
   push:
@@ -10,44 +10,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:14
-        ports:
-          - 5432:5432
-        env:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: test_password
-          POSTGRES_DB: test_db
-
     steps:
-      - name: Check out repository
+      # Step 1: Checkout the repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: '16' # Adjust Node.js version if necessary
 
+      # Step 3: Install dependencies
       - name: Install dependencies
+        working-directory: ./server
         run: npm install
 
-      - name: Wait for PostgreSQL to be ready
-        run: |
-          until pg_isready -h localhost -U test_user -d test_db; do
-            sleep 1;
-          done
-
-      - name: Run tests
+      # Step 4: Run tests
+      - name: Run server tests
+        working-directory: ./server
         env:
-          PORT : 3001
-          DB_USER : test_user
-          DB_HOST: 127.0.0.1
-          DB_NAME : test_db
-          DB_PASSWORD: test_password
-          DB_PORT : 5432
-          JWT_SECRET_KEY : asdfasdfkajehfkew
-          TMDB_API_KEY: 6e9e4df1f8d6a6a540ccf27bb6efc253
-          EMAIL_USER : techbloganil@gmail.com
-          EMAIL_PASS : zvpd gizv nyxo dusc
-        run: npm test
+          CI: true
+        run: |
+          # Run tests located in the server folder
+          npm test
