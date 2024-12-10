@@ -14,7 +14,7 @@ import {
 export const shareMovieWithGroup = async (req, res) => {
     const { groupId } = req.params;
     const { tmdbMovieId, title, releaseDate, runtime, overview, posterPath, backdropPath, voteAverage } = req.body;
-    const sharedByUserId = req.userId; // Use req.userId instead of req.user.id
+    const sharedByUserId = req.userId;
   
     const client = await pool.connect();
   
@@ -58,7 +58,7 @@ export const shareMovieWithGroup = async (req, res) => {
 export const shareShowtimeWithGroup = async (req, res) => {
     const { groupId } = req.params;
     const { tmdbMovieId, title, startTime, theatre, auditorium, imageUrl } = req.body;
-    const sharedByUserId = req.userId; // Use req.userId instead of req.user.id
+    const sharedByUserId = req.userId;
   
     const client = await pool.connect();
   
@@ -73,12 +73,12 @@ export const shareShowtimeWithGroup = async (req, res) => {
         const insertMovieResult = await insertMovie({
           tmdbMovieId,
           title,
-          releaseDate: null, // Add appropriate release date if available
-          runtime: null, // Add appropriate runtime if available
-          overview: null, // Add appropriate overview if available
-          posterPath: imageUrl, // Use imageUrl as posterPath
-          backdropPath: null, // Add appropriate backdropPath if available
-          voteAverage: null // Add appropriate voteAverage if available
+          releaseDate: null, 
+          runtime: null,
+          overview: null,
+          posterPath: imageUrl,
+          backdropPath: null,
+          voteAverage: null
         });
         movieId = insertMovieResult.rows[0].movieid;
       } else {
@@ -138,8 +138,8 @@ export const fetchSharedShowtimes = async (req, res) => {
 // Function to delete a shared movie
 export const deleteSharedMovie = async (req, res) => {
   const { groupId, movieId } = req.params;
-  console.log("Group ID:", groupId); // Add this line
-  console.log("Movie ID:", movieId); // Add this line
+  console.log("Group ID:", groupId);
+  console.log("Movie ID:", movieId);
   try {
     await removeSharedMovie(groupId, movieId);
     res.status(200).json({ message: 'Shared movie removed successfully' });

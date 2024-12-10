@@ -74,8 +74,8 @@ export const getGroupDetails = async (req, res) => {
 
 // Delete a group by ID
 export const deleteGroup = async (req, res) => {
-  const { id } = req.params; // Group ID from URL params
-  const userId = req.userId;  // User ID from auth middleware
+  const { id } = req.params;
+  const userId = req.userId;
 
   try {
     // Fetch group by ID
@@ -94,7 +94,7 @@ export const deleteGroup = async (req, res) => {
 
     // Delete the group
     await deleteGroupById(id);
-    res.status(204).end(); // No Content response on successful deletion
+    res.status(204).end();
   } catch (err) {
     console.error("Error deleting group:", err.message);
     res.status(500).json({ error: "Failed to delete group.", details: err.message });

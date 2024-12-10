@@ -2,27 +2,27 @@ import { pool } from "../utils/db.js";
 
 // Create a new group and automatically add the creator to group_members
 export const createGroupInDB = async (groupName, createdBy) => {
-  const client = await pool.connect(); // Get a client from the pool
+  const client = await pool.connect();
   try {
-    await client.query('BEGIN'); // Start a transaction
+    await client.query('BEGIN');
 
     // Insert the new group
     const groupQuery = 'INSERT INTO groups (name, created_by) VALUES ($1, $2) RETURNING *';
     const groupResult = await client.query(groupQuery, [groupName, createdBy]);
-    const createdGroupId = groupResult.rows[0].group_id; // Get the created group's ID
+    const createdGroupId = groupResult.rows[0].group_id;
 
     // Insert the creator into group_members
     const memberQuery = 'INSERT INTO group_members (group_id, user_id) VALUES ($1, $2)';
     await client.query(memberQuery, [createdGroupId, createdBy]);
 
-    await client.query('COMMIT'); // Commit the transaction
-    return groupResult; // Return the result of the group creation
+    await client.query('COMMIT');
+    return groupResult;
   } catch (err) {
-    await client.query('ROLLBACK'); // Rollback the transaction on error
+    await client.query('ROLLBACK');
     console.error("Error creating group:", err.message);
     throw new Error("Failed to create group and add creator to group members.");
   } finally {
-    client.release(); // Release the client back to the pool
+    client.release();
   }
 };
 
