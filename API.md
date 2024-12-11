@@ -1,4 +1,3 @@
-
 # REST API Documentation
 
 ## Base URL
@@ -260,4 +259,3 @@ Submit a new review for a movie.
 }
 ```
 ---
-
