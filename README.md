@@ -244,7 +244,7 @@ We intend to implement the following features in the future:
 - **Repository**: [GitHub Repository](https://github.com/group11-awdp-oamk/reelradar)
 
 ## Documentation
-- [API Documentation](https://github.com/group11-awdp-oamk/reelradar/blob/main/API.md)
+- [API Documentation](API.md)
 
 ## License📜
 
