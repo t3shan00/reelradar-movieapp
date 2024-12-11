@@ -243,6 +243,9 @@ We intend to implement the following features in the future:
 - **Live Application**: [Reel Radar Web Application](https://brave-desert-012735d03.4.azurestaticapps.net/)  
 - **Repository**: [GitHub Repository](https://github.com/group11-awdp-oamk/reelradar)
 
+## Documentation
+- [API Documentation](API.md)
+
 ## License📜
 
 This project is distributed under the MIT License. Refer to the LICENSE file for detailed information.
