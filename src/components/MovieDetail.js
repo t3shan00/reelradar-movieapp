@@ -186,9 +186,10 @@ const MovieDetail = () => {
               </div>
             </div>
           </div>
-
-          <FavoriteButton movieId={movie.id} />
-          <ShareButton movieId={movie.id} movie={movie} />
+            <div className={styles.buttonContainer}>
+              <FavoriteButton movieId={movie.id} />
+              <ShareButton movieId={movie.id} movie={movie} />
+            </div>
         </div>
       </div>
       <ReviewSection />

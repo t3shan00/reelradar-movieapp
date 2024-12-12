@@ -41,6 +41,9 @@
   margin-top: -128px;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .movieGrid {
@@ -76,9 +79,10 @@
 }
 
 .moviePoster {
-  width: 100%;
-  height: auto;
   display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .movieTitle {
@@ -90,6 +94,24 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.titleAndButtonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.titleWrapper {
+  flex: 1;
+  min-width: 280px;
 }
 
 @media (min-width: 768px) {
@@ -316,8 +338,21 @@
   color: #10b981;
 }
 
+.buttonContainer {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-start;
+  margin-top: 0;
+}
+
+@media (max-width: 480px) {
+  .buttonContainer {
+    flex-direction: column;
+  }
+}
+
 /* Responsive Adjustments */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .showtimesSection {
     padding: 40px;
   }
@@ -328,6 +363,28 @@
   
   .cinemaSelectContainer {
     max-width: 480px;
+  }
+
+  .moviePoster {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .moviePoster img {
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .buttonContainer {
+    width: 100%;
+  }
+
+  .titleAndButtonsContainer {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
