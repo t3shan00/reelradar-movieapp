@@ -31,15 +31,15 @@
 
 .genreList {
   display: flex;
-  flex-wrap: nowrap; /* Remove wrapping */
-  justify-content: flex-start; /* Align items to start */
+  flex-wrap: nowrap;
+  justify-content: flex-start;
   gap: 0.75rem;
   margin-bottom: 1.5rem;
   padding: 0.5rem;
-  overflow-x: auto; /* Enable horizontal scrolling */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  scrollbar-width: none; /* Hide scrollbar for Firefox */
-  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   position: relative;
   padding: 0.5rem 40px;
 }
@@ -49,8 +49,8 @@
 }
 
 .genreButton {
-  flex: 0 0 auto; /* Prevent shrinking */
-  white-space: nowrap; /* Prevent text wrapping */
+  flex: 0 0 auto;
+  white-space: nowrap;
   padding: 0.625rem 1.25rem;
   background-color: #000000;
   color: white;
@@ -108,8 +108,8 @@
 
 .movieCard h3 {
   padding: 0.75rem;
-  font-size: 1rem; /* Adjust font size to be responsive */
-  white-space: normal; /* Allow text to wrap */
+  font-size: 1rem;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
