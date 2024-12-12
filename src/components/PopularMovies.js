@@ -7,7 +7,7 @@ function PopularMovies({ movies }) {
   const navigate = useNavigate();
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     centerMode: true,
     variableWidth: false,

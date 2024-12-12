@@ -31,7 +31,7 @@ const UpcomingMovies = () => {
   }, []);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     centerMode: true,
     variableWidth: false,
