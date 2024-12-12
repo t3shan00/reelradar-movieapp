@@ -108,6 +108,50 @@ Request a password reset link to be sent to the user’s email.
 ```
 ---
 
+## **Reset Password**
+### Endpoint
+```
+POST /auth/reset-password/:token
+```
+
+### Description
+Allows a user to reset their password using a valid reset token.
+
+### Request Parameters
+- **Path Parameters**:
+  - `token` (string, required): The reset token provided to the user.
+
+### Request Body
+```json
+{
+  "newPassword": "string"
+}
+```
+
+### Response
+#### Success (200):
+```json
+{
+  "message": "Password reset successfully."
+}
+```
+
+#### Error (400):
+```json
+{
+  "error": "Invalid or expired reset token."
+}
+```
+
+#### Error (500):
+```json
+{
+  "error": "Failed to reset password."
+}
+```
+
+---
+
 ## **Favorites**
 ### Add to Favorites
 #### Endpoint
