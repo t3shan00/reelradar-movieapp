@@ -1,0 +1,4 @@
+.login-box, .forgot-password-box{
+    background-color: #68656d;
+    backdrop-filter: blur(10px);
+}

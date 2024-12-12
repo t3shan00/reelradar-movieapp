@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api";
 import "./styles/Signup.css";
+import "./styles/Global.css";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
