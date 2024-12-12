@@ -15,15 +15,22 @@
   overflow: hidden;
 }
 
+.slick-slider {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
 .slick-slide {
-  padding: 0 0.625rem; 
-  box-sizing: border-box;
+  padding: 0 1rem;
+  opacity: 0.5;
+  transition: opacity var(--transition-speed) ease;
 }
 
 .slick-list {
-  overflow: hidden !important; 
+  overflow: visible !important;
+  margin: 0 -1rem; 
 }
-
 .slick-prev, .slick-next {
   position: absolute;
   top: 50%;
@@ -131,6 +138,14 @@
   opacity: 1;
 }
 
+.slick-slide.slick-center {
+  transform: scale(1.05);
+}
+
+.slick-slide.slick-active {
+  opacity: 1;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 1200px) {
   .popularMoviesSlider {
@@ -201,6 +216,111 @@
   .movieTitle {
     font-size: 0.8em;
   }
+}
+
+/* Large screens */
+@media (min-width: 1800px) {
+  .slick-slide {
+    padding: 0 1rem;
+  }
+  
+  .popularMovieCard,
+  .upcomingMovieCard {
+    max-width: 20rem;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1200px) and (max-width: 1799px) {
+  .slick-slide {
+    padding: 0 0.875rem;
+  }
+
+  .popularMovieCard,
+  .upcomingMovieCard {
+    max-width: 18rem;
+  }
+}
+
+/* Small Desktop/Tablet Landscape */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .slick-slide {
+    padding: 0 0.75rem;
+  }
+
+  .popularMovieCard,
+  .upcomingMovieCard {
+    max-width: 16rem;
+  }
+}
+
+/* Tablet Portrait */
+@media (min-width: 768px) and (max-width: 991px) {
+  .slick-slide {
+    padding: 0 0.625rem;
+  }
+
+  .popularMovieCard,
+  .upcomingMovieCard {
+    max-width: 14rem;
+  }
+
+  .slick-prev {
+    left: 0.25rem;
+  }
+
+  .slick-next {
+    right: 0.25rem;
+  }
+}
+
+/* Mobile Landscape */
+@media (min-width: 576px) and (max-width: 767px) {
+  .slick-slide {
+    padding: 0 0.5rem;
+  }
+
+  .popularMovieCard,
+  .upcomingMovieCard {
+    max-width: 12rem;
+  }
+
+  .slick-prev,
+  .slick-next {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* Mobile Portrait */
+@media (max-width: 575px) {
+  .slick-slide {
+    padding: 0 0.375rem;
+  }
+
+  .popularMovieCard,
+  .upcomingMovieCard {
+    max-width: 10rem;
+  }
+
+  .slick-prev,
+  .slick-next {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+/* Ensure smooth transitions */
+.popularMovieCard,
+.upcomingMovieCard {
+  transition: all var(--transition-speed) ease-in-out;
+}
+
+/* Optimize performance */
+.slick-slider {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 /* Additional Hover and Interactive Effects */
