@@ -221,6 +221,14 @@ Ensure the following are installed and configured:
    - Check the backend console logs to verify database connections  
    - Test user registration and authentication functionality
 
+### To run test file
+   ```
+   cd server
+   npm install --save-dev supertest
+   npm test
+   ```
+   Note: To run the test file, it required established connected to the database.
+
 ### Common Setup Issues and Solutions⚙️
 
 1. **Database Connection Errors**  
@@ -248,13 +256,17 @@ We intend to implement the following features in the future:
 
 ## Access Information🌐
 
-- **Live Application**: [Reel Radar Web Application](https://brave-desert-012735d03.4.azurestaticapps.net/)  
+- **Live Application**: [Reel Radar Web Application](https://reelradar.xyz/)
+- **FrontEnd Azure Application Link**: [FrontEnd Link](https://brave-desert-012735d03.4.azurestaticapps.net/)
 - **Repository**: [GitHub Repository](https://github.com/group11-awdp-oamk/reelradar)
 
 ## Documentation
 - [API Documentation](API.md)
 
+## Additional Information
+- [UIwireframe](public/assets/UIwireframe.pdf)
+- [DatabaseDiagram or ERD Diagram](public/assets/DatabaseDiagram.pdf)
+
 ## License📜
 
-This project is distributed under the MIT License. Refer to the LICENSE file for detailed information.
-```
+This project is distributed under the MIT License. Refer to the [LICENSE](LICENSE) file for detailed information.
