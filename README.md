@@ -14,11 +14,10 @@ Our iterative improvements, informed by continuous testing and user feedback, re
 ## Development Team👩‍💻
 
 Our development team members possess diverse expertise:  
-- **Jayathra**: Scrum Master, Project Coordination, Full-Stack Development  
-- **Anil**: Full-Stack Development  
-- **Chenqi**: UI/UX Development, Testing and Support  
-- **Motiar**: Testing and Quality Assurance  
-- **Rubayat Kabir**: Quality Assurance
+- **Jayathra Chalanidu Mahadurage**: Scrum Master, Project Coordination, Full-Stack Development  
+- **Anil Shah**: Full-Stack Development  
+- **Chenqi Li**: UI/UX Development, Testing and Support  
+- **Md Motiar Rahman**: Testing and Quality Assurance  
 
 ## User Interface and User Experience Design📱
 
@@ -147,8 +146,7 @@ Ensure the following are installed and configured:
    Create two separate .env files in the respective directories:
 
    ```bash
-   # Create and configure frontend environment file
-   cd src
+   # Create and configure frontend environment file in the root folder where react is installed
    touch .env
 
    # Create and configure backend environment file
@@ -160,14 +158,24 @@ Ensure the following are installed and configured:
 
    ```plaintext
    # Frontend (.env)
-   REACT_APP_API_URL=http://localhost:3001
-   REACT_APP_TMDB_KEY=your_tmdb_api_key
-   REACT_APP_TMDB_BEARER_TOKEN=your_tmdb_bearer_token
+   REACT_APP_BASE_URL=http://localhost:3001
+   REACT_APP_TMDB_API_KEY=your_tmdb_api_key
+   REACT_APP_TMDB_BEARER_TOKEN=
 
    # Backend (.env)
+   PORT = 3001
+   DB_USER = YOUR_DB_USERNAME
+   DB_HOST= 127.0.0.1
+   DB_NAME = YOUR_DB_NAME
+   DB_PASSWORD= DB_PASSWORD
+   DB_PORT = DB_PORT
+   JWT_SECRET_KEY = YOUR_JWT_SECRET_KEY
+   TMDB_API_KEY = YOUR_TMDB_API_KEY
+   EMAIL_USER = USE_GMAIL_ADDRESS
+   EMAIL_PASS = GMAIL_APP_GENERATED_PASSWORD
+   WEBSITE_ADDRESS = http://localhost:3000
+
    DATABASE_URL=postgresql://username:password@localhost:5432/reelradar
-   JWT_SECRET=your_secure_jwt_secret
-   PORT=3001
    ```
 
 3. **Database Setup**
